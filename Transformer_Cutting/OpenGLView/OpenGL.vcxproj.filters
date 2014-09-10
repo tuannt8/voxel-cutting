@@ -1,0 +1,333 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{73610d0c-83ab-4e73-b690-c1882d3a7b61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cut Surface Tree">
+      <UniqueIdentifier>{8e4a8301-884c-49b6-a8ac-318bed6a11e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ConfigTree">
+      <UniqueIdentifier>{81f897c5-80f0-4e3b-a4e6-f2cc49cd4be1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Evaluation">
+      <UniqueIdentifier>{8e7da9e7-1b63-442d-82d9-0a98808f782c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MeshCut">
+      <UniqueIdentifier>{a6bc777b-334d-42fd-a18d-45cf4ff8c23c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Detail swap">
+      <UniqueIdentifier>{9340420e-575d-4443-bffc-c595a524a756}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="controlDialog">
+      <UniqueIdentifier>{dd3838e8-60d0-4d78-8841-301e70fbf17a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AssignCoord">
+      <UniqueIdentifier>{0f77104e-f6e4-4dbd-9536-3da729fc6494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Cut Group">
+      <UniqueIdentifier>{09342803-bab5-487b-888d-8906426c5c38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MyDocument">
+      <UniqueIdentifier>{6df6fee0-e2cc-4d93-b918-50d7f9a47568}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Voxel Data">
+      <UniqueIdentifier>{3fdf8f79-779d-419b-8620-46b6cd2491ed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="KEGIES.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="KEGIESDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="KEGIESView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AppSetting.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SideDialog.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Dialog.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="CutSurfaceTree.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="skeleton.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="configTreeMng.cpp">
+      <Filter>ConfigTree</Filter>
+    </ClCompile>
+    <ClCompile Include="boneAbstract.cpp">
+      <Filter>ConfigTree</Filter>
+    </ClCompile>
+    <ClCompile Include="cutSurfTreeMngr2.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="cutTree.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCutting.cpp">
+      <Filter>MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="cutTreef.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="octreeSolid.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="detailSwapManager.cpp">
+      <Filter>Detail swap</Filter>
+    </ClCompile>
+    <ClCompile Include="errorHash.cpp">
+      <Filter>Cut Surface Tree</Filter>
+    </ClCompile>
+    <ClCompile Include="controlDialog.cpp">
+      <Filter>controlDialog</Filter>
+    </ClCompile>
+    <ClCompile Include="poseManager.cpp">
+      <Filter>Evaluation</Filter>
+    </ClCompile>
+    <ClCompile Include="BoneMapTree.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="View2.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="coordAssignManager.cpp">
+      <Filter>AssignCoord</Filter>
+    </ClCompile>
+    <ClCompile Include="coordAsignDlg.cpp">
+      <Filter>AssignCoord</Filter>
+    </ClCompile>
+    <ClCompile Include="groupCut.cpp">
+      <Filter>Cut Group</Filter>
+    </ClCompile>
+    <ClCompile Include="groupCutManager.cpp">
+      <Filter>Cut Group</Filter>
+    </ClCompile>
+    <ClCompile Include="cutBoneGroupDlg.cpp">
+      <Filter>Cut Group</Filter>
+    </ClCompile>
+    <ClCompile Include="myDocment.cpp">
+      <Filter>MyDocument</Filter>
+    </ClCompile>
+    <ClCompile Include="voxelSurfaceContruction.cpp">
+      <Filter>MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="tranformCoord.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="debugInfo.cpp">
+      <Filter>MyDocument</Filter>
+    </ClCompile>
+    <ClCompile Include="manipulateVoxel.cpp">
+      <Filter>MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="voxelList.cpp">
+      <Filter>MeshCut</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="voxelObject.cpp">
+      <Filter>Voxel Data</Filter>
+    </ClCompile>
+    <ClCompile Include="bvhVoxel.cpp">
+      <Filter>AssignCoord</Filter>
+    </ClCompile>
+    <ClCompile Include="voxelSplitObj.cpp">
+      <Filter>Voxel Data</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="KEGIES.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="KEGIESDoc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="KEGIESView.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AppSetting.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SideDialog.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Dialog.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="CutSurfaceTree.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="skeleton.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="configTreeMng.h">
+      <Filter>ConfigTree</Filter>
+    </ClInclude>
+    <ClInclude Include="boneAbstract.h">
+      <Filter>ConfigTree</Filter>
+    </ClInclude>
+    <ClInclude Include="cutSurfTreeMngr2.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="cutTree.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="errorCompute.h">
+      <Filter>Evaluation</Filter>
+    </ClInclude>
+    <ClInclude Include="neighbor.h">
+      <Filter>Evaluation</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCutting.h">
+      <Filter>MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="rotationMap.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="boneTransform.h">
+      <Filter>Evaluation</Filter>
+    </ClInclude>
+    <ClInclude Include="cutTreef.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="octreeSolid.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="cutTreeUtil.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="detailSwapManager.h">
+      <Filter>Detail swap</Filter>
+    </ClInclude>
+    <ClInclude Include="mirrorDraw.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="errorHash.h">
+      <Filter>Cut Surface Tree</Filter>
+    </ClInclude>
+    <ClInclude Include="controlDialog.h">
+      <Filter>controlDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="poseManager.h">
+      <Filter>Evaluation</Filter>
+    </ClInclude>
+    <ClInclude Include="BoneMapTree.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="View2.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="coordAssignManager.h">
+      <Filter>AssignCoord</Filter>
+    </ClInclude>
+    <ClInclude Include="coordAsignDlg.h">
+      <Filter>AssignCoord</Filter>
+    </ClInclude>
+    <ClInclude Include="groupCut.h">
+      <Filter>Cut Group</Filter>
+    </ClInclude>
+    <ClInclude Include="groupCutManager.h">
+      <Filter>Cut Group</Filter>
+    </ClInclude>
+    <ClInclude Include="cutBoneGroupDlg.h">
+      <Filter>Cut Group</Filter>
+    </ClInclude>
+    <ClInclude Include="myDocment.h">
+      <Filter>MyDocument</Filter>
+    </ClInclude>
+    <ClInclude Include="voxelSurfaceContruction.h">
+      <Filter>MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="tranformCoord.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="debugInfo.h">
+      <Filter>MyDocument</Filter>
+    </ClInclude>
+    <ClInclude Include="manipulateVoxel.h">
+      <Filter>MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="voxelList.h">
+      <Filter>MeshCut</Filter>
+    </ClInclude>
+    <ClInclude Include="log.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="voxelObject.h">
+      <Filter>Voxel Data</Filter>
+    </ClInclude>
+    <ClInclude Include="bvhVoxel.h">
+      <Filter>AssignCoord</Filter>
+    </ClInclude>
+    <ClInclude Include="voxelSplitObj.h">
+      <Filter>Voxel Data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\KEGIES.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\KEGIES.rc2">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\KEGIESDoc.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="res\icon1.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\ico00001.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="KEGIES.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

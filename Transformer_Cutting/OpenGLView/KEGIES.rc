@@ -1,0 +1,632 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Korean (Korea) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
+LANGUAGE LANG_KOREAN, SUBLANG_DEFAULT
+#pragma code_page(949)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON                    "res\\KEGIES.ico"
+IDR_KEGIESTYPE          ICON                    "res\\KEGIESDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS
+BEGIN
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY 
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUTBOX DIALOGEX 0, 0, 235, 55
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About KEGIES"
+FONT 9, "MS 셸 대화 상자", 0, 0, 0x1
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "Open GL framwork",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright RSLab 2009",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "Ok",IDOK,178,7,50,16,WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041203b5"
+        BEGIN
+            VALUE "CompanyName", "RSLab"
+            VALUE "FileDescription", "Simulation"
+            VALUE "FileVersion", "1.0.0.1"
+            VALUE "InternalName", "Simulation.exe"
+            VALUE "LegalCopyright", "RSLab.  All rights reserved."
+            VALUE "OriginalFilename", "Simulation.exe"
+            VALUE "ProductName", "GL Display"
+            VALUE "ProductVersion", "1.0.0.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x412, 949
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Korean (Korea) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+ID                      BITMAP                  "res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+ID TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_TOOL_TEST
+    BUTTON      ID_COLOR_BACKGROUND
+    SEPARATOR
+    BUTTON      ID_SIMULATION_START
+    BUTTON      ID_APP_ABOUT
+    SEPARATOR
+    BUTTON      IDD_EDIT_BOX_1
+    SEPARATOR
+    BUTTON      IDD_EDIT_BOX_2
+    BUTTON      ID_UP_DATE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "ext"
+    BEGIN
+        MENUITEM "Load Obj to display",         ID_EXT_LOADOBJ
+    END
+    POPUP "View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        POPUP "Side dialog"
+        BEGIN
+            MENUITEM "Show",                        ID_SIDEDIALOG_HIDE
+            MENUITEM SEPARATOR
+            MENUITEM "Left",                        ID_SIDEDIALOG_LEFT
+            MENUITEM "Right",                       ID_SIDEDIALOG_RIGHT
+            MENUITEM SEPARATOR
+            MENUITEM "(Restart or resize to take effect)", ID_SIDEDIALOG_
+        END
+        MENUITEM "Display Axis",                ID_VIEW_DISPLAYAXIS
+        MENUITEM "Display Text",                ID_VIEW_DISPLAYTEXT
+        MENUITEM "Reset Camera View",           ID_VIEW_RESETCAMERAVIEW
+    END
+    POPUP "&Tool"
+    BEGIN
+        MENUITEM "&Convert .STL to .obj",       ID_TOOL_CONVERTSTLTOOBJ
+        MENUITEM "Convert .obj to .STL",        ID_TOOL_CONVERT
+    END
+    POPUP "Render mode"
+    BEGIN
+        MENUITEM "Surface",                     ID_RENDERMODE_LINE
+        MENUITEM "Line",                        ID_RENDERMODE_LINEANDSURFACE
+        MENUITEM "Line and surface",            ID_RENDERMODE_SURFACE
+    END
+    POPUP "Toolbar"
+    BEGIN
+        MENUITEM "Test",                        ID_TOOL_TEST
+        MENUITEM "Back ground color",           ID_COLOR_BACKGROUND
+        MENUITEM "Start/Stop timer",            ID_SIMULATION_START
+        MENUITEM "Start thread",                ID_TOOLBAR_STARTTHREAD
+    END
+    POPUP "Special"
+    BEGIN
+        MENUITEM "F1",                          ID_SPECIAL_F1
+        MENUITEM "F2",                          ID_SPECIAL_F2
+        MENUITEM "F3",                          ID_SPECIAL_F3
+        MENUITEM "F4",                          ID_SPECIAL_F4
+        MENUITEM "F5",                          ID_SPECIAL_F5
+        MENUITEM "F6",                          ID_SPECIAL_F6
+        MENUITEM "F7",                          ID_SPECIAL_F7
+        MENUITEM "F8",                          ID_SPECIAL_F8
+        MENUITEM "F9",                          ID_SPECIAL_F9
+        MENUITEM "F10",                         ID_SPECIAL_F10
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About App...",               ID_APP_ABOUT
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDP_OLE_INIT_FAILED     "OLE? ???? ? ????. OLE ????? ??? ???? ??????."
+END
+
+STRINGTABLE
+BEGIN
+    IDR_MAINFRAME           "KEGIES\n\nKEGIES\n\n\nKEGIES.Document\nKEGIES.Document"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_APP_TITLE       "OpenGL"
+    AFX_IDS_IDLEMESSAGE     "??"
+END
+
+STRINGTABLE
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_NEW             "Create new document"
+    ID_FILE_OPEN            "Open document"
+    ID_FILE_CLOSE           "Close document"
+    ID_FILE_SAVE            "Save current document"
+    ID_FILE_SAVE_AS         "Save document as"
+    ID_FILE_PAGE_SETUP      "?? ??? ?????.\n??? ??"
+    ID_FILE_PRINT_SETUP     "??? ? ?? ??? ?????.\n?? ??"
+    ID_FILE_PRINT           "?? ??? ?????.\n??"
+    ID_FILE_PRINT_PREVIEW   "?? ???? ?????.\n?? ?? ??"
+END
+
+STRINGTABLE
+BEGIN
+    ID_APP_ABOUT            "OpenGL framework"
+    ID_APP_EXIT             "Exit app"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_MRU_FILE1       "?? ??? ???."
+    ID_FILE_MRU_FILE2       "?? ??? ???."
+    ID_FILE_MRU_FILE3       "?? ??? ???."
+    ID_FILE_MRU_FILE4       "?? ??? ???."
+    ID_FILE_MRU_FILE5       "?? ??? ???."
+    ID_FILE_MRU_FILE6       "?? ??? ???."
+    ID_FILE_MRU_FILE7       "?? ??? ???."
+    ID_FILE_MRU_FILE8       "?? ??? ???."
+    ID_FILE_MRU_FILE9       "?? ??? ???."
+    ID_FILE_MRU_FILE10      "?? ??? ???."
+    ID_FILE_MRU_FILE11      "?? ??? ???."
+    ID_FILE_MRU_FILE12      "?? ??? ???."
+    ID_FILE_MRU_FILE13      "?? ??? ???."
+    ID_FILE_MRU_FILE14      "?? ??? ???."
+    ID_FILE_MRU_FILE15      "?? ??? ???."
+    ID_FILE_MRU_FILE16      "?? ??? ???."
+END
+
+STRINGTABLE
+BEGIN
+    ID_NEXT_PANE            "?? ??? ?????.\n?? ?"
+    ID_PREV_PANE            "?? ??? ?????.\n?? ?"
+END
+
+STRINGTABLE
+BEGIN
+    ID_WINDOW_SPLIT         "?? ?? ?? ?? ??? ?????.\n??"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_CLEAR           "?? ??? ????.\n???"
+    ID_EDIT_CLEAR_ALL       "?? ????.\n?? ???"
+    ID_EDIT_COPY            "Copy"
+    ID_EDIT_CUT             "Cut"
+    ID_EDIT_FIND            "??? ???? ????.\n??"
+    ID_EDIT_PASTE           "Paste"
+    ID_EDIT_REPEAT          "??? ??? ?????.\n??"
+    ID_EDIT_REPLACE         "?? ???? ?? ???? ????.\n???"
+    ID_EDIT_SELECT_ALL      "Select all"
+    ID_EDIT_UNDO            "Undo"
+    ID_EDIT_REDO            "Redo"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Display toolbar"
+    ID_VIEW_STATUS_BAR      "Display status bar"
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCSIZE          "? ??? ?????."
+    AFX_IDS_SCMOVE          "? ??? ?????."
+    AFX_IDS_SCMINIMIZE      "?? ????? ?????."
+    AFX_IDS_SCMAXIMIZE      "?? ?? ?? ??? ?????."
+    AFX_IDS_SCNEXTWINDOW    "?? ?? ??? ?????."
+    AFX_IDS_SCPREVWINDOW    "?? ?? ??? ?????."
+    AFX_IDS_SCCLOSE         "??? ??? ??? ???? ?? ?? ????."
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_SCRESTORE       "?? ?? ??? ?????."
+    AFX_IDS_SCTASKLIST      "?? ??? ??????."
+END
+
+STRINGTABLE
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "?? ?? ?? ??? ????.\n?? ?? ??"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TOOL_START           "Simulation with existed model and path"
+    ID_TOOL_CONVERTSTLTOCENTERLINE "Centerline-based model"
+    ID_COLOR_BACKGROUND     "Adjust background color"
+END
+
+STRINGTABLE
+BEGIN
+    ID_TOOL_CONVERTSTLTOOBJ "Convert .STL format to .obj format"
+    ID_TOOL_TEST            "Perform special function"
+END
+
+#endif    // English resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+ID_ICON_PLAY            ICON                    "res\\icon1.ico"
+ID_ICON_PAUSE           ICON                    "res\\ico00001.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_DIALOGBAR DIALOGEX 0, 0, 138, 268
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    LTEXT           "TODO: layout dialog bar",IDC_STATIC,6,7,77,8
+    LTEXT           "TODO: layout dialog bar",IDC_STATIC,6,253,77,8
+END
+
+IDD_DIALOG_TEST_VOXEL DIALOGEX 0, 0, 316, 182
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_EDIT1,135,30,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT2,135,60,40,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "Button1",IDC_BUTTON1,206,161,50,14
+END
+
+IDD_INPUT_WEIGHT_DIALOG DIALOGEX 0, 0, 316, 182
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,205,161,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,259,161,50,14
+    LTEXT           "Neighbor weight :",IDC_STATIC,21,36,58,8
+    LTEXT           "Aspect weight :",IDC_STATIC,28,55,51,8
+    LTEXT           "Volume weight :",IDC_STATIC,27,73,52,8
+    EDITTEXT        IDC_NEIGHBOR,83,34,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ASPECT,83,52,40,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_VOLUME,83,70,40,14,ES_AUTOHSCROLL
+    LTEXT           "(The final value will be scale to make sum of weigh equal 1)",IDC_STATIC,23,112,189,8
+END
+
+IDD_CONTROL_DIALOG DIALOGEX 0, 0, 317, 182
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    GROUPBOX        "State 1",IDC_STATIC,7,7,78,168
+    GROUPBOX        "State 2",IDC_STATIC,99,7,93,168
+    GROUPBOX        "State 3",IDC_STATIC,205,7,93,168
+    PUSHBUTTON      "Load mesh",IDC_1_LOAD_MESH,15,18,62,14
+    PUSHBUTTON      "Create voxel",IDC_1_CREATE_VOXEL,15,61,62,14
+    EDITTEXT        IDC_1_VOXEL_RES,58,43,20,14,ES_AUTOHSCROLL
+    LTEXT           "Voxel res",IDC_STATIC,19,46,30,8
+    PUSHBUTTON      "Build Cut Tree",IDC_1_BUILD_TREE,15,88,62,14
+END
+
+IDD_DIALOG_ASSIGN_COORD DIALOGEX 0, 0, 235, 166
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Set coordinate manually"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    COMBOBOX        IDC_COMBO_BONE_NAME,43,16,82,69,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Bone:",IDC_STATIC,19,18,20,8
+    COMBOBOX        IDC_COMBO_MAP_Y,135,69,70,47,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Map X to:",IDC_STATIC,93,48,32,8
+    LTEXT           "Map Y to:",IDC_STATIC,93,72,32,8
+    LTEXT           "Map Z to:",IDC_STATIC,91,93,32,8
+    LTEXT           "Coord",IDC_STATIC_MAP_Z,137,93,64,8
+    GROUPBOX        "Local coord of bone",IDC_STATIC,43,32,84,77
+    GROUPBOX        "World coord (Box)",IDC_STATIC,131,32,84,77
+    PUSHBUTTON      "Finish",IDC_BUTTON_FINISH,178,144,50,14
+    PUSHBUTTON      "Update coordinate",IDC_BUTTON_UPDATE_COORD,135,112,78,14
+    GROUPBOX        "",IDC_STATIC,14,7,204,125
+    COMBOBOX        IDC_COMBO_MAP_X,135,46,70,41,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Save",IDC_BUTTON_SAVE_COORD,7,144,50,14
+    PUSHBUTTON      "Load",IDC_BUTTON2_LOAD_COORD,72,144,50,14
+END
+
+IDD_DIALOG_GROUP_CUT DIALOGEX 0, 0, 309, 176
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Choose configuration"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Apply to mesh",IDOK,240,155,62,14
+    COMBOBOX        IDC_COMBO1,113,29,120,30,CBS_DROPDOWN | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Choose bone Group:",IDC_STATIC,45,32,67,8
+    PUSHBUTTON      "Previous",IDC_BUTTON1,117,74,50,14
+    PUSHBUTTON      "Next",IDC_BUTTON2,235,74,50,14
+    EDITTEXT        IDC_EDIT1,175,74,22,14,ES_AUTOHSCROLL
+    LTEXT           "/",IDC_STATIC,202,76,8,8
+    EDITTEXT        IDC_EDIT3,175,98,22,14,ES_AUTOHSCROLL
+    LTEXT           "/",IDC_STATIC,200,100,8,8
+    PUSHBUTTON      "Previous",IDC_BUTTON3,117,98,50,14
+    PUSHBUTTON      "Next",IDC_BUTTON4,237,96,50,14
+    PUSHBUTTON      "Accept",IDC_BUTTON5,175,125,50,14
+    LTEXT           "Pose",IDC_STATIC,93,77,16,8
+    LTEXT           "Configuration in pose",IDC_STATIC,39,101,69,8
+    GROUPBOX        "Choose configuration",IDC_STATIC,35,49,258,98
+    EDITTEXT        IDC_EDIT2,211,75,22,14,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT4,212,98,22,14,ES_AUTOHSCROLL | ES_READONLY
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_DIALOGBAR, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 131
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 261
+    END
+
+    IDD_DIALOG_TEST_VOXEL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_INPUT_WEIGHT_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 309
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_CONTROL_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 310
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 175
+    END
+
+    IDD_DIALOG_ASSIGN_COORD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 228
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 158
+    END
+
+    IDD_DIALOG_GROUP_CUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 302
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 169
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)\r\n"
+    "LANGUAGE 18, 1\r\n"
+    "#pragma code_page(949)\r\n"
+    "#include ""res\\KEGIES.rc2""  // Microsoft Visual C++ 이외의 다른 도구에서 편집한 리소스입니다.\r\n"
+    "#include ""afxres.rc""         // 표준 구성 요소입니다.\r\n"
+    "#include ""afxprint.rc""       // 인쇄 미리 보기 리소스\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_KOR)
+LANGUAGE 18, 1
+#pragma code_page(949)
+#include "res\KEGIES.rc2"  // Microsoft Visual C++ 이외의 다른 도구에서 편집한 리소스입니다.
+#include "afxres.rc"         // 표준 구성 요소입니다.
+#include "afxprint.rc"       // 인쇄 미리 보기 리소스
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

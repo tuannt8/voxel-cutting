@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F491E52D-C8CE-4D61-BA4B-065BA3610900}</ProjectGuid>
+    <RootNamespace>NodeGenerate</RootNamespace>
+    <Keyword>MFCDLLProj</Keyword>
+    <ProjectName>structure</ProjectName>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./DataTypes;./Modules;./Graphics;../Other/XML</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>.\NodeGenerate.def</ModuleDefinitionFile>
+      <AdditionalDependencies>glew32.lib;glaux.lib</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>./;./DataTypes;./Modules;./Graphics</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>.\NodeGenerate.def</ModuleDefinitionFile>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0409</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="NodeGenerate.def" />
+    <None Include="ReadMe.txt" />
+    <None Include="res\NodeGenerate.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Other\XML\myXML.cpp" />
+    <ClCompile Include="Graphics\SurfaceObj.cpp" />
+    <ClCompile Include="Graphics\TopologyContainer.cpp" />
+    <ClCompile Include="Graphics\TopologyModifier.cpp" />
+    <ClCompile Include="Modules\AABB.cpp" />
+    <ClCompile Include="Modules\AABBEdge.cpp" />
+    <ClCompile Include="Modules\AABBEdgeDiff.cpp" />
+    <ClCompile Include="Modules\AABBPoint.cpp" />
+    <ClCompile Include="Modules\AABBTri.cpp" />
+    <ClCompile Include="Modules\CollisionManager.cpp" />
+    <ClCompile Include="Modules\MeshfreeNodeGenerator.cpp" />
+    <ClCompile Include="Modules\MeshfreeTopologyCtr.cpp" />
+    <ClCompile Include="Modules\Octree.cpp" />
+    <ClCompile Include="Modules\rcm.cpp" />
+    <ClCompile Include="Modules\ReTriangulation.cpp" />
+    <ClCompile Include="Modules\SurfaceCuttingManager.cpp" />
+    <ClCompile Include="Modules\TimeTick.cpp" />
+    <ClCompile Include="nodeGenFuncs.cpp" />
+    <ClCompile Include="OctreeInteger.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Other\XML\myXML.h" />
+    <ClInclude Include="..\Other\XML\rapidxml.hpp" />
+    <ClInclude Include="..\Other\XML\rapidxml_iterators.hpp" />
+    <ClInclude Include="..\Other\XML\rapidxml_print.hpp" />
+    <ClInclude Include="..\Other\XML\rapidxml_utils.hpp" />
+    <ClInclude Include="DataTypes\define.h" />
+    <ClInclude Include="DataTypes\ExtVector.h" />
+    <ClInclude Include="DataTypes\Fixedarray.h" />
+    <ClInclude Include="DataTypes\geometricfunc.h" />
+    <ClInclude Include="DataTypes\mat.h" />
+    <ClInclude Include="DataTypes\matrix.h" />
+    <ClInclude Include="DataTypes\Quat.h" />
+    <ClInclude Include="DataTypes\reducedmatrix.h" />
+    <ClInclude Include="DataTypes\SparseMatrix.h" />
+    <ClInclude Include="DataTypes\vec.h" />
+    <ClInclude Include="DataTypes\vectorfunc.h" />
+    <ClInclude Include="Graphics\Surfaceobj.h" />
+    <ClInclude Include="Graphics\TopologyContainer.h" />
+    <ClInclude Include="Graphics\topologymodifier.h" />
+    <ClInclude Include="Modules\AABB.h" />
+    <ClInclude Include="Modules\AABBEdge.h" />
+    <ClInclude Include="Modules\AABBEdgeDiff.h" />
+    <ClInclude Include="Modules\AABBPoint.h" />
+    <ClInclude Include="Modules\AABBTri.h" />
+    <ClInclude Include="Modules\CollisionManager.h" />
+    <ClInclude Include="Modules\DataStruct.h" />
+    <ClInclude Include="Modules\MeshfreeNodeGenerator.h" />
+    <ClInclude Include="Modules\MeshfreeTopologyCtr.h" />
+    <ClInclude Include="Modules\Octree.h" />
+    <ClInclude Include="Modules\rcm.hpp" />
+    <ClInclude Include="Modules\ReTriangulation.h" />
+    <ClInclude Include="Modules\stl.h" />
+    <ClInclude Include="Modules\SurfaceCuttingManager.h" />
+    <ClInclude Include="Modules\TimeTick.h" />
+    <ClInclude Include="nodeGenFuncs.h" />
+    <ClInclude Include="OctreeInteger.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="triBoxTest.h" />
+    <ClInclude Include="tri_box_intersect.h" />
+    <ClInclude Include="Utility.h" />
+    <ClInclude Include="Utility_wrap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NodeGenerate.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

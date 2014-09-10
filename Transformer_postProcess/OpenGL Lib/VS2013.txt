@@ -1,0 +1,3 @@
+Copy headr in include to "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\GL"
+Copy lib file to "C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib"
+Copy dll file to "C:\Windows\System32'

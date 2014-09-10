@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Modules">
+      <UniqueIdentifier>{d5cba149-ab41-49d2-ac44-f1d0afb2f9c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{77859ba4-b71b-44ab-85b8-edc6a8fe71ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DataTypes">
+      <UniqueIdentifier>{4631679e-4346-4cf7-89f1-3ea800a3d8c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Voxel">
+      <UniqueIdentifier>{0fbee9b8-1247-4a05-af8a-c22d2f6439b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NodeGeneration">
+      <UniqueIdentifier>{35b8d584-d040-40e7-a12b-a2dd050814ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{b8bd1987-6586-476b-b869-a4504338be5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="XML">
+      <UniqueIdentifier>{f2e8bd90-dfc7-4c94-9be6-7c9adf1c556e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Octree">
+      <UniqueIdentifier>{e7cccaa1-b3ae-400c-9725-171808a4e83e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ReadMe.txt" />
+    <None Include="NodeGenerate.def">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="res\NodeGenerate.rc2">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\AABBEdgeDiff.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\AABBPoint.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\AABBTri.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\MeshfreeNodeGenerator.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\MeshfreeTopologyCtr.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\Octree.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\rcm.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\ReTriangulation.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\AABB.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\AABBEdge.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\TopologyContainer.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\TopologyModifier.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics\SurfaceObj.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\CollisionManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Cube.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="Voxel.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="nodeGenFuncs.cpp">
+      <Filter>NodeGeneration</Filter>
+    </ClCompile>
+    <ClCompile Include="OctreeInteger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VoxelHash.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\TimeTick.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="sumTable.cpp">
+      <Filter>Voxel</Filter>
+    </ClCompile>
+    <ClCompile Include="Modules\SurfaceCuttingManager.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Other\XML\myXML.cpp">
+      <Filter>XML</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\AABBEdge.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\AABBEdgeDiff.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\AABBPoint.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\AABBTri.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\MeshfreeNodeGenerator.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\MeshfreeTopologyCtr.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\Octree.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\rcm.hpp">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\ReTriangulation.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\AABB.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\TopologyContainer.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\topologymodifier.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\matrix.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\Quat.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\reducedmatrix.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\SparseMatrix.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\vec.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\vectorfunc.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\define.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\ExtVector.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\Fixedarray.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\geometricfunc.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\mat.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\CollisionManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\stl.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\DataStruct.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Graphics\Surfaceobj.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Cube.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Voxel.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="nodeGenFuncs.h">
+      <Filter>NodeGeneration</Filter>
+    </ClInclude>
+    <ClInclude Include="OctreeInteger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VoxelHash.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\TimeTick.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="sumTable.h">
+      <Filter>Voxel</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility_wrap.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Utility.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="triBoxTest.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Modules\SurfaceCuttingManager.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Other\XML\rapidxml.hpp">
+      <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Other\XML\rapidxml_iterators.hpp">
+      <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Other\XML\rapidxml_print.hpp">
+      <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Other\XML\rapidxml_utils.hpp">
+      <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="tri_box_intersect.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Other\XML\myXML.h">
+      <Filter>XML</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NodeGenerate.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

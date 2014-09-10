@@ -1,0 +1,79 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NodeGenerate", "NodeGenerate\NodeGenerate.vcxproj", "{F491E52D-C8CE-4D61-BA4B-065BA3610900}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL", "OpenGLView\OpenGL.vcxproj", "{D923668F-2B2C-4861-8668-9C332CFA3752}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900} = {F491E52D-C8CE-4D61-BA4B-065BA3610900}
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B} = {21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Carve_Boolean", "Carve_Boolean", "{E028E497-A789-4F6D-B2EB-913F7C38F798}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gloop", "carve-1.4.0\win32\gloop\gloop.vcxproj", "{A50234C1-A40D-4782-81CB-9D4549DC9474}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "carvelib", "carve-1.4.0\win32\carvelib\carvelib.vcxproj", "{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tuannt8.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = carve-1.4.0\\win32\\carvelib\\carvelib.vcxproj
+		SccProjectTopLevelParentUniqueName1 = Utility.sln
+		SccProjectName1 = carve-1.4.0/win32/carvelib
+		SccLocalPath1 = carve-1.4.0\\win32\\carvelib
+		SccProjectUniqueName2 = carve-1.4.0\\win32\\gloop\\gloop.vcxproj
+		SccProjectTopLevelParentUniqueName2 = Utility.sln
+		SccProjectName2 = carve-1.4.0/win32/gloop
+		SccLocalPath2 = carve-1.4.0\\win32\\gloop
+		SccProjectUniqueName3 = NodeGenerate\\NodeGenerate.vcxproj
+		SccProjectName3 = NodeGenerate
+		SccLocalPath3 = NodeGenerate
+		SccProjectUniqueName4 = OpenGLView\\OpenGL.vcxproj
+		SccProjectName4 = OpenGLView
+		SccLocalPath4 = OpenGLView
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+		Template|Win32 = Template|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900}.Debug|Win32.Build.0 = Debug|Win32
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900}.Release|Win32.ActiveCfg = Release|Win32
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900}.Release|Win32.Build.0 = Release|Win32
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900}.Template|Win32.ActiveCfg = Release|Win32
+		{F491E52D-C8CE-4D61-BA4B-065BA3610900}.Template|Win32.Build.0 = Release|Win32
+		{D923668F-2B2C-4861-8668-9C332CFA3752}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D923668F-2B2C-4861-8668-9C332CFA3752}.Debug|Win32.Build.0 = Debug|Win32
+		{D923668F-2B2C-4861-8668-9C332CFA3752}.Release|Win32.ActiveCfg = Release|Win32
+		{D923668F-2B2C-4861-8668-9C332CFA3752}.Release|Win32.Build.0 = Release|Win32
+		{D923668F-2B2C-4861-8668-9C332CFA3752}.Template|Win32.ActiveCfg = Template|Win32
+		{D923668F-2B2C-4861-8668-9C332CFA3752}.Template|Win32.Build.0 = Template|Win32
+		{A50234C1-A40D-4782-81CB-9D4549DC9474}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A50234C1-A40D-4782-81CB-9D4549DC9474}.Debug|Win32.Build.0 = Debug|Win32
+		{A50234C1-A40D-4782-81CB-9D4549DC9474}.Release|Win32.ActiveCfg = Release|Win32
+		{A50234C1-A40D-4782-81CB-9D4549DC9474}.Release|Win32.Build.0 = Release|Win32
+		{A50234C1-A40D-4782-81CB-9D4549DC9474}.Template|Win32.ActiveCfg = Release|Win32
+		{A50234C1-A40D-4782-81CB-9D4549DC9474}.Template|Win32.Build.0 = Release|Win32
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}.Debug|Win32.Build.0 = Debug|Win32
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}.Release|Win32.ActiveCfg = Release|Win32
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}.Release|Win32.Build.0 = Release|Win32
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}.Template|Win32.ActiveCfg = Release|Win32
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B}.Template|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A50234C1-A40D-4782-81CB-9D4549DC9474} = {E028E497-A789-4F6D-B2EB-913F7C38F798}
+		{21F77D6E-3E33-4EB0-8BC6-C0C86C7EE45B} = {E028E497-A789-4F6D-B2EB-913F7C38F798}
+	EndGlobalSection
+EndGlobal

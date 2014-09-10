@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\lib\aabb.cpp" />
+    <ClCompile Include="..\..\lib\carve.cpp" />
+    <ClCompile Include="..\..\lib\convex_hull.cpp" />
+    <ClCompile Include="..\..\lib\csg.cpp" />
+    <ClCompile Include="..\..\lib\csg_collector.cpp" />
+    <ClCompile Include="..\..\lib\edge.cpp" />
+    <ClCompile Include="..\..\lib\face.cpp" />
+    <ClCompile Include="..\..\lib\geom2d.cpp" />
+    <ClCompile Include="..\..\lib\geom3d.cpp" />
+    <ClCompile Include="..\..\lib\intersect.cpp" />
+    <ClCompile Include="..\..\lib\intersect_classify_edge.cpp" />
+    <ClCompile Include="..\..\lib\intersect_classify_group.cpp" />
+    <ClCompile Include="..\..\lib\intersect_debug.cpp" />
+    <ClCompile Include="..\..\lib\intersect_face_division.cpp" />
+    <ClCompile Include="..\..\lib\intersect_group.cpp" />
+    <ClCompile Include="..\..\lib\intersect_half_classify_group.cpp" />
+    <ClCompile Include="..\..\lib\intersection.cpp" />
+    <ClCompile Include="..\..\lib\math.cpp" />
+    <ClCompile Include="..\..\lib\octree.cpp" />
+    <ClCompile Include="..\..\lib\pointset.cpp" />
+    <ClCompile Include="..\..\lib\polyhedron.cpp" />
+    <ClCompile Include="..\..\lib\polyline.cpp" />
+    <ClCompile Include="..\..\lib\tag.cpp" />
+    <ClCompile Include="..\..\lib\timing.cpp" />
+    <ClCompile Include="..\..\lib\triangulator.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\lib\csg_collector.hpp" />
+    <ClInclude Include="..\..\lib\intersect_classify_common.hpp" />
+    <ClInclude Include="..\..\lib\intersect_classify_common_impl.hpp" />
+    <ClInclude Include="..\..\lib\intersect_common.hpp" />
+    <ClInclude Include="..\..\lib\intersect_debug.hpp" />
+    <ClInclude Include="..\..\include\carve\collection_types.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\colour.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\convex_hull.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\csg.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\csg_triangulator.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\debug_hooks.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\djset.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\edge_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\edge_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\face_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\face_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\faceloop.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\geom.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\geom2d.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\geom3d.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\gnu_cxx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\heap.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\input.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\interpolator.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\intersection.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\iobj.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\kd_node.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\math.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\math_constants.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\matrix.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\octree_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\octree_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\pointset.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\pointset_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\pointset_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\pointset_iter.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\poly.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\poly_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\poly_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyhedron_base.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyhedron_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyhedron_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyline.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyline_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyline_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\polyline_iter.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\rescale.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\spacetree.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\tag.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\timing.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\tree.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\triangulator.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\triangulator_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\util.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\vcpp_config.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\vector.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\vertex_decl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\vertex_impl.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\win32.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\xcode_config.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\aabb.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\carve.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\cbrt.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\classification.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\include\carve\collection.hpp">
+      <Filter>Header</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Header">
+      <UniqueIdentifier>{60795f4e-aa66-4e44-b9a4-c4bbd250b122}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\include\carve\Makefile.am">
+      <Filter>Header</Filter>
+    </None>
+  </ItemGroup>
+</Project>

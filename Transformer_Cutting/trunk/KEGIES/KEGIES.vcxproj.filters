@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{73610d0c-83ab-4e73-b690-c1882d3a7b61}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="KEGIES.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="KEGIESDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="KEGIESView.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="AppSetting.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SideDialog.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="KEGIES.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="KEGIESDoc.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="KEGIESView.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="AppSetting.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MatrixUtility.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="SideDialog.h">
+      <Filter>Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawUtil.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\KEGIES.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\KEGIES.rc2">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\KEGIESDoc.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\Toolbar.bmp">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="ReadMe.txt" />
+    <None Include="ClassDiagram1.cd" />
+    <None Include="res\icon1.ico">
+      <Filter>Resource</Filter>
+    </None>
+    <None Include="res\ico00001.ico">
+      <Filter>Resource</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="KEGIES.rc">
+      <Filter>Resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

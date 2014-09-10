@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="model">
+      <UniqueIdentifier>{3c78bd1d-0eae-454f-9462-93ccf44f0aaf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\external\GLOOP\src\fbo.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\matrix.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\quaternion.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\radiance.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\shader.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\surface.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\texparam.cpp" />
+    <ClCompile Include="..\..\external\GLOOP\src\vbo.cpp" />
+  </ItemGroup>
+</Project>
