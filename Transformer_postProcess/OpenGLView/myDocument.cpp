@@ -16,8 +16,8 @@ myDocument::~myDocument()
 
 void myDocument::init()
 {
-	folderPath = "../../../Data/Barrel/CutResult";
-	loadData(folderPath);
+	folderPath = "../../Data/Barrel";
+	loadDataWithObjMesh(folderPath);
 }
 
 void myDocument::loadData(const std::string folderPath)
@@ -179,13 +179,14 @@ void myDocument::receiveKey(char k)
 	}
 	if (k == 'M')
 	{
-		writeAllFileToMayaFormat();
+		saveForShumin();
 	}
 }
 
 void myDocument::updateParam()
 {
-	m_meshMnger->updateBone();
+	if (m_meshMnger)
+		m_meshMnger->updateBone();
 }
 
 void myDocument::update(int yIdx, int zIdx)
@@ -272,4 +273,124 @@ void myDocument::writeAllFileToMayaFormat()
 			// Write mirror
 		}
 	}
+}
+
+void myDocument::loadDataWithObjMesh(const std::string folderPath)
+{
+	// info file
+	string infoFilePath = folderPath + "/info.xml";
+	myXML infoFile;
+	infoFile.load(infoFilePath.c_str());
+
+	// Load original mesh
+	string meshPath = folderPath + "/" + infoFile.getStringProperty(XML_ORIGINAL_MESH_KEY);
+	m_surObj = SurfaceObjPtr(new SurfaceObj);
+	m_surObj->readObjDataSTL(meshPath.c_str());
+
+	// Load skeleton
+	string skeletonPath = folderPath + "/" + infoFile.getStringProperty(XML_SKELETON_MESH_KEY);
+	m_skeleton = skeletonPtr(new skeleton);
+	m_skeleton->loadFromFile(skeletonPath.c_str());
+	m_originalSkeleton = skeletonPtr(new skeleton);
+	m_originalSkeleton->loadFromFile(skeletonPath.c_str());
+	temp_skeletonPart = skeletonPath;
+
+	// Load the mesh
+	m_meshMnger = meshMngerPtr(new meshMnger);
+	m_meshMnger->surObj = m_surObj;
+	m_meshMnger->skeleton = m_skeleton;
+
+	arrayBone_p boneArray;
+	m_skeleton->getSortedBoneArray(boneArray);
+
+	for (myXMLNode * node = infoFile.first_node(XML_MESH_PART); node; node = node->next_sibling())
+	{
+		// Load the mesh
+		string cutPartPath = folderPath + "/" + infoFile.getStringProperty(node, XML_CUT_MESH_NAME);
+		
+		PolyhedronPtr newPolyMesh = m_meshMnger->loadPolyFromObj(cutPartPath.c_str());;
+
+
+		meshObjectPtr newMeshObj = meshObjectPtr(new meshObject);
+		newMeshObj->m_polyMesh = newPolyMesh;
+
+		// Find the bone
+		string boneName = infoFile.getStringProperty(node, XML_BONE_NAME);
+		for (int i = 0; i < boneArray.size(); i++)
+		{
+			if (boneArray[i]->m_name.Compare(CString(boneName.c_str())) == 0)
+			{
+				newMeshObj->s_bone = boneArray[i];
+				break;
+			}
+		}
+
+		// Load the coord
+		myXMLNode *coordNode = node->first_node(XML_LOCAL_COORD);
+		coordInfo newCoord;
+		newCoord.origin = infoFile.getVec3f(coordNode, XML_COORD_ORIGIN);
+		newCoord.xyzOrient[0] = infoFile.getVec3f(coordNode, XML_COORD_X);
+		newCoord.xyzOrient[1] = infoFile.getVec3f(coordNode, XML_COORD_Y);
+		newCoord.xyzOrient[2] = infoFile.getVec3f(coordNode, XML_COORD_Z);
+
+		newMeshObj->coordMap = newCoord;
+
+		newMeshObj->initOther();
+
+		m_meshMnger->m_meshArray.push_back(newMeshObj);
+	}
+
+	// Transform mesh to bone
+	// Transform the mesh
+	m_meshMnger->transformMesh2();
+}
+
+void myDocument::saveForShumin()
+{
+	// We update the info file and save mesh in local coordinate
+	// 1. Save the new info file
+	using namespace std;
+	string newFilePath = folderPath + "/newInfo.xml";
+	string oldFilePath = folderPath + "/info.xml";
+
+	myXML * doc = new myXML;
+	myXML *docOld = new myXML;
+	docOld->load(oldFilePath.c_str());
+
+	// Mesh name
+	string meshName = docOld->getStringProperty(XML_ORIGINAL_MESH_KEY);
+	doc->addElementToNode(doc, XML_ORIGINAL_MESH_KEY, meshName);
+
+	// Skeleton name
+	string skeletonFille = docOld->getStringProperty(XML_SKELETON_MESH_KEY);
+	doc->addElementToNode(doc, XML_SKELETON_MESH_KEY, skeletonFille);
+
+	// Bone map
+	std::vector<meshObjectPtr> meshArray = m_meshMnger->m_meshArray;
+	for (int i = 0; i < meshArray.size(); i++)
+	{
+		myXMLNode * curNode = doc->addNode(XML_MESH_PART);
+		meshObjectPtr curMesh = meshArray[i];
+		
+		// Write mesh
+		string meshFile = "mesh_local_" + to_string(i) + ".obj";
+		string filePath = folderPath + "/" + meshFile;
+
+		doc->addElementToNode(curNode, XML_CUT_MESH_NAME, meshFile);
+		convertPolyHedronToMayaObj(curMesh->s_bone->mesh.get(), filePath.c_str());
+
+		// Bone name
+		doc->addElementToNode(curNode, XML_BONE_NAME, string(CStringA(curMesh->s_bone->m_name).GetBuffer()));
+
+		// Bone coord
+		coordInfo curCoord = curMesh->coordMap;
+		myXMLNode * coord = doc->addNodeToNode(curNode, XML_LOCAL_COORD);
+		doc->addVectorDatafToNode(coord, XML_COORD_ORIGIN, curCoord.origin);
+		doc->addVectorDatafToNode(coord, XML_COORD_X, curCoord.xyzOrient[0]);
+		doc->addVectorDatafToNode(coord, XML_COORD_Y, curCoord.xyzOrient[1]);
+		doc->addVectorDatafToNode(coord, XML_COORD_Z, curCoord.xyzOrient[2]);
+	}
+
+	string docPath = folderPath + "/info_new.xml";
+	doc->save(docPath.c_str());
 }

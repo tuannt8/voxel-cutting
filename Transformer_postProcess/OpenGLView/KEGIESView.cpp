@@ -68,6 +68,11 @@ renderMode(1)
 	mode = 1;
 	curView = 1;
 
+	for (int i = 0; i < 10; i++)
+	{
+		m_displayMode[i] = TRUE;
+	}
+
 }
 void CKEGIESView::setTextDisplay(CString text)
 {

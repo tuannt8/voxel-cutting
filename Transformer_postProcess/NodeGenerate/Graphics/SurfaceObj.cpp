@@ -718,7 +718,7 @@ void SurfaceObj::drawWireFrame0()
 	glEnd();
 }
 
-void SurfaceObj::readObjDataSTL(char * filePath)
+void SurfaceObj::readObjDataSTL(const char * filePath)
 {
 	// Load STL
 	CSTL stl;

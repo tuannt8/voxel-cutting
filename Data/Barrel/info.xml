@@ -1,57 +1,63 @@
 <original_mesh_path_name>barrel.stl</original_mesh_path_name>
 <skeleton_mesh_path_name>skeleton.xml</skeleton_mesh_path_name>
 <mesh_cut_part>
-	<polygon_name>mayaObj_0.obj</polygon_name>
+	<polygon_name>mesh_local_0.obj</polygon_name>
 	<bone_name>Torso</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>2</y>
-		<z>1</z>
-	</bone_mesh_coordinate_map>
+	<bone_coord_respect_to_world>
+		<origin>0 , -5.6974 , 1.89915</origin>
+		<local_x_repect_to_wolrd>1 , 0 , 0</local_x_repect_to_wolrd>
+		<local_y_repect_to_wolrd>0 , 0 , 1</local_y_repect_to_wolrd>
+		<local_z_repect_to_wolrd>0 , 1 , 0</local_z_repect_to_wolrd>
+	</bone_coord_respect_to_world>
 </mesh_cut_part>
 <mesh_cut_part>
-	<polygon_name>mayaObj_1.obj</polygon_name>
+	<polygon_name>mesh_local_1.obj</polygon_name>
 	<bone_name>head</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>2</y>
-		<z>1</z>
-	</bone_mesh_coordinate_map>
+	<bone_coord_respect_to_world>
+		<origin>0 , 22.6117 , 3.79831</origin>
+		<local_x_repect_to_wolrd>1 , 0 , 0</local_x_repect_to_wolrd>
+		<local_y_repect_to_wolrd>0 , 0 , 1</local_y_repect_to_wolrd>
+		<local_z_repect_to_wolrd>0 , 1 , 0</local_z_repect_to_wolrd>
+	</bone_coord_respect_to_world>
 </mesh_cut_part>
 <mesh_cut_part>
-	<polygon_name>mayaObj_2.obj</polygon_name>
+	<polygon_name>mesh_local_2.obj</polygon_name>
 	<bone_name>hand</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>2</y>
-		<z>1</z>
-	</bone_mesh_coordinate_map>
+	<bone_coord_respect_to_world>
+		<origin>-10.441 , 17.0923 , -10.4527</origin>
+		<local_x_repect_to_wolrd>1 , 0 , 0</local_x_repect_to_wolrd>
+		<local_y_repect_to_wolrd>0 , 0 , 1</local_y_repect_to_wolrd>
+		<local_z_repect_to_wolrd>0 , 1 , 0</local_z_repect_to_wolrd>
+	</bone_coord_respect_to_world>
 </mesh_cut_part>
 <mesh_cut_part>
-	<polygon_name>mayaObj_3.obj</polygon_name>
+	<polygon_name>mesh_local_3.obj</polygon_name>
 	<bone_name>hand2</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>2</y>
-		<z>1</z>
-	</bone_mesh_coordinate_map>
+	<bone_coord_respect_to_world>
+		<origin>-10.441 , -11.3949 , -10.4556</origin>
+		<local_x_repect_to_wolrd>1 , 0 , 0</local_x_repect_to_wolrd>
+		<local_y_repect_to_wolrd>0 , 0 , 1</local_y_repect_to_wolrd>
+		<local_z_repect_to_wolrd>0 , 1 , 0</local_z_repect_to_wolrd>
+	</bone_coord_respect_to_world>
 </mesh_cut_part>
 <mesh_cut_part>
-	<polygon_name>mayaObj_4.obj</polygon_name>
+	<polygon_name>mesh_local_4.obj</polygon_name>
 	<bone_name>leg</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>2</y>
-		<z>1</z>
-	</bone_mesh_coordinate_map>
+	<bone_coord_respect_to_world>
+		<origin>-10.2734 , 18.8246 , 10.4367</origin>
+		<local_x_repect_to_wolrd>1 , 0 , 0</local_x_repect_to_wolrd>
+		<local_y_repect_to_wolrd>0 , 0 , 1</local_y_repect_to_wolrd>
+		<local_z_repect_to_wolrd>0 , 1 , 0</local_z_repect_to_wolrd>
+	</bone_coord_respect_to_world>
 </mesh_cut_part>
 <mesh_cut_part>
-	<polygon_name>mayaObj_5.obj</polygon_name>
+	<polygon_name>mesh_local_5.obj</polygon_name>
 	<bone_name>leg2</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>2</y>
-		<z>1</z>
-	</bone_mesh_coordinate_map>
+	<bone_coord_respect_to_world>
+		<origin>-10.437 , -9.4957 , 10.4515</origin>
+		<local_x_repect_to_wolrd>1 , 0 , 0</local_x_repect_to_wolrd>
+		<local_y_repect_to_wolrd>0 , 0 , 1</local_y_repect_to_wolrd>
+		<local_z_repect_to_wolrd>0 , 1 , 0</local_z_repect_to_wolrd>
+	</bone_coord_respect_to_world>
 </mesh_cut_part>
 

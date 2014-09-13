@@ -103,6 +103,12 @@
     <ClCompile Include="..\Other\XML\myXML.cpp">
       <Filter>XML</Filter>
     </ClCompile>
+    <ClCompile Include="objLoader.cpp">
+      <Filter>DataTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="DataTypes\objload.cpp">
+      <Filter>DataTypes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -233,6 +239,12 @@
     </ClInclude>
     <ClInclude Include="..\Other\XML\myXML.h">
       <Filter>XML</Filter>
+    </ClInclude>
+    <ClInclude Include="objLoader.h">
+      <Filter>DataTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes\objload.h">
+      <Filter>DataTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

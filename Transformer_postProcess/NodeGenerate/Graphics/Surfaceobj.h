@@ -25,7 +25,7 @@ public:
 //functions
 public:
 	void readObjData(const char* filename);
-	void readObjDataSTL(char * filePath);
+	void readObjDataSTL(const char * filePath);
 	void init(std::vector<Vec3f> _point, std::vector<Vec3i> _face);
 	void writeObjData(char* filename);
 	void writeSTLData(char * filePath);

@@ -48,7 +48,7 @@ public:
 		if(m_PointNormal){ delete [] m_PointNormal;	m_PointNormal=NULL;}
 	};
 
-	int ReadData(char* filename)
+	int ReadData(const char* filename)
 	{
 		FILE *fp;
 		FILE *f;

@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Other\XML\myXML.cpp" />
+    <ClCompile Include="DataTypes\objload.cpp" />
     <ClCompile Include="Graphics\SurfaceObj.cpp" />
     <ClCompile Include="Graphics\TopologyContainer.cpp" />
     <ClCompile Include="Graphics\TopologyModifier.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="Modules\SurfaceCuttingManager.cpp" />
     <ClCompile Include="Modules\TimeTick.cpp" />
     <ClCompile Include="nodeGenFuncs.cpp" />
+    <ClCompile Include="objLoader.cpp" />
     <ClCompile Include="OctreeInteger.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -148,6 +150,7 @@
     <ClInclude Include="DataTypes\geometricfunc.h" />
     <ClInclude Include="DataTypes\mat.h" />
     <ClInclude Include="DataTypes\matrix.h" />
+    <ClInclude Include="DataTypes\objload.h" />
     <ClInclude Include="DataTypes\Quat.h" />
     <ClInclude Include="DataTypes\reducedmatrix.h" />
     <ClInclude Include="DataTypes\SparseMatrix.h" />
@@ -172,6 +175,7 @@
     <ClInclude Include="Modules\SurfaceCuttingManager.h" />
     <ClInclude Include="Modules\TimeTick.h" />
     <ClInclude Include="nodeGenFuncs.h" />
+    <ClInclude Include="objLoader.h" />
     <ClInclude Include="OctreeInteger.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />

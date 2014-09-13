@@ -17,6 +17,8 @@ public:
 	void updateBone();
 
 	void transformMesh();
+	void transformMesh2();
+	PolyhedronPtr loadPolyFromObj(const char * path) const;
 public:
 	std::vector<meshObjectPtr> m_meshArray;
 	SurfaceObjPtr surObj;

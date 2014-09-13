@@ -1,6 +1,10 @@
 #pragma once
 #include <gl\gl.h>
 #include <gl\glut.h>
+#include <iterator>
+#include <iostream>
+#include <string>
+#include <sstream>
 // Does not use any specific data type
 // MFC only
 
@@ -253,6 +257,25 @@ namespace Util
 		{
 			TRACE1(" %d", val[i]);
 		}
+	}
+
+	std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+		std::stringstream ss(s);
+		std::string item;
+		while (std::getline(ss, item, delim)) {
+			elems.push_back(item);
+		}
+		return elems;
+	}
+
+	std::vector<std::string> split(const std::string &s, char delim) {
+		std::vector<std::string> elems;
+		std::stringstream ss(s);
+		std::string item;
+		while (std::getline(ss, item, delim)) {
+			elems.push_back(item);
+		}
+		return elems;
 	}
 }
 
