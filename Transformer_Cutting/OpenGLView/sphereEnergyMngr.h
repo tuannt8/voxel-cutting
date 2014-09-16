@@ -1,16 +1,18 @@
 #pragma once
 #include "sphere.h"
 #include "DataTypes\define.h"
+#include "skeleton.h"
 
 #define vicousCoff 1
 
-class skeletonEnergy
+class sphereEnergyMngr
 {
 public:
-	skeletonEnergy();
-	~skeletonEnergy();
+	sphereEnergyMngr();
+	~sphereEnergyMngr();
 
 	void initTest();
+	void initFromSkeleton(skeletonPtr ske);
 
 	void drawSphere();
 	void drawFixConstraint();
@@ -22,3 +24,4 @@ private:
 	arrayVec2i neighbor;
 };
 
+typedef std::shared_ptr<sphereEnergyMngr> engergyMngerPtr;

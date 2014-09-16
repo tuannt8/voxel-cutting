@@ -1,13 +1,18 @@
 #pragma once
 #include <gl\gl.h>
 #include <gl\glut.h>
+#include <iterator>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <vector>
 // Does not use any specific data type
 // MFC only
 
 namespace Util
 {
 	// Draw
-	void drawBox(float xmin, float ymin, float zmin, 
+	void drawBox(float xmin, float ymin, float zmin,
 		float xMax, float yMax, float zMax)
 	{
 		glBegin(GL_LINES);
@@ -54,49 +59,49 @@ namespace Util
 		glEnd();
 	}
 
-	void drawBoxFace(float xmin, float ymin, float zmin, 
-		float xMax, float yMax, float zMax) 
+	void drawBoxFace(float xmin, float ymin, float zmin,
+		float xMax, float yMax, float zMax)
 	{
 		glPushMatrix();
-		glTranslatef((xmin+xMax)/2, (ymin+yMax)/2, (zmin+zMax)/2);
-		glScaled(xMax-xmin, yMax-ymin, zMax-zmin);
+		glTranslatef((xmin + xMax) / 2, (ymin + yMax) / 2, (zmin + zMax) / 2);
+		glScaled(xMax - xmin, yMax - ymin, zMax - zmin);
 		glBegin(GL_QUADS);
 
 		// Front face
-		glVertex3f(  0.5, -0.5, 0.5 );
-		glVertex3f(  0.5,  0.5, 0.5 );
-		glVertex3f( -0.5,  0.5, 0.5 );
-		glVertex3f( -0.5, -0.5, 0.5 );
+		glVertex3f(0.5, -0.5, 0.5);
+		glVertex3f(0.5, 0.5, 0.5);
+		glVertex3f(-0.5, 0.5, 0.5);
+		glVertex3f(-0.5, -0.5, 0.5);
 
 		// Back face
-		glVertex3f( -0.5, -0.5, -0.5 );
-		glVertex3f( -0.5,  0.5, -0.5 );
-		glVertex3f(  0.5,  0.5, -0.5 );
-		glVertex3f(  0.5, -0.5, -0.5 );
+		glVertex3f(-0.5, -0.5, -0.5);
+		glVertex3f(-0.5, 0.5, -0.5);
+		glVertex3f(0.5, 0.5, -0.5);
+		glVertex3f(0.5, -0.5, -0.5);
 
 		// Purple side - RIGHT
-		glVertex3f( 0.5, -0.5, -0.5 );
-		glVertex3f( 0.5,  0.5, -0.5 );
-		glVertex3f( 0.5,  0.5,  0.5 );
-		glVertex3f( 0.5, -0.5,  0.5 );
+		glVertex3f(0.5, -0.5, -0.5);
+		glVertex3f(0.5, 0.5, -0.5);
+		glVertex3f(0.5, 0.5, 0.5);
+		glVertex3f(0.5, -0.5, 0.5);
 
 		// Green side - LEFT
-		glVertex3f( -0.5, -0.5,  0.5 );
-		glVertex3f( -0.5,  0.5,  0.5 );
-		glVertex3f( -0.5,  0.5, -0.5 );
-		glVertex3f( -0.5, -0.5, -0.5 );
+		glVertex3f(-0.5, -0.5, 0.5);
+		glVertex3f(-0.5, 0.5, 0.5);
+		glVertex3f(-0.5, 0.5, -0.5);
+		glVertex3f(-0.5, -0.5, -0.5);
 
 		// Blue side - TOP
-		glVertex3f( -0.5,  0.5,  0.5 );
-		glVertex3f(  0.5,  0.5,  0.5 );
-		glVertex3f(  0.5,  0.5, -0.5 );
-		glVertex3f( -0.5,  0.5, -0.5 );
+		glVertex3f(-0.5, 0.5, 0.5);
+		glVertex3f(0.5, 0.5, 0.5);
+		glVertex3f(0.5, 0.5, -0.5);
+		glVertex3f(-0.5, 0.5, -0.5);
 
 		// Red side - BOTTOM
-		glVertex3f( -0.5, -0.5, -0.5 );
-		glVertex3f(  0.5, -0.5, -0.5 );
-		glVertex3f(  0.5, -0.5,  0.5 );
-		glVertex3f( -0.5, -0.5,  0.5 );
+		glVertex3f(-0.5, -0.5, -0.5);
+		glVertex3f(0.5, -0.5, -0.5);
+		glVertex3f(0.5, -0.5, 0.5);
+		glVertex3f(-0.5, -0.5, 0.5);
 
 		glEnd();
 		glPopMatrix();
@@ -112,7 +117,7 @@ namespace Util
 		drawBoxFace(centerx - halfSize, centery - halfSize, centerz - halfSize, centerx + halfSize, centery + halfSize, centerz + halfSize);
 	}
 
-	void printw(float x, float y,float z, const char *format, ...)
+	void printw(float x, float y, float z, const char *format, ...)
 	{
 		glDisable(GL_LIGHTING);
 		glColor3f(0.6, 0.2, 0.2);
@@ -141,14 +146,14 @@ namespace Util
 		va_end(args);
 
 		//  Specify the raster position for pixel operations.
-		glRasterPos3f (x, y, z);
+		glRasterPos3f(x, y, z);
 
 		//  Draw the characters one by one
 		for (i = 0; text[i] != '\0'; i++)
 			glutBitmapCharacter(font_style, text[i]);
 
 		//  Free the allocated memory for the string
-		delete []text;
+		delete[]text;
 
 		glEnable(GL_LIGHTING);
 	}
@@ -169,39 +174,39 @@ namespace Util
 		return vTable;
 	}
 
-	void sort3_descen( int * arr )
+	void sort3_descen(int * arr)
 	{
-		float  arr12[ 2 ];
+		float  arr12[2];
 
 		// sort first two values
-		if( arr[ 0 ] > arr[ 1 ] )
+		if (arr[0] > arr[1])
 		{
-			arr12[ 0 ] = arr[ 0 ];
-			arr12[ 1 ] = arr[ 1 ];
+			arr12[0] = arr[0];
+			arr12[1] = arr[1];
 		} // if
 		else
 		{
-			arr12[ 0 ] = arr[ 1 ];
-			arr12[ 1 ] = arr[ 0 ];
+			arr12[0] = arr[1];
+			arr12[1] = arr[0];
 		} // else
 
 		// decide where to put arr12 and the third original value arr[ 3 ]
-		if( arr12[ 1 ] > arr[ 2 ] )
+		if (arr12[1] > arr[2])
 		{
-			arr[ 0 ] = arr12[ 0 ];
-			arr[ 1 ] = arr12[ 1 ];
+			arr[0] = arr12[0];
+			arr[1] = arr12[1];
 		} // if
-		else if( arr[ 2 ] > arr12[ 0 ] )
+		else if (arr[2] > arr12[0])
 		{
-			arr[ 0 ] = arr  [ 2 ];
-			arr[ 1 ] = arr12[ 0 ];
-			arr[ 2 ] = arr12[ 1 ];
+			arr[0] = arr[2];
+			arr[1] = arr12[0];
+			arr[2] = arr12[1];
 		} // if
 		else
 		{
-			arr[ 0 ] = arr12[ 0 ];
-			arr[ 1 ] = arr  [ 2 ];
-			arr[ 2 ] = arr12[ 1 ];
+			arr[0] = arr12[0];
+			arr[1] = arr[2];
+			arr[2] = arr12[1];
 		} // else
 	}
 
@@ -210,7 +215,7 @@ namespace Util
 		char text[256];
 		va_list ap;
 
-		if(fmt == NULL) {
+		if (fmt == NULL) {
 			return;
 		}
 
@@ -219,7 +224,7 @@ namespace Util
 		va_end(ap);
 
 		FILE* f = fopen("../log.txt", "a");
-		if(!f)
+		if (!f)
 			return;
 
 		fprintf(f, text);
@@ -229,22 +234,22 @@ namespace Util
 
 	float max_(float a, float b)
 	{
-		return a>b? a:b;
+		return a > b ? a : b;
 	}
 
 	float min_(float a, float b)
 	{
-		return a>b? b:a;
+		return a > b ? b : a;
 	}
 
 	float normSquare(float a, float b)
 	{
-		return std::pow((a-b)/max_(a,b), 2);
+		return std::pow((a - b) / max_(a, b), 2);
 	}
 
 	float normSquareAbs(float goal, float cur)
 	{
-		return abs(goal-cur)/goal;
+		return abs(goal - cur) / goal;
 	}
 
 	void trace(int *val, int num)
@@ -253,6 +258,25 @@ namespace Util
 		{
 			TRACE1(" %d", val[i]);
 		}
+	}
+
+	std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems) {
+		std::stringstream ss(s);
+		std::string item;
+		while (std::getline(ss, item, delim)) {
+			elems.push_back(item);
+		}
+		return elems;
+	}
+
+	std::vector<std::string> split(const std::string &s, char delim) {
+		std::vector<std::string> elems;
+		std::stringstream ss(s);
+		std::string item;
+		while (std::getline(ss, item, delim)) {
+			elems.push_back(item);
+		}
+		return elems;
 	}
 }
 

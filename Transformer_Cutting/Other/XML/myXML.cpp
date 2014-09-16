@@ -1,6 +1,11 @@
 #include "stdafx.h"
 #include "myXML.h"
 #include <afx.h>
+#include <iterator>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include "Utility.h"
 
 
 using namespace std;
@@ -61,10 +66,9 @@ void myXML::addVectorDatafToNode(myXMLNode * node, const char * element, const f
 
 void myXML::addVectorDatafToNode(myXMLNode * node, const char * element, float x, float y, float z)
 {
-	myXMLNode * dataNode = addNodeToNode(node, element);
-	addElementToNode(dataNode, X_KEY, std::to_string(x));
-	addElementToNode(dataNode, Y_KEY, std::to_string(y));
-	addElementToNode(dataNode, Z_KEY, std::to_string(z));
+	std::stringstream buffer;
+	buffer << x << " , " << y << " , " << z;
+	addElementToNode(node, element, buffer.str());
 }
 
 void myXML::addVectorDatafToNode(myXMLNode * node, const char * element, Vec3f v)
@@ -112,9 +116,19 @@ bool myXML::load(const char* path)
 
 std::string myXML::getStringProperty(myXMLNode * node, const char* element)
 {
-	ASSERT(node);
+	if (node)
+	{
+		myXMLNode * child = node->first_node(element);
+		ASSERT(child);
 
-	myXMLNode * child = node->first_node(element);
+		std::string s = child->value();
+		return s;
+	}
+}
+
+std::string myXML::getStringProperty(const char* element)
+{
+	myXMLNode * child = first_node(element);
 	ASSERT(child);
 
 	std::string s = child->value();
@@ -126,13 +140,16 @@ Vec3f myXML::getVec3f(myXMLNode * xmlNode, char* element)
 	ASSERT(xmlNode);
 	Vec3f pt;
 	myXMLNode * child = xmlNode->first_node(element);
-	char* xc = child->first_node(X_KEY)->value();
-	char* yc = child->first_node(Y_KEY)->value();
-	char* zc = child->first_node(Z_KEY)->value();
+	char* coord = child->value();
 
-	pt[0] = atof(xc);
-	pt[1] = atof(yc);
-	pt[2] = atof(zc);
+	// parse the value
+	using namespace std;
+	vector<string> out;
+	Util::split(string(coord), ',', out);
+
+	pt[0] = atof(out[0].c_str());
+	pt[1] = atof(out[1].c_str());
+	pt[2] = atof(out[2].c_str());
 
 	return pt;
 }
@@ -149,4 +166,19 @@ void myXML::addVectoriToNode(myXMLNode * node, const char * element, Vec3i v)
 	addElementToNode(dataNode, X_KEY, std::to_string(v[0]));
 	addElementToNode(dataNode, Y_KEY, std::to_string(v[1]));
 	addElementToNode(dataNode, Z_KEY, std::to_string(v[2]));
+}
+
+Vec3i myXML::getVec3i(myXMLNode * node, char * element)
+{
+	myXMLNode * child = node->first_node(element);
+	Vec3i pt;
+	char* xc = child->first_node(X_KEY)->value();
+	char* yc = child->first_node(Y_KEY)->value();
+	char* zc = child->first_node(Z_KEY)->value();
+
+	pt[0] = atoi(xc);
+	pt[1] = atoi(yc);
+	pt[2] = atoi(zc);
+
+	return pt;
 }

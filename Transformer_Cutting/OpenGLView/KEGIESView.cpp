@@ -384,65 +384,7 @@ void CKEGIESView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	pDoc->document.receiveKey(lsChar);
 
-	if (lsChar=='C')
-	{
-		pDoc->detailSwap.saveMeshBox("../meshBox.txt");
-	}
-	if (lsChar == 'T')
-	{
-		yIdx++;
-		updateNumInput();
-		pDoc->document.updateIdx(yIdx, zIdx);
 
-		if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
-		{	
-			pDoc->testCut.updateDisplay(yIdx, zIdx);
-		}
-		else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
-		{
-			pDoc->groupCutMngr.updateDisplay(yIdx, zIdx);
-		}
-	}
-	if (lsChar == 'Y')
-	{
-		zIdx++;
-		updateNumInput();
-		pDoc->document.updateIdx(yIdx, zIdx);
-
-		if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
-		{
-			pDoc->testCut.updateDisplay(yIdx, zIdx);
-		}
-		else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
-		{
-			pDoc->groupCutMngr.updateDisplay(yIdx, zIdx);
-		}
-	}
-	if (lsChar == 'S')
-	{
-		if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
-		{
-			pDoc->testCut.leatE2Node2 = pDoc->testCut.curNode;
-			pDoc->detailSwap.getInfoFromCutTree(&pDoc->testCut);
-			mode = 2;
-			// User input the coordinate
-			resetDisplayMode();
-			pDoc->m_mode = MODE_ASSIGN_COORDINATE;
-			pDoc->cordAssign.assignCoord(&pDoc->detailSwap, this);
-		}
-		else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
-		{
-			pDoc->groupCutMngr.showDialog(this);
-		}
-	}
-	if (lsChar == 'D')
-	{
-		pDoc->detailSwap.swapPossibleLayer2();
-	}
-	if (lsChar == 'F')
-	{
-		pDoc->detailSwap.swapOneVoxel();
-	}
 
 	if (nChar >= 48 && nChar <= 57)
 	{

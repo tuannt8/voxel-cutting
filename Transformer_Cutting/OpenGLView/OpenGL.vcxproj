@@ -140,6 +140,7 @@
     <ClCompile Include="debugInfo.cpp" />
     <ClCompile Include="detailSwapManager.cpp" />
     <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="energyDoc.cpp" />
     <ClCompile Include="errorHash.cpp" />
     <ClCompile Include="groupCut.cpp" />
     <ClCompile Include="groupCutManager.cpp" />
@@ -155,7 +156,7 @@
     <ClCompile Include="poseManager.cpp" />
     <ClCompile Include="SideDialog.cpp" />
     <ClCompile Include="skeleton.cpp" />
-    <ClCompile Include="skeletonEnergy.cpp" />
+    <ClCompile Include="sphereEnergyMngr.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -188,6 +189,7 @@
     <ClInclude Include="debugInfo.h" />
     <ClInclude Include="detailSwapManager.h" />
     <ClInclude Include="Dialog.h" />
+    <ClInclude Include="energyDoc.h" />
     <ClInclude Include="errorHash.h" />
     <ClInclude Include="groupCut.h" />
     <ClInclude Include="groupCutManager.h" />
@@ -208,8 +210,8 @@
     <ClInclude Include="rotationMap.h" />
     <ClInclude Include="SideDialog.h" />
     <ClInclude Include="skeleton.h" />
-    <ClInclude Include="skeletonEnergy.h" />
     <ClInclude Include="sphere.h" />
+    <ClInclude Include="sphereEnergyMngr.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tranformCoord.h" />
     <ClInclude Include="View2.h" />

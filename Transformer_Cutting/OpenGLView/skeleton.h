@@ -97,7 +97,7 @@ public:
 	void loadFromFile(char *filePath);
 	void writeToFile(char* filePath);
 
-	void draw(int mode=SKE_DRAW_BOX_WIRE);
+	void draw(int mode=SKE_DRAW_BOX_WIRE); // SKE_DRAW_...
 	void drawBoneRecursive(bone* node, int mode);
 	
 	void initTest(); // Manually for testing

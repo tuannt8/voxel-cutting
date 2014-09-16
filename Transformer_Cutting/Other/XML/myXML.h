@@ -14,7 +14,7 @@ typedef xml_node<> myXMLNode;
 #define Z_KEY "z"
 
 
-class myXML : public xml_document<>
+class myXML : public xml_document < >
 {
 public:
 	myXML();
@@ -44,7 +44,8 @@ public:
 	// Get value
 	std::string getStringProperty(myXMLNode * node, const char* element);
 	Vec3f getVec3f(myXMLNode * xmlNode, char* element);
-
+	std::string getStringProperty(const char* element);
+	Vec3i getVec3i(myXMLNode * node, char * element);
 private:
 	std::vector<char*> m_backUpData;
 	// To keep the memory of string alive

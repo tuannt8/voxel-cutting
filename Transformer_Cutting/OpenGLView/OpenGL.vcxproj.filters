@@ -168,7 +168,10 @@
     <ClCompile Include="sphere.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="skeletonEnergy.cpp">
+    <ClCompile Include="energyDoc.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="sphereEnergyMngr.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -314,7 +317,10 @@
     <ClInclude Include="sphere.h">
       <Filter>Energy</Filter>
     </ClInclude>
-    <ClInclude Include="skeletonEnergy.h">
+    <ClInclude Include="energyDoc.h">
+      <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="sphereEnergyMngr.h">
       <Filter>Energy</Filter>
     </ClInclude>
   </ItemGroup>

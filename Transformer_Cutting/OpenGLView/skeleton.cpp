@@ -413,6 +413,7 @@ void skeleton::loadBoneData(myXML * doc, myXMLNode * xmlNode, bone* boneNode)
 	// Load data to bone
 	myXMLNode * properties = xmlNode->first_node(PROPERTIES_KEY);
 	boneNode->m_posCoord = doc->getVec3f(properties, JOINT_CHILD_KEY);
+	boneNode->m_jointBegin = doc->getVec3f(properties, JOINT_PARENT_KEY);
 	boneNode->m_angle = doc->getVec3f(properties, ROTATION_ANGLE_KEY);
 	boneNode->m_sizef = doc->getVec3f(properties, BONE_SIZE_KEY);
 	boneNode->m_name = CString(doc->getStringProperty(properties, NAME_KEY).c_str());
