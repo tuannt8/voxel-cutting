@@ -74,7 +74,7 @@ public:
 	// mesh information
 	Polyhedron *mesh;
 	Vec3i meshRot; // z-x-z 90 rotation, Euler
-
+	Mat4x4f transformMat;
 	
 public:
 	// for neighbor check; temp var
@@ -83,6 +83,7 @@ public:
 	int nbSideNeighbor();
 	int nbNeighbor() const;
 	void setBoneType(std::string typeString);
+	Mat4x4f getLocalTransMat();
 };
 
 typedef std::vector<bone*> arrayBone_p;
@@ -103,6 +104,8 @@ public:
 	void initTest(); // Manually for testing
 	void computeTempVar();
 
+	void buildTransformMatrix();
+
 	// For group bone algorithm
 	void groupBone();
 	void getBoneGroupAndNeighborInfo(std::vector<bone*> &sorted, std::vector<std::pair<int, int>> &neighborPair);
@@ -118,7 +121,7 @@ public:
 private:
 	void getSortedBoneArrayRecur(bone* node, std::vector<bone*> &sortedArray);
 	void getBoneAndNeighborInfoRecur(bone* node, int parentIdx, std::vector<bone*> &boneArray, std::vector<std::pair<int,int>> &neighborA);
-
+	void buildTransformMatrixRecur(bone* node);
 private:
 	// For group bone algorithm
 	void groupChildren(bone* node);
@@ -128,6 +131,7 @@ private:
 	void getSortedBoneGroupArrayRecur(bone* node, std::vector<bone*> & sortedArray);
 	void writeBoneToXML(myXML * doc, myXMLNode * node, bone* boneNode);
 	void loadBoneData(myXML * doc, myXMLNode * xmlNode, bone* boneNode);
+
 public:
 	bone* m_root;
 	float meshScale;

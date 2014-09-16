@@ -14,6 +14,7 @@
 #include <GL/glu.h>
 #include <GL/gl.h>
 #include <vector>
+#include <memory>
 
 class SurfaceObj
 {
@@ -124,5 +125,6 @@ public:
 	TopologyModifier* Modifier;
 	AABBTreeTri* BVHAABB; 
 };
+typedef std::shared_ptr<SurfaceObj> SurfaceObjPtr;
 
 #endif

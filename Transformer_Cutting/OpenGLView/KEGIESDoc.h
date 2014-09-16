@@ -12,11 +12,6 @@
 class CKEGIESDoc : public CDocument
 {
 public:
-	cutSurfTreeMngr2 testCut;
-	coordAssignManager cordAssign;
-	detailSwapManager detailSwap;
-	groupCutManager groupCutMngr;
-
 	energyDoc document;
 
 	appMode m_mode;

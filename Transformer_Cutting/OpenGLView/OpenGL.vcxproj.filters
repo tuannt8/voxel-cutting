@@ -171,7 +171,13 @@
     <ClCompile Include="energyDoc.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="sphereEnergyMngr.cpp">
+    <ClCompile Include="energyMnager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="boneSphere.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="meshSphereObj.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -320,7 +326,16 @@
     <ClInclude Include="energyDoc.h">
       <Filter>Energy</Filter>
     </ClInclude>
-    <ClInclude Include="sphereEnergyMngr.h">
+    <ClInclude Include="energyMnager.h">
+      <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="boneSphere.h">
+      <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="matTranform.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="meshSphereObj.h">
       <Filter>Energy</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include "neighbor.h"
 #include "rapidxml_utils.hpp"
 #include "myXML.h"
+#include "matTranform.h"
 
 // XML key
 #define BONE_KEY "bone"
@@ -151,11 +152,11 @@ void skeleton::drawBoneRecursive(bone* node, int mode)
 	{
 		drawBoneRecursive(node->child[i], mode);
 
-		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
-		{
-			glRotatef(180, 0,0,1);
-			drawBoneRecursive(node->child[i], mode);
-		}
+// 		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
+// 		{
+// 			glRotatef(180, 0,0,1);
+// 			drawBoneRecursive(node->child[i], mode);
+// 		}
 	}
 
 
@@ -432,6 +433,23 @@ void skeleton::loadBoneData(myXML * doc, myXMLNode * xmlNode, bone* boneNode)
 
 			boneNode->child.push_back(newBone);
 		}
+	}
+}
+
+void skeleton::buildTransformMatrix()
+{
+	m_root->transformMat = m_root->getLocalTransMat();
+
+	buildTransformMatrixRecur(m_root);
+}
+
+void skeleton::buildTransformMatrixRecur(bone* node)
+{
+	for (int i = 0; i < node->child.size(); i++)
+	{
+		bone* childB = node->child[i];
+		childB->transformMat = node->transformMat * childB->getLocalTransMat();
+		buildTransformMatrixRecur(childB);
 	}
 }
 
@@ -743,4 +761,15 @@ void bone::setBoneType(std::string typeString)
 	{
 		m_type = SIDE_BONE;
 	}
+}
+
+Mat4x4f bone::getLocalTransMat()
+{
+	Mat4x4f a;
+	a = transformUtil::translationMat(m_posCoord);
+	a = a*transformUtil::rot_Z_Mat(m_angle[0]);
+	a = a*transformUtil::rot_X_Mat(m_angle[1]);
+	a = a*transformUtil::rot_Z_Mat(m_angle[1]);
+
+	return a;
 }

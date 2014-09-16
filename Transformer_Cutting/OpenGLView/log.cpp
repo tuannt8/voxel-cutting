@@ -33,20 +33,20 @@ void command::registerCommand(myCommnand cmd)
 void command::startThread()
 {
 	logData::getInstance()->insertGetStringCommand(myCommnand( HELP, "Display all command lists", nullptr ));
-	CWinThread *thrd = AfxBeginThread((AFX_THREADPROC)StartThread, nullptr);
+	logData::getInstance()->thrd = AfxBeginThread((AFX_THREADPROC)StartThread, nullptr);
 }
 
 DWORD command::StartThread(LPVOID param)
 {
-	while (true)
+	while (!cin.fail())
 	{
 		string s;
 		getline(cin, s);
 
 		logData::getInstance()->reciveCommand(s);
 
-		//Sleep(1000);
 	}
+	return 0;
 }
 
 void command::printAndSave(const char *fmt, ...)
@@ -151,6 +151,12 @@ command::logData* command::logData::getInstance()
 {
 	static logData instance;
 	return &instance;
+}
+
+void command::logData::setTerminate()
+{
+	terminating = true;
+
 }
 
 command::myCommnand::myCommnand(std::string cm, std::string help, cmdBase* p)

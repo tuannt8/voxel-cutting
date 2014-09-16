@@ -43,7 +43,8 @@ void View2::InitGL()
 
 	//Init
 	Initgl.SetHWND(m_hWnd);
-	Initgl.SetupPixelFormat();
+	//Initgl.SetupPixelFormat();
+	Initgl.SetupPixelFormatAA(3);
 	base=Initgl.base;
 
 	m_hDC=Initgl.m_hDC;
@@ -83,22 +84,22 @@ void View2::DrawView()
 
 	//drawAxis(true, &m_Cam1);
 
-	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
-	{
-		pDoc->testCut.m_skeleton.draw();
-	}
-	else if (pDoc->m_mode == MODE_ASSIGN_COORDINATE)
-	{
-		pDoc->detailSwap.m_skeleton.draw();
-	}
-	else if (pDoc->m_mode == MODE_SWAP_VOXEL )
-	{
-		pDoc->detailSwap.m_skeleton.draw();
-	}
-	else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
-	{
-		pDoc->groupCutMngr.m_skeleton.draw();
-	}
+// 	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
+// 	{
+// 		pDoc->testCut.m_skeleton.draw();
+// 	}
+// 	else if (pDoc->m_mode == MODE_ASSIGN_COORDINATE)
+// 	{
+// 		pDoc->detailSwap.m_skeleton.draw();
+// 	}
+// 	else if (pDoc->m_mode == MODE_SWAP_VOXEL )
+// 	{
+// 		pDoc->detailSwap.m_skeleton.draw();
+// 	}
+// 	else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
+// 	{
+// 		pDoc->groupCutMngr.m_skeleton.draw();
+// 	}
 
 	pDoc->document.draw2(m_displayMode);
 

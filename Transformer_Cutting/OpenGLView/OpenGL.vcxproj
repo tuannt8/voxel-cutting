@@ -127,6 +127,7 @@
     <ClCompile Include="AppSetting.cpp" />
     <ClCompile Include="boneAbstract.cpp" />
     <ClCompile Include="BoneMapTree.cpp" />
+    <ClCompile Include="boneSphere.cpp" />
     <ClCompile Include="bvhVoxel.cpp" />
     <ClCompile Include="configTreeMng.cpp" />
     <ClCompile Include="controlDialog.cpp" />
@@ -151,12 +152,13 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="manipulateVoxel.cpp" />
     <ClCompile Include="MeshCutting.cpp" />
+    <ClCompile Include="meshSphereObj.cpp" />
     <ClCompile Include="myDocment.cpp" />
     <ClCompile Include="octreeSolid.cpp" />
     <ClCompile Include="poseManager.cpp" />
     <ClCompile Include="SideDialog.cpp" />
     <ClCompile Include="skeleton.cpp" />
-    <ClCompile Include="sphereEnergyMngr.cpp" />
+    <ClCompile Include="energyMnager.cpp" />
     <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -173,6 +175,7 @@
     <ClInclude Include="AppSetting.h" />
     <ClInclude Include="boneAbstract.h" />
     <ClInclude Include="BoneMapTree.h" />
+    <ClInclude Include="boneSphere.h" />
     <ClInclude Include="boneTransform.h" />
     <ClInclude Include="bvhVoxel.h" />
     <ClInclude Include="Color.h" />
@@ -193,8 +196,10 @@
     <ClInclude Include="errorHash.h" />
     <ClInclude Include="groupCut.h" />
     <ClInclude Include="groupCutManager.h" />
+    <ClInclude Include="matTranform.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="manipulateVoxel.h" />
+    <ClInclude Include="meshSphereObj.h" />
     <ClInclude Include="mirrorDraw.h" />
     <ClInclude Include="errorCompute.h" />
     <ClInclude Include="KEGIES.h" />
@@ -211,7 +216,7 @@
     <ClInclude Include="SideDialog.h" />
     <ClInclude Include="skeleton.h" />
     <ClInclude Include="sphere.h" />
-    <ClInclude Include="sphereEnergyMngr.h" />
+    <ClInclude Include="energyMnager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tranformCoord.h" />
     <ClInclude Include="View2.h" />

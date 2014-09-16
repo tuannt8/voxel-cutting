@@ -61,6 +61,14 @@ BOOL CKEGIESApp::InitInstance()
 		AfxMessageBox(_T("Failed to create the console!"), MB_ICONEXCLAMATION);
 
 	{
+		// disable x button, avoid leak
+		HWND hwnd = ::GetConsoleWindow();
+		if (hwnd != NULL)
+		{
+			HMENU hMenu = ::GetSystemMenu(hwnd, FALSE);
+			if (hMenu != NULL) DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+		}
+
 		int hCrt = ::_open_osfhandle((intptr_t) ::GetStdHandle(STD_OUTPUT_HANDLE), _O_TEXT);
 		FILE *hf = ::_fdopen(hCrt, "w");
 		*stdout = *hf;

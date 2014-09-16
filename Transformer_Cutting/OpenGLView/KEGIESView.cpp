@@ -122,8 +122,8 @@ void CKEGIESView::InitGL()
 	
 	//Init
 	Initgl.SetHWND(m_hWnd);
-	Initgl.SetupPixelFormat();
-	//Initgl.SetupPixelFormatAA(1);
+	//Initgl.SetupPixelFormat();
+	Initgl.SetupPixelFormatAA(3);
 	base=Initgl.base;
 	
 	m_hDC=Initgl.m_hDC;
@@ -177,23 +177,23 @@ void CKEGIESView::DrawView()
 	if (!pDoc)
 		return;
 
-	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
-	{
-		pDoc->testCut.draw(m_displayMode);
-		pDoc->testCut.drawLeaf(yIdx);
-	}
-	else if (pDoc->m_mode == MODE_ASSIGN_COORDINATE)
-	{
-		pDoc->cordAssign.draw(m_displayMode);
-	}
-	else if (pDoc->m_mode == MODE_SWAP_VOXEL)
-	{
-		pDoc->detailSwap.draw(m_displayMode);
-	}
-	else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
-	{
-		pDoc->groupCutMngr.draw(m_displayMode);
-	}
+// 	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
+// 	{
+// 		pDoc->testCut.draw(m_displayMode);
+// 		pDoc->testCut.drawLeaf(yIdx);
+// 	}
+// 	else if (pDoc->m_mode == MODE_ASSIGN_COORDINATE)
+// 	{
+// 		pDoc->cordAssign.draw(m_displayMode);
+// 	}
+// 	else if (pDoc->m_mode == MODE_SWAP_VOXEL)
+// 	{
+// 		pDoc->detailSwap.draw(m_displayMode);
+// 	}
+// 	else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
+// 	{
+// 		pDoc->groupCutMngr.draw(m_displayMode);
+// 	}
 
 	pDoc->document.draw(m_displayMode);
 
@@ -697,19 +697,19 @@ void CKEGIESView::update()
 	ASSERT_VALID(pDoc);
 
 	pDoc->document.updateIdx(yIdx, zIdx);
-
-	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
-	{
-		pDoc->testCut.updateDisplay(yIdx, zIdx);
-	}
-	else if (pDoc->m_mode == MODE_SWAP_VOXEL)
-	{
-		pDoc->detailSwap.updateDisplay(yIdx, zIdx);
-	}
-	else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
-	{
-		pDoc->groupCutMngr.updateDisplay(yIdx, zIdx);
-	}
+// 
+// 	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
+// 	{
+// 		pDoc->testCut.updateDisplay(yIdx, zIdx);
+// 	}
+// 	else if (pDoc->m_mode == MODE_SWAP_VOXEL)
+// 	{
+// 		pDoc->detailSwap.updateDisplay(yIdx, zIdx);
+// 	}
+// 	else if (pDoc->m_mode == MODE_SPLIT_BONE_GROUP)
+// 	{
+// 		pDoc->groupCutMngr.updateDisplay(yIdx, zIdx);
+// 	}
 }
 
 

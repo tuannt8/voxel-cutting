@@ -1,6 +1,9 @@
 #pragma once
 #include "skeleton.h"
-#include "sphereEnergyMngr.h"
+#include "energyMnager.h"
+#include "Voxel.h"
+#include "voxelObject.h"
+#include "meshSphereObj.h"
 class energyDoc
 {
 public:
@@ -17,9 +20,15 @@ public:
 	void updateRealtime();
 
 private:
-	skeletonPtr curSkeleton;
+	skeletonPtr curSkeleton; // Skeleton
 	skeletonPtr originSkeleton;
 
-	engergyMngerPtr energyObjs;
+	SurfaceObjPtr surObj;	// Surface
+	voxelObjectPtr voxel_Obj; // Voxel
+
+	meshSphereObjPtr objEnergy;
+
+	energyMngerPtr energyObjsOrigin; // Sphere energy
+	energyMngerPtr curEnergyObj; // Sphere energy for modification
 };
 

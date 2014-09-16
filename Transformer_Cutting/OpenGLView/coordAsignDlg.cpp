@@ -142,9 +142,9 @@ void coordAsignDlg::OnBnClickedButtonFinish()
 	CFrameWnd * pFrame = (CFrameWnd *)(AfxGetApp()->m_pMainWnd);
 	CKEGIESDoc *doc = (CKEGIESDoc *) pFrame->GetActiveDocument();
 
-	doc->detailSwap.coords = coords;
-	doc->detailSwap.computeAspectRatio();
-	doc->m_mode = MODE_SWAP_VOXEL;
+// 	doc->detailSwap.coords = coords;
+// 	doc->detailSwap.computeAspectRatio();
+// 	doc->m_mode = MODE_SWAP_VOXEL;
 
 	OnOK();
 }

@@ -7,23 +7,45 @@ class sphere
 {
 public:
 	sphere();
-	~sphere();
+	sphere(Vec3f centerPos, float r);
+	virtual ~sphere();
 
+	void drawSphere() const;
+
+	// get set
+	Vec3f &centerPos();
+	float &radius();
 private:
-	Vec3f center;
-	float radius;
+	Vec3f m_center;
+	float m_radius;
 };
 
 typedef std::shared_ptr<sphere> spherePtr;
 
+// Energy sphere of skeleton
 class skeSphere : public sphere
 {
 public:
 	skeSphere();
+	skeSphere(skeSphere * s);
+	skeSphere(Vec3f centerPos, float r);
 	~skeSphere();
+
+	void draw() const;
 
 private:
 
 };
-
 typedef std::shared_ptr<skeSphere> skeSpherePtr;
+
+// Energy sphere of mesh
+class meshSphere : public sphere
+{
+public:
+	meshSphere();
+	~meshSphere();
+
+private:
+
+};
+typedef std::shared_ptr<meshSphere> meshSpherePtr;

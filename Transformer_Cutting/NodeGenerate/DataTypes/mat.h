@@ -15,7 +15,17 @@ public:
 	typedef Vec<C,real> Row;
 	typedef VecNoInit<C,real> RowNoInit;
 	typedef Vec<R,real> Col;
-
+	Mat_F(std::vector<real> arr)
+	{
+		assert(arr.size() == N);
+		for (int i = 0; i < R; i++)
+		{
+			for (int j = 0; j < C; j++)
+			{
+				this->elems[i][j] = arr[i*R + j];
+			}
+		}
+	}
 	Mat_F()
 	{
 		clear();

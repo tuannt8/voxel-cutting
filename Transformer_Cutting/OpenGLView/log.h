@@ -53,11 +53,19 @@ namespace command
 		virtual bool receiveCmd(std::vector<std::string> args);
 		void deregisterCommand(std::string strcmd);
 		static logData* getInstance();
+
+	public:
 		mapStrCmd commandList;
+
+	public:
+		bool isRunning(){ return !terminating; }
+		void setTerminate();
+		CWinThread *thrd;
 	private:
-		logData(){};
+		logData(){ terminating = false; };
 		void operator = (logData& p);
 
+		bool terminating;
 
 	};
 };

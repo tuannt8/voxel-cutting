@@ -72,7 +72,7 @@ public:
 	void drawBitSetBoundingBox();
 
 	void drawVoxel(int mode = 0);
-	void drawVoxelLeaf(int mode = 0);
+	void drawVoxelLeaf(int mode = 0); // 0: edge; 1: Solid
 
 
 private:
@@ -99,4 +99,4 @@ private: // Shared resource
 
 }; /*Voxel Object*/
 
-
+typedef std::shared_ptr<voxelObject> voxelObjectPtr;

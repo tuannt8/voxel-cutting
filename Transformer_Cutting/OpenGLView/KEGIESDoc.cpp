@@ -133,7 +133,7 @@ BOOL CKEGIESDoc::OnOpenDocument(LPCTSTR lpszPathName)
 void CKEGIESDoc::OnCloseDocument()
 {
 	// TODO: Add your specialized code here and/or call the base class
-
+	command::logData::getInstance()->setTerminate();
 
 	CDocument::OnCloseDocument();
 }

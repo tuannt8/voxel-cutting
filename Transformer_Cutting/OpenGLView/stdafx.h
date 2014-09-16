@@ -75,6 +75,7 @@
 
 #include <afxcontrolbars.h>
 #include <vector>
+#include <memory>
 #include <conio.h>
 
 #define ARMA_DONT_USE_BLAS
