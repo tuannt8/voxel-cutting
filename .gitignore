@@ -30,3 +30,7 @@
 #Visual studio
 *.sdf
 *.suo
+*.opensdf
+*.ipch
+Debug/
+Release/

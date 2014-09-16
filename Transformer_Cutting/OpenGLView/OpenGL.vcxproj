@@ -155,6 +155,8 @@
     <ClCompile Include="poseManager.cpp" />
     <ClCompile Include="SideDialog.cpp" />
     <ClCompile Include="skeleton.cpp" />
+    <ClCompile Include="skeletonEnergy.cpp" />
+    <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -206,6 +208,8 @@
     <ClInclude Include="rotationMap.h" />
     <ClInclude Include="SideDialog.h" />
     <ClInclude Include="skeleton.h" />
+    <ClInclude Include="skeletonEnergy.h" />
+    <ClInclude Include="sphere.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tranformCoord.h" />
     <ClInclude Include="View2.h" />
