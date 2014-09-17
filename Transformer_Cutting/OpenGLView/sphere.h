@@ -41,8 +41,9 @@ typedef std::shared_ptr<skeSphere> skeSpherePtr;
 // Energy sphere of mesh
 class meshSphere : public sphere
 {
-public:
 	meshSphere();
+public:
+	meshSphere(Vec3f c, float r);
 	~meshSphere();
 
 private:

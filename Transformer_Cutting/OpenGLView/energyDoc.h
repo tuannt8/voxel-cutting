@@ -4,6 +4,10 @@
 #include "Voxel.h"
 #include "voxelObject.h"
 #include "meshSphereObj.h"
+#include "bitSetMangr.h"
+
+using namespace energy;
+
 class energyDoc
 {
 public:
@@ -24,9 +28,11 @@ private:
 	skeletonPtr originSkeleton;
 
 	SurfaceObjPtr surObj;	// Surface
-	voxelObjectPtr voxel_Obj; // Voxel
+	voxelObjectPtr voxel_Obj; // Voxel; Donot use the hash table
+	
+	bitSetMngrPtr bitSetSpace; // Manage bit set operation
 
-	meshSphereObjPtr objEnergy;
+	meshSphereObjPtr objEnergy; // Energy sphere in mesh
 
 	energyMngerPtr energyObjsOrigin; // Sphere energy
 	energyMngerPtr curEnergyObj; // Sphere energy for modification

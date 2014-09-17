@@ -786,3 +786,9 @@ void SurfaceObj::centerlize()
 {
 	translate(-MidPoint[0], -MidPoint[1], -MidPoint[2]);
 }
+
+Vec3f SurfaceObj::getBoundingBoxSize() const
+{
+	ASSERT(BVHAABB);
+	return BVHAABB->root()->RightUp - BVHAABB->root()->LeftDown;
+}

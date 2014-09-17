@@ -180,6 +180,12 @@
     <ClCompile Include="meshSphereObj.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="bitSetObject.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="bitSetMangr.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KEGIES.h">
@@ -336,6 +342,12 @@
       <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="meshSphereObj.h">
+      <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="bitSetObject.h">
+      <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="bitSetMangr.h">
       <Filter>Energy</Filter>
     </ClInclude>
   </ItemGroup>

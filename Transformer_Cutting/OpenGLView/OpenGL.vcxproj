@@ -125,6 +125,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppSetting.cpp" />
+    <ClCompile Include="bitSetMangr.cpp" />
+    <ClCompile Include="bitSetObject.cpp" />
     <ClCompile Include="boneAbstract.cpp" />
     <ClCompile Include="BoneMapTree.cpp" />
     <ClCompile Include="boneSphere.cpp" />
@@ -173,6 +175,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSetting.h" />
+    <ClInclude Include="bitSetMangr.h" />
+    <ClInclude Include="bitSetObject.h" />
     <ClInclude Include="boneAbstract.h" />
     <ClInclude Include="BoneMapTree.h" />
     <ClInclude Include="boneSphere.h" />

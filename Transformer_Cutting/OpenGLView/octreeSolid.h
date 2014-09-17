@@ -51,6 +51,7 @@ public:
 	void drawTightTree(octreeSNode *node);
 	void drawMesh();
 	void drawWireOctree(int mode = 0);
+	void drawBoundingBox();
 
 	void constructTree(SurfaceObj *obj, int depth);
 	void computeBoxAndVolume(octreeSNode *node);

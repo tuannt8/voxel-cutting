@@ -8,6 +8,7 @@
 #include "octreeSolid.h"
 #include "mirrorDraw.h"
 #include "voxelSplitObj.h"
+#include "bitSetObject.h"
 
 class voxelBox // For 2 pixel voxel
 {
@@ -66,6 +67,7 @@ public:
 	~voxelObject();
 
 	bool init(SurfaceObj *obj, int res); 
+	bool init(SurfaceObj *obj, int res, float scale);
 
 	void drawBitSet(voxelSplitObj* vBitSet);
 	void drawVoxelBitDecomposed();
@@ -74,12 +76,14 @@ public:
 	void drawVoxel(int mode = 0);
 	void drawVoxelLeaf(int mode = 0); // 0: edge; 1: Solid
 
-
+	Vec3f floorV(Vec3f v, float d);
 private:
 	void constructVolxeHash();
+	void constructVolxeHash(float scale);
 	void constructNeighbor();
 	void decomposeConvexes();
-	
+	void constructBitSetMesh();
+
 public: // Private member variable	
 	octreeSolid m_octree;
 	std::vector<voxelBox> m_boxes;
@@ -87,6 +91,9 @@ public: // Private member variable
 	std::vector<arrayInt> m_boxShareFaceWithBox; // Neighbor that share face with voxel
 
 	voxelSplitObj m_voxelBitSet; // Bit set for splitting operation
+								// Include set of convex group voxel
+
+	energy::bitSetObjectPtr meshBitSet;
 
 	hashVoxel m_hashTable; // Hash table
 

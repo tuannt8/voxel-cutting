@@ -75,6 +75,7 @@ public:
 	AABBTree* getBVH();
 	int nbPoint();
 	int nbFace();
+	Vec3f getBoundingBoxSize() const;
 
 	TopologyContainer* container();
 	TopologyModifier* modifier();
@@ -105,7 +106,7 @@ private:
 	void computeFaceNormal();
 	Vec3f computeFaceNormal(Vec3f p1, Vec3f p2, Vec3f p3);
 	void computePointNormal();
-
+	
 
 
 	//variables

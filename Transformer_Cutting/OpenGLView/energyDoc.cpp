@@ -19,6 +19,11 @@ void energyDoc::updateRealtime()
 
 void energyDoc::draw(BOOL mode[10])
 {
+	if (bitSetSpace)
+	{
+		glColor3f(1, 0, 0);
+		bitSetSpace->drawBoundingBox();
+	}
 	if (mode[1] && surObj)
 	{
 		glColor3f(0.8, 0.8, 0.8);
@@ -30,6 +35,21 @@ void energyDoc::draw(BOOL mode[10])
 		voxel_Obj->drawVoxel();
 		glColor3f(0.6, 0.6, 0.6);
 		voxel_Obj->drawVoxelLeaf(1);
+	}
+
+	if (mode[3] && voxel_Obj)
+	{
+		glColor3f(0.7, 0.7, 0.7);
+		bitSetSpace->drawSolidBit(voxel_Obj->meshBitSet);
+		glColor3f(0, 0, 1);
+		bitSetSpace->drawWireBit(voxel_Obj->meshBitSet);
+	}
+	if (mode[4] && objEnergy)
+	{
+		glColor3f(0, 1, 0);
+		voxel_Obj->m_octree.drawBoundingBox();
+
+		objEnergy->draw();
 	}
 }
 
@@ -95,10 +115,19 @@ void energyDoc::init()
 	surObj->constructAABBTree();
 
 	// 4. Construct voxel
-	cout << "Construct voxel hashing" << endl;
+	float scale = 2.0;	int voxelRes = 5;
+	cout << "Construct voxel hashing (" << scale << " scale; " << voxelRes << " resolution" << endl;
 	voxel_Obj = voxelObjectPtr(new voxelObject);
-	voxel_Obj->init(surObj.get(), 5);
+	voxel_Obj->init(surObj.get(), voxelRes, scale);
+
+	// 4.a. Bit set space
+	cout << "Construct bitset space." << endl;
+	bitSetSpace = bitSetMngrPtr(new bitSetMangr);
+	bitSetSpace->init(voxel_Obj);
 
 	// 5. Sphere energy of mesh object
-
+	int sphereRes = 3;
+	cout << "Construct mesh sphere object (Res: " << sphereRes << ")" << endl;
+	objEnergy = meshSphereObjPtr(new meshSphereObj);
+	objEnergy->initFromMesh(surObj, voxel_Obj, bitSetSpace, sphereRes);
 }

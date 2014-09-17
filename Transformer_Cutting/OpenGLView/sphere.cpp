@@ -75,3 +75,14 @@ void skeSphere::draw() const
 {
 	drawSphere();
 }
+
+meshSphere::meshSphere(Vec3f c, float r) 
+: sphere(c,r)
+{
+
+}
+
+meshSphere::~meshSphere()
+{
+
+}

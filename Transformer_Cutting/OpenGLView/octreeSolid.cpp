@@ -452,6 +452,11 @@ bool octreeSolid::isColidWithBox(octreeSNode* node, Box &b)
 
 }
 
+void octreeSolid::drawBoundingBox()
+{
+	Util_w::drawBoxWireFrame(m_root->leftDownTight, m_root->rightUpTight);
+}
+
 
 
 octreeSNode::octreeSNode()

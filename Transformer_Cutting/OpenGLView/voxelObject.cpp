@@ -170,10 +170,32 @@ bool voxelObject::init(SurfaceObj *obj, int res)
 	// Boxes
 	constructNeighbor();
 
-	// Voxel bit set
-	decomposeConvexes();
+
 
 	return true;
+}
+
+bool voxelObject::init(SurfaceObj *obj, int res, float scale)
+{
+	s_surObj = obj;
+	m_res = res;
+
+	// Octree
+	m_octree.init(s_surObj, res);
+	m_centerf = m_octree.centerMesh;
+	m_voxelSizef = m_octree.boxSize;
+
+	// Voxel hash
+	constructVolxeHash(scale);
+
+	// Boxes
+	constructNeighbor();
+
+	// Create bit set object
+	constructBitSetMesh();
+
+	return true;
+
 }
 
 void voxelObject::constructVolxeHash()
@@ -210,6 +232,75 @@ void voxelObject::constructVolxeHash()
 		// List
 		voxelBox newBox(node->leftDownf, node->rightUpTight);
 		Vec3f xyzIdx = m_hashTable.getVoxelCoord(newBox.center);
+		newBox.xyzIndex = xyzIdx;
+
+		m_boxes[i] = newBox;
+
+		// Hash
+		int hashF = xyzIdx[2] * NumXYZ[0] * NumXYZ[1] + xyzIdx[1] * NumXYZ[0] + xyzIdx[0];
+
+		voxelHash[hashF] = i;
+		node->idxInLeaf = i;
+	}
+
+	m_hashTable.voxelHash = voxelHash;
+}
+
+Vec3f voxelObject::floorV(Vec3f v, float d)
+{
+	Vec3f ld = m_hashTable.leftDown;
+	Vec3f dv = v - ld;
+	for (int i = 0; i < 3; i++)
+	{
+		dv[i] = d*floor(dv[i] / d);
+	}
+	return dv+ld;
+}
+
+void voxelObject::constructVolxeHash(float scale)
+{
+	// Scale the bounding box
+	float voxelSize = m_octree.boxSize;
+	Vec3f unitV(voxelSize, voxelSize, voxelSize);
+
+	Vec3f leftDownVoxel = m_octree.m_root->leftDownTight;
+	Vec3f rightUpVoxel = m_octree.m_root->rightUpTight;
+	Vec3f boundSize = rightUpVoxel - leftDownVoxel;
+	leftDownVoxel = leftDownVoxel - boundSize*(scale / 2);
+	rightUpVoxel = rightUpVoxel + boundSize*(scale / 2);
+
+	// Snap the bounding box to voxel conner
+	leftDownVoxel = floorV(leftDownVoxel, m_voxelSizef);
+	rightUpVoxel = floorV(rightUpVoxel, m_voxelSizef);
+
+	// Construct
+	Vec3f sizef = rightUpVoxel - leftDownVoxel;
+
+	Vec3i NumXYZ;
+	for (int i = 0; i < 3; i++)
+	{
+		NumXYZ[i] = (sizef[i] / m_voxelSizef);
+	}
+
+	m_hashTable.leftDown = leftDownVoxel;
+	m_hashTable.rightUp = rightUpVoxel;
+	m_hashTable.voxelSize = m_voxelSizef;
+	m_hashTable.NumXYZ = NumXYZ;
+	m_hashTable.boxes = &m_boxes;
+
+	// voxel index and hash
+	std::vector<int> voxelHash;
+	voxelHash.resize(NumXYZ[0] * NumXYZ[1] * NumXYZ[2]);
+	std::fill(voxelHash.begin(), voxelHash.end(), -1);
+
+	std::vector<octreeSNode*> *leaves = &m_octree.leaves;
+	m_boxes.resize(leaves->size());
+	for (int i = 0; i < leaves->size(); i++)
+	{
+		octreeSNode* node = leaves->at(i);
+		// List
+		voxelBox newBox(node->leftDownf, node->rightUpTight);
+		Vec3i xyzIdx = m_hashTable.getVoxelCoord(newBox.center);
 		newBox.xyzIndex = xyzIdx;
 
 		m_boxes[i] = newBox;
@@ -376,5 +467,17 @@ void voxelObject::drawBitSetBoundingBox()
 	{
 		glColor3fv(colors[i].data());
 		bitSetA->at(i).drawBoudingBox(&m_hashTable);
+	}
+}
+
+void voxelObject::constructBitSetMesh()
+{
+	using namespace energy;
+
+	meshBitSet = bitSetObjectPtr(new bitSetObject(m_hashTable.NumXYZ));
+	for (auto b : m_boxes)
+	{
+		Vec3i posi = b.xyzIndex;
+		meshBitSet->setAtPos(posi);
 	}
 }

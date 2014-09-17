@@ -20,7 +20,7 @@ namespace Util_w
 		return Vec3f((float)a[0] * bb, (float)a[1] * bb, (float)a[2] * bb);
 	}
 
-	// Voxel conversion
+	// Return center position of the box
 	Vec3f IJK2XYZ(Vec3i &IJK, float &cubeSize){
 		Vec3f XYZ(0,0,0);
 		for (int i = 0; i < 3; i++){
