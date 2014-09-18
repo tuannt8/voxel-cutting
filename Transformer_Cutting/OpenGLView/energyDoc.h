@@ -5,10 +5,12 @@
 #include "voxelObject.h"
 #include "meshSphereObj.h"
 #include "bitSetMangr.h"
+#include "dynamicManager.h"
+#include "log.h"
 
 using namespace energy;
 
-class energyDoc
+class energyDoc : public command::cmdBase
 {
 public:
 	energyDoc();
@@ -23,6 +25,11 @@ public:
 	void updateIdx(int yIdx, int zIdx);
 	void updateRealtime();
 
+	void compute();
+
+	virtual bool receiveCmd(std::vector<std::string> args);
+private:
+	void displayOtherInfo();
 private:
 	skeletonPtr curSkeleton; // Skeleton
 	skeletonPtr originSkeleton;
@@ -34,7 +41,10 @@ private:
 
 	meshSphereObjPtr objEnergy; // Energy sphere in mesh
 
-	energyMngerPtr energyObjsOrigin; // Sphere energy
+	energyMngerPtr energyObjsOrigin; // Sphere energy in bone
 	energyMngerPtr curEnergyObj; // Sphere energy for modification
+	float boneScale;
+
+	dynamicManagerPtr dynamicM;
 };
 

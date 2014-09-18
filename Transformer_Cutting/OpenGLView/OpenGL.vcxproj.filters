@@ -186,6 +186,9 @@
     <ClCompile Include="bitSetMangr.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="dynamicManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KEGIES.h">
@@ -348,6 +351,9 @@
       <Filter>Energy</Filter>
     </ClInclude>
     <ClInclude Include="bitSetMangr.h">
+      <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="dynamicManager.h">
       <Filter>Energy</Filter>
     </ClInclude>
   </ItemGroup>

@@ -5,7 +5,7 @@
 #include "voxelObject.h"
 #include "bitSetMangr.h"
 
-#define SPHERE_COVER_CONSTRUCT 0.3
+#define SPHERE_COVER_CONSTRUCT 0.5 // Sphere must intersect this least with mesh
 
 class meshSphereObj
 {

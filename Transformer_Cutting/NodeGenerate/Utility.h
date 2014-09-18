@@ -12,6 +12,45 @@
 namespace Util
 {
 	// Draw
+	void renderCylinder(float x1, float y1, float z1, float x2, float y2, float z2, float radius, int subdivisions)
+	{
+		GLUquadricObj *quadric = gluNewQuadric();
+
+		float vx = x2 - x1;
+		float vy = y2 - y1;
+		float vz = z2 - z1;
+		float ax, rx, ry, rz;
+		float len = sqrt(vx*vx + vy*vy + vz*vz);
+
+		glPushMatrix();
+		glTranslatef(x1, y1, z1);
+		if (vz < 0.0001)
+		{
+			glRotatef(90, 0, 1, 0);
+			ax = 57.2957795*-atan(vy / vx);
+			if (vx < 0)
+			{
+				ax = ax + 180;
+			}
+			rx = 1;
+			ry = 0;
+			rz = 0;
+		}
+		else
+		{
+			ax = 57.2957795*acos(vz / len);
+			if (vz < 0.0)
+				ax = -ax;
+			rx = -vy*vz;
+			ry = vx*vz;
+			rz = 0;
+		}
+		glRotatef(ax, rx, ry, rz);
+		gluQuadricOrientation(quadric, GLU_OUTSIDE);
+		gluCylinder(quadric, radius, radius, len, subdivisions, 1);
+		glPopMatrix();
+	}
+
 	void drawBox(float xmin, float ymin, float zmin,
 		float xMax, float yMax, float zMax)
 	{

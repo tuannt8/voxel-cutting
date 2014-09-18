@@ -38,14 +38,14 @@ void command::startThread()
 
 DWORD command::StartThread(LPVOID param)
 {
-	while (!cin.fail())
-	{
-		string s;
-		getline(cin, s);
-
-		logData::getInstance()->reciveCommand(s);
-
-	}
+// 	while (!cin.fail())
+// 	{
+// 		string s;
+// 		getline(cin, s);
+// 
+// 		logData::getInstance()->reciveCommand(s);
+// 
+// 	}
 	return 0;
 }
 

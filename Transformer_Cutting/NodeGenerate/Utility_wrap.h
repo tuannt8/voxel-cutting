@@ -37,6 +37,38 @@ namespace Util_w
 		return IJK;
 	}
 
+#pragma region Draw
+	void drawCylinder(Vec3f pt1, Vec3f pt2, float radius, int subdivisions)
+	{
+		Util::renderCylinder(pt1[0], pt1[1], pt1[2], pt2[0], pt2[1], pt2[2], radius, subdivisions);
+	}
+
+	void drawTriFace(std::vector<Vec3f> *points, std::vector<Vec3i>* face)
+	{
+		glBegin(GL_TRIANGLES);
+		for (int i = 0; i < face->size(); i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				glVertex3fv((*points)[(*face)[i][j]].data());
+			}
+		}
+		glEnd();
+	}
+
+	static void drawTriWire(std::vector<Vec3f>* points, std::vector<Vec3i>* faces)
+	{
+		glBegin(GL_LINES);
+		for (int i = 0; i < faces->size(); i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				glVertex3fv((*points)[(*faces)[i][j]].data());
+				glVertex3fv((*points)[(*faces)[i][(j + 1) % 3]].data());
+			}
+		}
+		glEnd();
+	}
 	void drawBoxWireFrame(Vec3f LeftDown, Vec3f upRight)
 	{
 		Util::drawBox(LeftDown[0], LeftDown[1], LeftDown[2], upRight[0], upRight[1], upRight[2]);
@@ -54,6 +86,7 @@ namespace Util_w
 
 		drawBoxWireFrame(leftDownf, rightUpf);
 	}
+#pragma endregion 
 
 	void log3DArray(int *** arr, Vec3i sizei)
 	{
@@ -113,32 +146,7 @@ namespace Util_w
 		} // else
 	}
 
-	void drawTriFace(std::vector<Vec3f> *points, std::vector<Vec3i>* face)
-	{
-		glBegin(GL_TRIANGLES);
-		for (int i = 0; i < face->size(); i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				glVertex3fv((*points)[(*face)[i][j]].data());
-			}
-		}
-		glEnd();
-	}
 
-	static void drawTriWire(std::vector<Vec3f>* points, std::vector<Vec3i>* faces)
-	{
-		glBegin(GL_LINES);
-		for (int i = 0; i < faces->size(); i++)
-		{
-			for (int j = 0; j < 3; j++)
-			{
-				glVertex3fv((*points)[(*faces)[i][j]].data());
-				glVertex3fv((*points)[(*faces)[i][(j+1)%3]].data());
-			}
-		}
-		glEnd();
-	}
 
 	Vec3i SMLIndexSizeOrder(Vec3f sizef)
 	{

@@ -453,6 +453,21 @@ void skeleton::buildTransformMatrixRecur(bone* node)
 	}
 }
 
+
+
+float skeleton::getVolume()
+{
+	arrayBone_p allBones;
+	getSortedBoneArray(allBones);
+	float vol = 0;
+	for (auto b:allBones)
+	{
+		vol += b->getVolumef();
+	}
+
+	return vol;
+}
+
 void bone::draw(int mode, float scale)
 {
 	if (mode & SKE_DRAW_BOX_WIRE)

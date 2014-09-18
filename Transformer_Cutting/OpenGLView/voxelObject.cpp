@@ -481,3 +481,25 @@ void voxelObject::constructBitSetMesh()
 		meshBitSet->setAtPos(posi);
 	}
 }
+
+float voxelObject::volumef() const
+{
+	return m_boxes.size() * std::pow(m_voxelSizef, 3);
+}
+
+void voxelObject::updateSphereOccupy(energyMngerPtr curEnergyObj)
+{
+	std::vector<skeSpherePtr> sArray = curEnergyObj->sphereArray();
+	
+	arrayInt voxeHash = m_hashTable.voxelHash;
+	// Clear voxel state
+	for (auto b:m_boxes)
+	{
+		b.state = 0;
+	}
+
+	for (auto s:sArray)
+	{
+
+	}
+}

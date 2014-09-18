@@ -13,20 +13,34 @@
 class energyMnager
 {
 public:
+	enum drawMode
+	{
+		DRAW_SPHERE = 0x0001,
+		DRAW_FIX_CONSTRAINT = 0x0010,
+		DRAW_NEIGHBOR = 0x0100,
+
+		DRAW_ALL = 0x1111
+	};
+
 	energyMnager();
 	~energyMnager();
 
 	void initTest();
 	void initFromSkeleton(skeletonPtr ske);
 
+	void draw(drawMode mode);
 	void drawSphere();
 	void drawFixConstraint();
 	void drawNeighbor();
+	void drawBoneBoundingBox();
 
 	std::shared_ptr<energyMnager> clone() const;
-
+	void scale(float s);
+public:
+	std::vector<skeSpherePtr> sphereArray();
 private:
 	void initConstraints(std::vector<std::pair<int, int>> neighborInfo);
+	void drawBoneBoundingBox(boneSpherePtr b, Vec3f color);
 
 private:
 	std::vector<skeSpherePtr> m_sphereArray;

@@ -207,3 +207,73 @@ energyMngerPtr energyMnager::clone() const
 
 	return newObj;
 }
+
+void energyMnager::draw(drawMode mode)
+{
+	static arrayVec3f color = Util_w::randColor(10);
+	int idx = 0;
+
+	if (mode & DRAW_SPHERE)
+	{
+		glColor3fv(color[idx++].data());
+		drawSphere();
+	}
+
+	if (mode & DRAW_FIX_CONSTRAINT)
+	{
+		glColor3fv(color[idx++].data());
+		drawFixConstraint();
+	}
+
+	if (mode & DRAW_NEIGHBOR)
+	{
+		glColor3fv(color[idx++].data());
+		drawNeighbor();
+	}
+}
+
+void energyMnager::drawBoneBoundingBox()
+{
+	static arrayVec3f colorB = Util_w::randColor(20);
+	for (int i = 0; i < m_boneArray.size(); i++)
+	{
+		drawBoneBoundingBox(m_boneArray[i], colorB[i]);
+	}
+}
+
+void energyMnager::drawBoneBoundingBox(boneSpherePtr b, Vec3f color)
+{
+	glColor3fv(color.data());
+
+	arrayInt sList = b->sphereIdxs;
+	if (sList.size() == 1) // This keep the sphere
+	{
+		m_sphereArray[sList[0]]->draw();
+	}
+	else if (sList.size() == 2) // Draw the cylinder
+	{
+		Vec3f pt1 = m_sphereArray[sList[0]]->centerPos();
+		Vec3f pt2 = m_sphereArray[sList[1]]->centerPos();
+		float radius = m_sphereArray[sList[0]]->radius();
+
+		Util_w::drawCylinder(pt1, pt2, radius, 10);
+	}
+	else // Draw a box
+	{
+
+	}
+}
+
+void energyMnager::scale(float s)
+{
+	Vec3f basePt(0, 0, 0);
+	for (auto sp : m_sphereArray)
+	{
+		sp->scale(basePt, s);
+	}
+}
+
+std::vector<skeSpherePtr> energyMnager::sphereArray()
+{
+	return m_sphereArray;
+}

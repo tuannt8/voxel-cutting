@@ -118,6 +118,9 @@ public:
 	void getGroupBone(bone* node, std::vector<bone*> &groupBone); // Get root of group bone
 	void getBoneInGroup(bone* node, std::vector<bone*> &boneInGroup); // Get all bone in this group
 	void getNeighborPair(bone* node, std::vector<Vec2i> &neighbor, std::vector<bone*> boneArray);
+public:
+
+	float getVolume();
 private:
 	void getSortedBoneArrayRecur(bone* node, std::vector<bone*> &sortedArray);
 	void getBoneAndNeighborInfoRecur(bone* node, int parentIdx, std::vector<bone*> &boneArray, std::vector<std::pair<int,int>> &neighborA);

@@ -15,7 +15,8 @@ public:
 	// get set
 	Vec3f &centerPos();
 	float &radius();
-private:
+
+protected:
 	Vec3f m_center;
 	float m_radius;
 };
@@ -32,9 +33,10 @@ public:
 	~skeSphere();
 
 	void draw() const;
+	void scale(Vec3f basePt, float s);
 
 private:
-
+	float intersectMeshRatio; // In intersection with 
 };
 typedef std::shared_ptr<skeSphere> skeSpherePtr;
 
@@ -47,6 +49,9 @@ public:
 	~meshSphere();
 
 private:
-
+	float weight; // Since the sphere may intersect each other, 
+					// This weight is base on density
+	float occupiedRatio; // Percentage occupied by bone sphere
+	arrayInt voxelIdxs;
 };
 typedef std::shared_ptr<meshSphere> meshSpherePtr;

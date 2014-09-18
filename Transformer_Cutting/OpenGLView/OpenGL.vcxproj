@@ -143,6 +143,7 @@
     <ClCompile Include="debugInfo.cpp" />
     <ClCompile Include="detailSwapManager.cpp" />
     <ClCompile Include="Dialog.cpp" />
+    <ClCompile Include="dynamicManager.cpp" />
     <ClCompile Include="energyDoc.cpp" />
     <ClCompile Include="errorHash.cpp" />
     <ClCompile Include="groupCut.cpp" />
@@ -196,6 +197,7 @@
     <ClInclude Include="debugInfo.h" />
     <ClInclude Include="detailSwapManager.h" />
     <ClInclude Include="Dialog.h" />
+    <ClInclude Include="dynamicManager.h" />
     <ClInclude Include="energyDoc.h" />
     <ClInclude Include="errorHash.h" />
     <ClInclude Include="groupCut.h" />

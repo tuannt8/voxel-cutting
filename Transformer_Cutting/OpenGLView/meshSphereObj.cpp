@@ -31,11 +31,13 @@ void meshSphereObj::initFromMesh(SurfaceObjPtr surObj, voxelObjectPtr voxel_Obj,
 	// Layer 1
 	bitSetObjectPtr mesh = voxel_Obj->meshBitSet;
 	leftDownf = voxel_Obj->m_octree.m_root->leftDownTight;
-	for (float _x = leftDownf[0] + _radius; _x < boundingSize[0]; _x += _radius)
+	Vec3f ldf = surObj->getBVH()->root()->LeftDown - Vec3f(_radius, _radius, _radius);
+	Vec3f ruf = surObj->getBVH()->root()->RightUp + Vec3f(_radius, _radius, _radius);
+	for (float _x = ldf[0]; _x < ruf[0]; _x += _radius)
 	{
-		for (float _y = leftDownf[1] + _radius; _y < boundingSize[1]; _y += _radius)
+		for (float _y = ldf[1]; _y < ruf[1]; _y += _radius)
 		{
-			for (float _z = leftDownf[0] + _radius; _z < boundingSize[0]; _z += _radius)
+			for (float _z = ldf[2]; _z < ruf[2]; _z += _radius)
 			{
 				Vec3f c(_x, _y, _z);
 

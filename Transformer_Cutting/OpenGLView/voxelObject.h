@@ -9,6 +9,7 @@
 #include "mirrorDraw.h"
 #include "voxelSplitObj.h"
 #include "bitSetObject.h"
+#include "energyMnager.h"
 
 class voxelBox // For 2 pixel voxel
 {
@@ -28,6 +29,7 @@ public:
 
 	// Belong to what bone
 	int boneIndex;
+	int state;
 };
 
 class hashVoxel
@@ -77,12 +79,15 @@ public:
 	void drawVoxelLeaf(int mode = 0); // 0: edge; 1: Solid
 
 	Vec3f floorV(Vec3f v, float d);
+	float volumef() const;
+	void updateSphereOccupy(energyMngerPtr curEnergyObj);
 private:
 	void constructVolxeHash();
 	void constructVolxeHash(float scale);
 	void constructNeighbor();
 	void decomposeConvexes();
 	void constructBitSetMesh();
+
 
 public: // Private member variable	
 	octreeSolid m_octree;

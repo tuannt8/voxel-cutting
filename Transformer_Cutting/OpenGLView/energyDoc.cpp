@@ -37,7 +37,7 @@ void energyDoc::draw(BOOL mode[10])
 		voxel_Obj->drawVoxelLeaf(1);
 	}
 
-	if (mode[3] && voxel_Obj)
+	if (!mode[3] && voxel_Obj)
 	{
 		glColor3f(0.7, 0.7, 0.7);
 		bitSetSpace->drawSolidBit(voxel_Obj->meshBitSet);
@@ -50,6 +50,10 @@ void energyDoc::draw(BOOL mode[10])
 		voxel_Obj->m_octree.drawBoundingBox();
 
 		objEnergy->draw();
+	}
+	if (mode[5] && curEnergyObj)
+	{
+		curEnergyObj->draw(energyMnager::DRAW_ALL);
 	}
 }
 
@@ -105,6 +109,12 @@ void energyDoc::init()
 	energyObjsOrigin = energyMngerPtr(new energyMnager);
 	energyObjsOrigin->initFromSkeleton(curSkeleton);
 
+	boneScale = 0.5;
+	cout << "Clone bone with scale ratio: " << boneScale << endl;
+	curEnergyObj = energyObjsOrigin->clone();
+	curEnergyObj->scale(boneScale);
+	// Volume match
+
 	// 3. Load surface object
 	char * surPath = "../../Data/Fighter/fighter.stl";
 	cout << "Load surface object: " << surPath << endl;
@@ -115,10 +125,11 @@ void energyDoc::init()
 	surObj->constructAABBTree();
 
 	// 4. Construct voxel
-	float scale = 2.0;	int voxelRes = 5;
+	float scale = 1.0;	int voxelRes = 5;
 	cout << "Construct voxel hashing (" << scale << " scale; " << voxelRes << " resolution" << endl;
 	voxel_Obj = voxelObjectPtr(new voxelObject);
 	voxel_Obj->init(surObj.get(), voxelRes, scale);
+	
 
 	// 4.a. Bit set space
 	cout << "Construct bitset space." << endl;
@@ -130,4 +141,30 @@ void energyDoc::init()
 	cout << "Construct mesh sphere object (Res: " << sphereRes << ")" << endl;
 	objEnergy = meshSphereObjPtr(new meshSphereObj);
 	objEnergy->initFromMesh(surObj, voxel_Obj, bitSetSpace, sphereRes);
+
+	displayOtherInfo();
+}
+
+bool energyDoc::receiveCmd(std::vector<std::string> args)
+{
+	return false;
+}
+
+void energyDoc::displayOtherInfo()
+{
+	cout << "-----------------------------" << endl;
+	cout << "Information:" << endl;
+
+	// Volume match
+	float meshVol = voxel_Obj->volumef();
+	float skeVol = curSkeleton->getVolume()*pow(boneScale, 3);
+	float ratioVol = meshVol / skeVol;
+	cout << "Volume ratio mesh / bone = " << ratioVol << endl;
+}
+
+void energyDoc::compute()
+{
+	// 1. Force between mesh and skeleton
+	// 1.a. Update mesh - bone intersection
+	voxel_Obj->updateSphereOccupy(curEnergyObj);
 }

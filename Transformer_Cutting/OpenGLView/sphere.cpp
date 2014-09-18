@@ -76,6 +76,12 @@ void skeSphere::draw() const
 	drawSphere();
 }
 
+void skeSphere::scale(Vec3f basePt, float s)
+{
+	m_center = basePt + (m_center - basePt)*s;
+	m_radius = m_radius * s;
+}
+
 meshSphere::meshSphere(Vec3f c, float r) 
 : sphere(c,r)
 {
