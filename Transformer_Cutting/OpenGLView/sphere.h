@@ -2,6 +2,7 @@
 #include "DataTypes\vec.h"
 #include "stdafx.h"
 #include <memory>
+#include "DataTypes\define.h"
 
 class sphere
 {

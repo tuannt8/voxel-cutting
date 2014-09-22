@@ -21,11 +21,11 @@ myDocment::myDocment()
 	shift = 0;
 	m_debug = debugInfoPtr(new debugInfo);
 
-	//loadFile();
-	//m_curMode = MODE_NONE;
+	loadFile();
+	m_curMode = MODE_NONE;
 
-	loadTestVoxelBitSet();
-	m_curMode = MODE_TEST;
+// 	loadTestVoxelBitSet();
+// 	m_curMode = MODE_TEST;
 }
 
 
@@ -332,7 +332,6 @@ void myDocment::changeState()
 	default:
 		break;
 	}
-
 }
 
 void myDocment::constructCutTree()
@@ -863,11 +862,11 @@ void myDocment::updateRealtime()
 void myDocment::loadFile()
 {
 	// Init
-	char* surfacePath = "../../../Data/Barrel/barrel.stl";
+	char* surfacePath = "../../Data/Barrel/barrel.stl";
 	cprintf("Init document\n");
 
 	// 1. Surface
-	cprintf("Load surface object: %s\n", surfacePath);
+	cprintf("Load surface object: %s. ", surfacePath);
 	CTimeTick tm; tm.SetStart();
 
 	m_surfaceObj = new SurfaceObj;
@@ -898,7 +897,7 @@ void myDocment::loadFile()
 
 	// 3. Skeleton
 	m_skeleton = new skeleton;
-	char* skeletonPath = "../../../Data/skeleton_origin.xml";
+	char* skeletonPath = "../../Data/skeleton.xml";
 	m_skeleton->loadFromFile(skeletonPath);
 	m_skeleton->computeTempVar();
 	m_skeleton->groupBone();

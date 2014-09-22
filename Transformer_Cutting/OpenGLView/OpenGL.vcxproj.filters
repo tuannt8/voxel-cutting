@@ -49,6 +49,9 @@
     <Filter Include="Energy">
       <UniqueIdentifier>{704501db-ed2a-4f78-af9e-9ec724e85b4a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Non symmetric cutting">
+      <UniqueIdentifier>{8ef20f67-90ff-4003-a9a7-56d973faefaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KEGIES.cpp">
@@ -187,6 +190,9 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="dynamicManager.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="nonSymDoc.cpp">
       <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -355,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="dynamicManager.h">
       <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="nonSymDoc.h">
+      <Filter>Non symmetric cutting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

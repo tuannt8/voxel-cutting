@@ -157,6 +157,7 @@
     <ClCompile Include="MeshCutting.cpp" />
     <ClCompile Include="meshSphereObj.cpp" />
     <ClCompile Include="myDocment.cpp" />
+    <ClCompile Include="nonSymDoc.cpp" />
     <ClCompile Include="octreeSolid.cpp" />
     <ClCompile Include="poseManager.cpp" />
     <ClCompile Include="SideDialog.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="MeshCutting.h" />
     <ClInclude Include="myDocment.h" />
     <ClInclude Include="neighbor.h" />
+    <ClInclude Include="nonSymDoc.h" />
     <ClInclude Include="octreeSolid.h" />
     <ClInclude Include="poseManager.h" />
     <ClInclude Include="Resource.h" />

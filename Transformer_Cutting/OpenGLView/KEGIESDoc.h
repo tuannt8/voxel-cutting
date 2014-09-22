@@ -8,11 +8,12 @@
 #include "groupCutManager.h"
 #include "myDocment.h"
 #include "energyDoc.h"
+#include "nonSymDoc.h"
 
 class CKEGIESDoc : public CDocument
 {
 public:
-	energyDoc document;
+	nonSymDoc document;
 
 	appMode m_mode;
 public:
