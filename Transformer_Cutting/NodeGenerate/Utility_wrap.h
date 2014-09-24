@@ -216,6 +216,8 @@ namespace Util_w
 			}
 		}
 
+		delete hash;
+
 		return out;
 	}
 

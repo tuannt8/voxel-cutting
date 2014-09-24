@@ -39,10 +39,12 @@ public:
 	void getMeshFromOriginBox(Vec3f LeftDown, Vec3f rightUp);
 
 	bool isLeaf();
-	float getVolumef();
+	float getVolumef(); // Get volume. Group count
 	float& volumeRatio();
 
 	char* getTypeString();
+
+	int getGroupChildCount();
 public:
 	// Tree hierarchy
 	bone* parent;
@@ -84,6 +86,7 @@ public:
 	int nbNeighbor() const;
 	void setBoneType(std::string typeString);
 	Mat4x4f getLocalTransMat();
+
 };
 
 typedef std::vector<bone*> arrayBone_p;

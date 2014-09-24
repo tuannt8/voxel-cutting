@@ -4,6 +4,8 @@
 using namespace std;
 
 nonSymDoc::nonSymDoc()
+: idx1(0)
+,idx2(0)
 {
 	loadFile();
 }
@@ -22,11 +24,15 @@ void nonSymDoc::draw(BOOL mode[10])
 	}
 	if (mode[2] && m_voxelObj)
 	{
-		m_voxelObj->drawVoxel();
+		glColor3f(0.8, 0, 0);
+		m_voxelObj->drawVoxelLeaf(0, 0.9);
 		glColor3f(0.8, 0.8, 0.8);
-		m_voxelObj->drawVoxelLeaf(1);
+		m_voxelObj->drawVoxelLeaf(1, 0.9);
 	}
-
+	if (mode[3] && m_cutTree)
+	{
+		m_cutTree->drawLeave(idx1);
+	}
 }
 
 void nonSymDoc::draw2(bool mode[10])
@@ -39,12 +45,16 @@ void nonSymDoc::draw2(bool mode[10])
 
 void nonSymDoc::receiveKey(char c)
 {
-
+	if (c == 'C')
+	{
+		constructTree();
+	}
 }
 
 void nonSymDoc::updateIdx(int yIdx, int zIdx)
 {
-
+	idx1 = yIdx;
+	idx2 = zIdx;
 }
 
 void nonSymDoc::updateRealtime()
@@ -55,13 +65,13 @@ void nonSymDoc::updateRealtime()
 void nonSymDoc::loadFile()
 {
 	//1. Skeleton
-	char *skePath = "../../Data/Barrel/skeleton.xml";
+	char *skePath = "../../Data/skeleton.xml";
 	cout << "Skeleton: " << skePath << endl;
 	m_skeleton = skeletonPtr(new skeleton);
 	m_skeleton->loadFromFile(skePath);
 
 	//2. Surface object
-	char *surPath = "../../Data/Barrel/barrel.stl";
+	char *surPath = "../../Data/Fighter/fighter.stl";
 	cout << "Surface path: " << surPath << endl;
 	m_surObj = SurfaceObjPtr(new SurfaceObj);
 	m_surObj->readObjDataSTL(surPath);
@@ -74,4 +84,16 @@ void nonSymDoc::loadFile()
 	m_voxelObj = voxelObjectPtr(new voxelObject);
 	m_voxelObj->init(m_surObj.get(), res);
 
+}
+
+void nonSymDoc::constructTree()
+{
+	m_skeleton->computeTempVar();
+	m_skeleton->groupBone();
+
+	m_cutTree = nonSymTreePtr(new nonSymTree);
+	m_cutTree->s_groupSkeleton = m_skeleton;
+	m_cutTree->surObj = m_surObj;
+	m_cutTree->voxelObj = m_voxelObj;
+	m_cutTree->init();
 }

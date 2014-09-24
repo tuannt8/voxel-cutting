@@ -3,6 +3,7 @@
 #include "Graphics\Surfaceobj.h"
 #include "skeleton.h"
 #include "voxelObject.h"
+#include "nonSymTree.h"
 class nonSymDoc
 {
 public:
@@ -20,11 +21,17 @@ public:
 
 public:
 	void loadFile();
+	void constructTree();
 
 private:
 	skeletonPtr m_skeleton;
 	SurfaceObjPtr m_surObj;
 	voxelObjectPtr m_voxelObj;
 
+	nonSymTreePtr m_cutTree;
+
+private: // Debug
+	int idx1, idx2;
+	
 };
 

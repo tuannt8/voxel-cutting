@@ -18,7 +18,7 @@ public:
 	voxelBox(Vec3f ld, Vec3f ru);
 	~voxelBox();
 
-	void draw(int mode); // 0: line; 1: face
+	void draw(int mode, float scale = 1); // 0: line; 1: face
 public:
 	// Voxel info
 	Vec3f leftDown;
@@ -76,7 +76,7 @@ public:
 	void drawBitSetBoundingBox();
 
 	void drawVoxel(int mode = 0);
-	void drawVoxelLeaf(int mode = 0); // 0: edge; 1: Solid
+	void drawVoxelLeaf(int mode = 0, float scale = 1); // 0: edge; 1: Solid
 
 	Vec3f floorV(Vec3f v, float d);
 	float volumef() const;

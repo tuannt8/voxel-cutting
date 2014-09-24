@@ -195,6 +195,12 @@
     <ClCompile Include="nonSymDoc.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="nonSymTree.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="meshCut.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KEGIES.h">
@@ -363,6 +369,12 @@
       <Filter>Energy</Filter>
     </ClInclude>
     <ClInclude Include="nonSymDoc.h">
+      <Filter>Non symmetric cutting</Filter>
+    </ClInclude>
+    <ClInclude Include="nonSymTree.h">
+      <Filter>Non symmetric cutting</Filter>
+    </ClInclude>
+    <ClInclude Include="meshCut.h">
       <Filter>Non symmetric cutting</Filter>
     </ClInclude>
   </ItemGroup>

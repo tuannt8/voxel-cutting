@@ -984,6 +984,7 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 			glEnable(GL_CULL_FACE);
 			
 			glDisable(GL_DEPTH_TEST); 
+
 			glDisable(GL_LIGHTING); 
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
 			glEnable(GL_BLEND);

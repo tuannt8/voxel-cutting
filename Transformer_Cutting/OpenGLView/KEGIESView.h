@@ -95,7 +95,7 @@ public:
 
 	//Flickering
 	BOOL beraseBackGrnd;
-
+	bool bChanged;
 // 
 public:
 	virtual void OnDraw(CDC* pDC);  // 

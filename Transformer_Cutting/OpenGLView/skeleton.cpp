@@ -788,3 +788,17 @@ Mat4x4f bone::getLocalTransMat()
 
 	return a;
 }
+
+int bone::getGroupChildCount()
+{
+	int count = 0;
+	for (auto c:child)
+	{
+		if (c->bIsGroup)
+		{
+			count++;
+		}
+	}
+
+	return count;
+}

@@ -22,15 +22,20 @@ voxelBox::~voxelBox()
 
 }
 
-void voxelBox::draw(int mode)
+void voxelBox::draw(int mode, float scale)
 {
+	Vec3f center = (rightUp + leftDown) / 2;
+	Vec3f direct = (rightUp - leftDown) / 2;
+	Vec3f ld = center - direct*scale;
+	Vec3f ru = center + direct*scale;
+
 	if (mode == 0) // draw edge
 	{
-		Util_w::drawBoxWireFrame(leftDown, rightUp);
+		Util_w::drawBoxWireFrame(ld, ru);
 	}
 	if (mode == 1) // draw solid box
 	{
-		Util_w::drawBoxSurface(leftDown, rightUp);
+		Util_w::drawBoxSurface(ld, ru);
 	}
 }
 
@@ -391,11 +396,11 @@ voxelObject::~voxelObject()
 
 }
 
-void voxelObject::drawVoxelLeaf(int mode)
+void voxelObject::drawVoxelLeaf(int mode, float scale)
 {
 	for (int i = 0; i < m_boxes.size(); i++)
 	{
-		m_boxes[i].draw(mode);
+		m_boxes[i].draw(mode, scale);
 	}
 }
 

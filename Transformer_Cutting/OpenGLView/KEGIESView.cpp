@@ -411,6 +411,9 @@ void CKEGIESView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 
 	}
+
+	bChanged = true;
+
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 
@@ -422,6 +425,8 @@ void CKEGIESView::OnSize(UINT nType, int cx, int cy)
 	CSize size(cx,cy);
 	m_WindowHeight=size.cy;
 	m_WindowWidth=size.cx;
+
+	bChanged = true;
 }
 void CKEGIESView::OnTimer(UINT_PTR nIDEvent)
 {
@@ -430,7 +435,13 @@ void CKEGIESView::OnTimer(UINT_PTR nIDEvent)
 		CKEGIESDoc* pDoc = GetDocument();
 		ASSERT_VALID(pDoc);
 		pDoc->document.updateRealtime();
-		InvalidateRect(NULL, FALSE);
+
+		if (bChanged)
+		{
+			InvalidateRect(NULL, FALSE);
+			bChanged = false;
+		}
+
 	}
 	CView::OnTimer(nIDEvent);
 }
@@ -476,6 +487,8 @@ void CKEGIESView::OnMouseMove(UINT nFlags, CPoint point)
 			m_Cam1.RotCamPos(m_DMousePos);
 		else
 			m_Cam2.RotCamPos(m_DMousePos);
+
+		bChanged = true;
 	}
 	else if(RIGHT_DOWN)
 	{
@@ -483,6 +496,8 @@ void CKEGIESView::OnMouseMove(UINT nFlags, CPoint point)
 			m_Cam1.MoveCamPos(m_DMousePos);
 		else
 			m_Cam2.MoveCamPos(m_DMousePos);
+
+		bChanged = true;
 	}
 	else
 	{
@@ -514,6 +529,7 @@ BOOL CKEGIESView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 		m_Cam2.RotCamPos(temp);
 	}
 
+	bChanged = true;
 
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
 }
