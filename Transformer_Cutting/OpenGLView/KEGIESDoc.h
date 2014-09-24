@@ -12,7 +12,7 @@
 class CKEGIESDoc : public CDocument
 {
 public:
-	energyDoc document;
+	myDocment document;
 
 	appMode m_mode;
 public:

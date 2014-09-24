@@ -152,11 +152,11 @@ void skeleton::drawBoneRecursive(bone* node, int mode)
 	{
 		drawBoneRecursive(node->child[i], mode);
 
-// 		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
-// 		{
-// 			glRotatef(180, 0,0,1);
-// 			drawBoneRecursive(node->child[i], mode);
-// 		}
+		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
+		{
+			glRotatef(180, 0,0,1);
+			drawBoneRecursive(node->child[i], mode);
+		}
 	}
 
 

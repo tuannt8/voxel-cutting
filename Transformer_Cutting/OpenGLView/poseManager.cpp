@@ -377,8 +377,6 @@ void poseManager::findPossibleMap(BoneMapTreeNode *node, cutTreefNode* cutTNode)
 			{
 				it->second.smallestVolumeError = volError;
 				it->second.smallestErrorIdx = it->second.nodes.size() - 1;
-
-				
 			}
 		}
 	}

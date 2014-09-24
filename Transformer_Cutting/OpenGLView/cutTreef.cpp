@@ -389,6 +389,10 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 			leaves.push_back(node);
 			node->idx = leaves.size() - 1;
 		}
+		else
+		{
+			// Remove this node from the tree. Reduce memory
+		}
 
 		return;
 	}

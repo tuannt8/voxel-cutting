@@ -21,11 +21,11 @@ myDocment::myDocment()
 	shift = 0;
 	m_debug = debugInfoPtr(new debugInfo);
 
-	//loadFile();
-	//m_curMode = MODE_NONE;
+	loadFile();
+	m_curMode = MODE_NONE;
 
-	loadTestVoxelBitSet();
-	m_curMode = MODE_TEST;
+// 	loadTestVoxelBitSet();
+// 	m_curMode = MODE_TEST;
 }
 
 
@@ -863,7 +863,7 @@ void myDocment::updateRealtime()
 void myDocment::loadFile()
 {
 	// Init
-	char* surfacePath = "../../../Data/Barrel/barrel.stl";
+	char* surfacePath = "../../Data/Fighter/fighter.stl";
 	cprintf("Init document\n");
 
 	// 1. Surface
@@ -898,7 +898,7 @@ void myDocment::loadFile()
 
 	// 3. Skeleton
 	m_skeleton = new skeleton;
-	char* skeletonPath = "../../../Data/skeleton_origin.xml";
+	char* skeletonPath = "../../Data/skeleton.xml";
 	m_skeleton->loadFromFile(skeletonPath);
 	m_skeleton->computeTempVar();
 	m_skeleton->groupBone();
