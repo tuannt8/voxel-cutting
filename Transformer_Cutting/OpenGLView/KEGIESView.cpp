@@ -391,21 +391,36 @@ void CKEGIESView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		m_displayMode[nChar - 48] = ! m_displayMode[nChar - 48];
 	}
 
+	bool needUpdate = false;
 	switch (nChar)
 	{
 	case VK_UP:
-		key = KEY_UP_ARROW;	break;
+		zIdx++;
+		needUpdate = true;
+		break;
 	case VK_DOWN:
-		key = KEY_DOWN_ARROW; break;
+		zIdx--;
+		needUpdate = true;
+		break;
 	case VK_LEFT:
-		key = KEY_LEFT_ARROW; break;
+		yIdx--;
+		needUpdate = true;
+		break;
 	case VK_RIGHT:
-		key = KEY_RIGHT_ARROW; break;
+		yIdx++;
+		needUpdate = true;
+		break;
 	case 88:
 		key = KEY_X; break;
 	case 90:
 		key = KEY_Z; break;
 	}
+	if (needUpdate)
+	{
+		updateNumInput();
+		update();
+	}
+	
 
 	if(key != KEY_NONE)
 	{

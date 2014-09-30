@@ -117,25 +117,38 @@ void octreeSolid::drawWireOctree(int mode)
 	}
 }
 
-void octreeSolid::constructTree(SurfaceObj *obj, int depth)
+// res: minimum number of voxel on a size
+void octreeSolid::constructTree(SurfaceObj *obj, int res)
 {
 	sufObj = obj;
-	treeDepth = depth;
 
 	Vec3f ld = sufObj->getBVH()->root()->LeftDown;
 	Vec3f ru = sufObj->getBVH()->root()->RightUp;
 	centerMesh = (ld+ru)/2;
 	Vec3f diag = ru-ld;
+
+	float minEdge = std::min({ diag[0], diag[1], diag[2] });
+	boxSize = minEdge / res;
 	float maxEdge = Util::max_(Util::max_(diag[0], diag[1]), diag[2]);
-	boxSize = maxEdge / std::pow((float)2, (int)treeDepth);
-	Vec3f newDiag(maxEdge, maxEdge, maxEdge);
+	int maxSizei = round(maxEdge / boxSize);
+	int octreeSizei = 1;
+	treeDepth = 0;
+	while (octreeSizei < maxSizei)
+	{
+		treeDepth++;
+		octreeSizei *= 2;
+	}
+	float octreeSizef = octreeSizei * boxSize;
+
+
+	Vec3f newDiag(octreeSizef, octreeSizef, octreeSizef);
 
 	m_root = new octreeSNode;
 	m_root->leftDownf = centerMesh - newDiag/2;
 	m_root->rightUpf = centerMesh + newDiag/2;
 	m_root->nodeDepth = 0;
 
-	constructTreeRecur(m_root, depth);
+	constructTreeRecur(m_root, treeDepth);
 }
 
 void octreeSolid::constructTreeRecur(octreeSNode * node, int depth)
@@ -397,6 +410,40 @@ void octreeSolid::intersectWithBox(octreeSNode* node, meshPiece &boxOut, meshPie
 	}
 }
 
+arrayInt octreeSolid::intersectWithBox(Vec3f ldf, Vec3f ruf)
+{
+	arrayInt idxs;
+	intersectWithBox(m_root, ldf, ruf, idxs);
+	return idxs;
+}
+
+void octreeSolid::intersectWithBox(octreeSNode* node, Vec3f &ldf, Vec3f &ruf, arrayInt &idxs)
+{
+	if (!node)
+	{
+		return;
+	}
+
+	GeometricFunc geoFc;
+	Box boxNode(node->leftDownTight, node->rightUpTight);
+	if (geoFc.collisionBtwBox(Box(ldf, ruf), boxNode))
+	{
+		if (node->bEnd
+			&& geoFc.isPointInBox(ldf, ruf, boxNode.center))
+		{
+			// Sine boxIn may slightly cover the node box, we check the center point
+			idxs.push_back(node->idxInLeaf);
+		}
+		else
+		{
+			for (int i = 0; i < 8; i++)
+			{
+				intersectWithBox(node->children[i], ldf, ruf, idxs);
+			}
+		}
+	}
+}
+
 void octreeSolid::enlargerToCoverBox(meshPiece& boxOut, Vec3f leftDown, Vec3f rightUp)
 {
 	for (int i = 0; i < 3; i++)
@@ -457,7 +504,46 @@ void octreeSolid::drawBoundingBox()
 	Util_w::drawBoxWireFrame(m_root->leftDownTight, m_root->rightUpTight);
 }
 
+void octreeSolid::removeLowOccupationBox(octreeSolid* highResOctree)
+{
+	std::vector<octreeSNode*> newLeaves;
+	for (auto n : leaves)
+	{
+		float volumeIntersect;
+		Box intersectBox;
+		highResOctree->intersectWithBox(Box(n->leftDownf, n->rightUpf), intersectBox, volumeIntersect);
+		if (volumeIntersect < 0.5*n->volumef)
+		{
+			// remove
+			n->parent->removeChild(n);
+			delete n;
+		}
+		else
+			newLeaves.push_back(n);
+	}
 
+	leaves = newLeaves;
+
+	// Edit the tree
+//	removeEmptyNode(m_root);
+}
+
+void octreeSolid::removeEmptyNode(octreeSNode * node)
+{
+	for (auto c: node->children)
+	{
+		if (c)
+		{
+			removeEmptyNode(c);
+		}
+	}
+
+	if (node->childCount() == 0)
+	{
+		node->parent->removeChild(node);
+		delete node;
+	}
+}
 
 octreeSNode::octreeSNode()
 {
@@ -484,4 +570,30 @@ octreeSNode::~octreeSNode()
 void octreeSNode::drawWireBox()
 {
 	Util_w::drawBoxWireFrame(leftDownf, rightUpf);
+}
+
+void octreeSNode::removeChild(octreeSNode* n)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		if (children[i] == n)
+		{
+			children[i] = nullptr;
+			break;
+		}
+	}
+}
+
+int octreeSNode::childCount()
+{
+	int count = 0;
+	for (auto c : children)
+	{
+		if (c)
+		{
+			count++;
+		}
+	}
+
+	return count;
 }

@@ -12,7 +12,8 @@ public:
 public:
 
 	void drawWireBox();
-
+	void removeChild(octreeSNode* n);
+	int childCount();
 public:
 	octreeSNode* parent;
 	octreeSNode* children[8];
@@ -57,10 +58,14 @@ public:
 	void computeBoxAndVolume(octreeSNode *node);
 
 	bool isColidWithBox(Box b);
+	arrayInt intersectWithBox(Vec3f ldf, Vec3f ruf);
 	meshPiece intersectWithBox(meshPiece &boxIn);
 	void intersectWithBox(Box boxIn, Box &intersectBox, float &volumeSide);
 
+	void removeLowOccupationBox(octreeSolid* highResOctree);
+
 private:
+	void intersectWithBox(octreeSNode* node, Vec3f &ldf, Vec3f &ruf, arrayInt &idxs);
 	bool isColidWithBox(octreeSNode* node, Box &b);
 	void constructTreeRecur(octreeSNode * node, int depth);
 	std::vector<Box> get8ChildrenBox(Vec3f leftDownf, Vec3f rightUpf);
@@ -68,7 +73,7 @@ private:
 	void intersectWithBox(octreeSNode* node, meshPiece &boxOut, meshPiece &boxIn);
 	void intersectWithBox(octreeSNode* node, Box boxIn, Box &intersectBox, float &volumeSide);
 	void enlargerToCoverBox(meshPiece& boxOut, Vec3f leftDown, Vec3f rightUp);
-
+	void removeEmptyNode(octreeSNode * node);
 public:
 	octreeSNode *m_root;
 	int treeDepth;

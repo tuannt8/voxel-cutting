@@ -64,12 +64,16 @@ private:
 	void writeMeshBoxStateFinalSwap();
 	void startToStateCuttingMesh();
 	bool getSavePath(CString &path);
-	void writePolygon(Polyhedron* cutPieces, char* path);
+	void writePolygon(Polyhedron* cutPieces, const char* path);
 	static UINT swapVoxelThread(LPVOID p);
 	void loadStateForFinalSwap();
 	void loadStateForPostProcess();
 	void drawTest(BOOL mode[]);
 	void keyPressModeTest(char c);
+	void saveCurrentBoxCut();
+	void loadSwapGroupFromFile();
+	std::vector<arrayInt> getVoxelIdxFullFromVoxelProcess();
+	void saveCutMeshToObj();
 public:
 	// Process
 	appMode m_curMode; // Application state
@@ -85,6 +89,7 @@ public:
 public:
 	// Data
 	SurfaceObj *m_surfaceObj;
+	voxelObject *m_highResFullVoxel;
 	voxelObject *m_highResVoxel;
 	voxelObject *m_lowResVoxel;
 

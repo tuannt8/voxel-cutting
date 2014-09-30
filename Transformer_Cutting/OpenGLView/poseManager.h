@@ -134,4 +134,6 @@ private:
 	neighborPos possibleNeighbor(meshPiece* parent, meshPiece* child);
 	neighborPos *posArray();
 	float getVolumeError(groupCutNode * node, std::map<int, int>* boneMeshIdxMap);
+	void getBoneNeighbor(std::vector<arrayInt> &boneAroundB, std::vector<bone*> * boneList);
+	int findIdx(std::vector<bone*> * boneList, bone* b);
 };

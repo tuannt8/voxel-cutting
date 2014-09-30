@@ -88,8 +88,8 @@ void groupCut::constructTree()
 {
 	m_root = new groupCutNode;
 	meshPiece rootBox;
-	rootBox.leftDown = sourcePiece->leftDown;
-	rootBox.rightUp = sourcePiece->rightUp;
+	rootBox.leftDown = sourcePiece->curLeftDown;
+	rootBox.rightUp = sourcePiece->curRightUp;
 	rootBox.volumei = sourcePiece->voxelIdxs.size();
 	rootBox.voxels = voxelIdxs;
 	m_root->boxf.push_back(rootBox);

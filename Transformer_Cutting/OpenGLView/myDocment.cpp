@@ -5,8 +5,9 @@
 #include <iostream>
 #include <afxwin.h>
 #include "log.h"
+#include "MainFrm.h"
 
-
+using namespace std;
 
 myDocment::myDocment()
 {
@@ -24,6 +25,7 @@ myDocment::myDocment()
 	loadFile();
 	m_curMode = MODE_NONE;
 
+	std::cout << endl << "Press 'S' to construct the cut tree" << endl << endl;
 // 	loadTestVoxelBitSet();
 // 	m_curMode = MODE_TEST;
 }
@@ -95,24 +97,26 @@ void myDocment::draw(BOOL mode[10])
 
 	if (!mode[2])
 	{
-		glColor3f(1, 0, 0);
-		m_lowResVoxel->drawVoxel();
+		glColor3f(0, 0, 0);
+		m_lowResVoxel->drawVoxelLeaf();
+		glColor3f(0.9, 0.9, 0.9);
+		m_lowResVoxel->drawVoxelLeaf(1);
 	}
 
 	if (!mode[3])
 	{
-		glColor3f(0, 1, 0);
-		m_highResVoxel->drawVoxel();
+		glColor3f(0, 0, 0);
+		m_highResFullVoxel->drawVoxelLeaf();
+		glColor3f(0.9, 0.9, 0.9);
+		m_highResFullVoxel->drawVoxelLeaf(1);
 	}
 
 	if (m_curMode == MODE_NONE)
 	{
 		if (mode[4])
 		{
-			glColor3f(0, 0, 0);
-			m_lowResVoxel->drawVoxelLeaf();
-			glColor3f(0.9, 0.9, 0.9);
-			m_lowResVoxel->drawVoxelLeaf(1);
+			glColor3f(1, 0, 0);
+			m_lowResVoxel->drawVoxel();
 		}
 		if (mode[5])
 		{
@@ -127,7 +131,6 @@ void myDocment::draw(BOOL mode[10])
 	{
 		if (mode[4])
 		{
-			m_cutSurface.draw(mode);
 			m_cutSurface.drawLeaf(idx1);
 		}
 		if (mode[5])
@@ -236,20 +239,48 @@ void myDocment::receiveKey(char c)
 	{
 		changeState();
 	}
-	else if (c == 'A')
+	
+	if (m_curMode == MODE_NONE)
 	{
-		changeStateBack();
-	}
-	if (c == 'L')
-	{
-		m_debug->reload();
+		if (c == 'D')
+		{
+			loadSwapGroupFromFile();
+			return;
+		}
+		if (c == 'F')
+		{
+			//loadStateForFinalSwap();
+			m_curMode = MODE_FIT_BONE;
+			loadStateForPostProcess();
+			return;
+		}
 	}
 
 	if (m_curMode == MODE_FINDING_CUT_SURFACE)
 	{
+		if (c == 'B') // Best configuration
+		{
+			int cofIdx = m_cutSurface.updateBestIdx(idx1);
+			// update
+			CMainFrame* mainF = (CMainFrame*)AfxGetMainWnd();
+
+			CEdit* editbox2 = &mainF->m_edit2;
+			CString text; 
+			text.Format(_T("%d"), cofIdx);
+			editbox2->SetWindowTextW(text);
+			return;
+		}
+		if (c == 'E')
+		{
+			loadSwapGroupFromFile();
+		}
 		if (c == 'D') // Swap voxel
 		{
 			changeToWrapMode();
+		}
+		if (c == 'R') // Save box state
+		{
+			saveCurrentBoxCut();
 		}
 		if (c == 'F')
 		{
@@ -294,6 +325,10 @@ void myDocment::receiveKey(char c)
 		if (c == 'D')
 		{
 			saveFile();
+		}
+		if (c == 'E')
+		{
+			saveCutMeshToObj();
 		}
 	}
 
@@ -341,15 +376,21 @@ void myDocment::constructCutTree()
 	command::print("Construct the tree");
 	CTimeTick time;
 	time.SetStart();
+
 	m_cutSurface.s_groupSkeleton = m_skeleton;
 	m_cutSurface.s_voxelObj = m_lowResVoxel;
 	m_cutSurface.init();
 	
 	time.SetEnd();
-	command::print("Construction time: %f ms", time.GetTick());
-	command::print("Number of configurations: %d (%d group)", m_cutSurface.m_tree2.leaves.size(), m_cutSurface.m_tree2.poseMngr->poseMap.size());
-	command::print("Now choose the configuration, then press D to voxelize and G to swap");
-	command::print("Press S to change to state spliting group bones");
+	cout << "Construction time: " << time.GetTick() << " ms" << endl;
+	cout << "Number of configurations: " << m_cutSurface.m_tree2.leaves.size() << " (" << m_cutSurface.m_tree2.poseMngr->poseMap.size() << " groups)" << endl;
+	cout << "Now choose the configuration\n"
+		<< " - 'LEFT' and 'RIGHT' to change pose index\n"
+		<< " - 'UP' and 'DOWN' to change configuration index\n"
+		<< " - 'B' for best option in pose group\n"
+		<< " - 'D' to voxelize and 'G' to swap\n"
+		<< " - 'S' to change to state splitting group bones\n"
+		<< endl << endl;
 }
 
 void myDocment::updateIdx(int yIdx, int zIdx)
@@ -390,17 +431,21 @@ void myDocment::changeToWrapMode()
 		delete m_swapMngr;
 	}
 
+	cout << "Voxelize the object\n";
+
 	m_swapMngr = new detailSwapManager;
 
 	m_cutSurface.leatE2Node2 = m_cutSurface.curNode;
 	m_swapMngr->s_obj = m_surfaceObj;
 	m_swapMngr->s_skeleton = m_skeleton;
-	m_swapMngr->s_octree = &m_highResVoxel->m_octree;
-	m_swapMngr->s_hashTable = &m_highResVoxel->m_hashTable;
-	m_swapMngr->s_boxes = &m_highResVoxel->m_boxes;
-	m_swapMngr->s_boxShareFaceWithBox = &m_highResVoxel->m_boxShareFaceWithBox;
-	m_swapMngr->voxelSize = m_highResVoxel->m_voxelSizef;
+	m_swapMngr->s_octree = &m_lowResVoxel->m_octree;
+	m_swapMngr->s_hashTable = &m_lowResVoxel->m_hashTable;
+	m_swapMngr->s_boxes = &m_lowResVoxel->m_boxes;
+	m_swapMngr->s_boxShareFaceWithBox = &m_lowResVoxel->m_boxShareFaceWithBox;
+	m_swapMngr->voxelSize = m_lowResVoxel->m_voxelSizef;
 	m_swapMngr->initFromCutTree2(&m_cutSurface);
+
+	cout << " - 'R' to save current file" << endl;
 
 //	m_swapMngr->swapVoxel2();
 }
@@ -420,6 +465,8 @@ void myDocment::changeToCutGroupBone()
 		delete m_groupCutMngr;
 	}
 
+	cout << "Split group bones" << endl;
+
 	m_groupCutMngr = new groupCutManager;
 
 	m_groupCutMngr->s_skeleton = m_skeleton;
@@ -431,6 +478,10 @@ void myDocment::changeToCutGroupBone()
 
 	m_groupCutMngr->initFromSwapBox(m_swapMngr);
 	m_groupCutMngr->showDialog();
+
+	cout << "Use the dialog to choose the configurations of group bones" << endl
+		<< "Press 'S' to ready to assign coordinate to bones"
+		<< endl << endl;
 }
 
 void myDocment::changeStateBack()
@@ -478,6 +529,9 @@ void myDocment::changeToCoordAssignMode()
 	// Now init the coord assign
 	m_coordAssign->s_detailSwap = m_swapMngr;
 	m_coordAssign->init(boneFullArray, meshBoxFull);
+
+	cout << endl << "Use dialog to assign coordinate to bones" << endl
+		<< endl;
 }
 
 void myDocment::getBoneArrayAndMeshBox(std::vector<bone*> &boneFullArray, std::vector<bvhVoxel> &meshBoxFull)
@@ -547,10 +601,13 @@ void myDocment::changeToSwapFinal()
 	loadStateForPostProcess();
 
 	// Guide
-	command::print("In put the percentage in first tool bar box and update");
-	command::print("Press F to resolve the conflict");
-	command::print("Press W to reload the mesh");
-	command::print("Press R to save to mesh");
+	cout << "In put the percentage in first tool bar box and update\n"
+		<< " - Press F to resolve the conflict\n"
+		<< " - Press R to save to mesh\n"
+		<< " - Press W to reload the mesh\n"
+		<< " - Press 'S' to cut the triangular mesh\n"
+		<< endl;
+		
 }
 
 void myDocment::changeToCuttingMeshMode()
@@ -564,17 +621,22 @@ void myDocment::changeToCuttingMeshMode()
 	CTimeTick time;
 	time.SetStart();
 
+	cout << "Generate cut surface from voxel" << endl;
+
 	m_meshCutting = new MeshCutting;
-	m_meshCutting->s_voxelObj = m_highResVoxel;
+	m_meshCutting->s_voxelObj = m_highResFullVoxel;
 	m_meshCutting->s_surObj = m_surfaceObj;
 	m_meshCutting->coords = m_voxelProcess->coords;
-	m_meshCutting->init2(m_voxelProcess->getListOfVoxelIdxs(), m_voxelProcess->boneArray);
+	vector<arrayInt> voxelIdxBones = getVoxelIdxFullFromVoxelProcess();
+		m_meshCutting->init2(voxelIdxBones, m_voxelProcess->boneArray);
 
 	time.SetEnd();
-	command::print("\n Change to cutting mesh state");
-	command::print("Change state time: %f", time.GetTick());
-	command::print("Change to cutting triangular mesh");
-	command::print("Press F to generate cut mesh and D to save to file");
+	cout << "\n Change to cutting mesh state" << endl
+		<< "Change state time: " << time.GetTick() << " ms" << endl
+		<< "Change to cutting triangular mesh \n"
+		<< " - Press 'F' to cut the original mesh and 'D' to save to file \n" << endl
+		<< " - Press 'E' to export cut mesh to obj file" << endl
+		<< endl;
 }
 
 void myDocment::writeMeshBoxStateFinalSwap(){
@@ -783,7 +845,7 @@ bool myDocment::getSavePath(CString &path)
 	return false;
 }
 
-void myDocment::writePolygon(Polyhedron* cutPieces, char* path)
+void myDocment::writePolygon(Polyhedron* cutPieces, const char* path)
 {
 	std::vector<cVertex> * vertices = &cutPieces->vertices;
 	std::map<cVertex*, int> hashIndex;
@@ -863,7 +925,7 @@ void myDocment::updateRealtime()
 void myDocment::loadFile()
 {
 	// Init
-	char* surfacePath = "../../Data/Fighter/fighter.stl";
+	char* surfacePath = "../../Data/elipseCar/elipseCar.stl";
 	cprintf("Init document\n");
 
 	// 1. Surface
@@ -881,19 +943,26 @@ void myDocment::loadFile()
 	// 2. Voxel object, high res and low res
 	tm.SetStart();
 
-	int highRes = 4;
-	m_highResVoxel = new voxelObject;
-	m_highResVoxel->init(m_surfaceObj, highRes); // TODO: The box should be symmetric !!!!
+	int voxelRes = 6;
+	int highRes = 6;
+	int downSampleRate = 12;
+	voxelObject * forSamplingVoxel = new voxelObject;
+	forSamplingVoxel->init(m_surfaceObj, downSampleRate); // TODO: The box should be symmetric !!!!
 
-	tm.SetEnd();
-	cprintf("Constuct voxel high res: %d; time: %f ms\n", highRes, tm.GetTick());
-	tm.SetStart();
+	m_highResVoxel = new voxelObject;
+	m_highResVoxel->init(forSamplingVoxel, highRes);
+
+	m_highResFullVoxel = new voxelObject;
+	m_highResFullVoxel->init(m_surfaceObj, highRes);
 
 	m_lowResVoxel = new voxelObject;
-	m_lowResVoxel->init(m_surfaceObj, 4);
+	m_lowResVoxel->init(forSamplingVoxel, voxelRes);
 
 	tm.SetEnd();
-	cprintf("Constuct voxel low res: %d; time: %f ms\n", 4, tm.GetTick());
+	cprintf("Constuct voxel; time: %f ms\n", tm.GetTick());
+	cout << "Low res: " << voxelRes << "; high res: " << highRes << endl;
+
+	delete forSamplingVoxel;
 	// We may construct low res voxel from high res voxel
 
 	// 3. Skeleton
@@ -992,8 +1061,6 @@ void myDocment::drawTest(BOOL mode[])
 		voxelSplitObj * v = &m_highResVoxel->m_voxelBitSet;
 		Vec3i ruLower = v->rightUpi;
 		ruLower[0] = shift;
-		voxelBitConvex setLower = voxelBitConvex::makeCubeBitSet(v->leftDowni, ruLower);
-		glColor3f(1, 1, 0);
 		setLower.drawBoxSolid(&m_highResVoxel->m_hashTable);
 	}
 }
@@ -1003,6 +1070,8 @@ std::vector<arrayInt> testCut(voxelObject* obj, arrayInt idxs, int xcoord)
 	std::vector<voxelBox> * boxes = &obj->m_boxes;
 	std::vector<arrayInt> * boxShareFaceWithBox = &obj->m_boxShareFaceWithBox;
 
+		voxelBitConvex setLower = voxelBitConvex::makeCubeBitSet(v->leftDowni, ruLower);
+		glColor3f(1, 1, 0);
 	int* mark = new int[boxes->size()];
 	std::fill(mark, mark + boxes->size(), 0);
 	for (int i = 0; i < idxs.size(); i++)
@@ -1106,4 +1175,185 @@ void myDocment::keyPressModeTest(char c)
 			std::cout << "Bit set (" << N << " times): " << time.GetTick() << "\n";
 		}
 	}
+}
+
+void myDocment::saveCurrentBoxCut()
+{
+	// Save what swap box need for further debugging
+	if (!m_swapMngr)
+	{
+		AfxMessageBox(_T("Swap box is not initialized"));
+		return;
+	}
+
+	// what we need is the bounding box of cut mesh and the bone order
+	vector<bvhVoxel*> meshBoxes = m_swapMngr->meshBox;
+	char* filePath = "../../temporary/boxCutBoundingBox.txt";
+
+	FILE* f = fopen(filePath, "w");
+	ASSERT(f);
+	fprintf(f, "%d\n", meshBoxes.size()); // Number of mesh box
+	for (auto m : meshBoxes)
+	{
+		fprintf(f, "%s\n", CStringA(m->boneName).GetBuffer()); // Bone name
+		fprintf(f, "%d\n", m->boneType); // Bone type
+		fprintf(f, "%f %f %f\n", m->curLeftDown[0], m->curLeftDown[1], m->curLeftDown[2]); // Left down of bounding box
+		fprintf(f, "%f %f %f\n", m->curRightUp[0], m->curRightUp[1], m->curRightUp[2]); // Right up[ of bounding box
+	}
+	fclose(f);
+
+	cout << "Finish writing box cut: " << filePath << endl;;
+}
+
+void myDocment::loadSwapGroupFromFile()
+{
+	if (m_swapMngr)
+	{
+		delete m_swapMngr;
+	}
+	m_swapMngr = new detailSwapManager;
+
+	m_skeleton->groupBone();
+
+	m_swapMngr->s_obj = m_surfaceObj;
+	m_swapMngr->s_skeleton = m_skeleton;
+	m_swapMngr->s_octree = &m_lowResVoxel->m_octree;
+	m_swapMngr->s_hashTable = &m_lowResVoxel->m_hashTable;
+	m_swapMngr->s_boxes = &m_lowResVoxel->m_boxes;
+	m_swapMngr->s_boxShareFaceWithBox = &m_lowResVoxel->m_boxShareFaceWithBox;
+	m_swapMngr->voxelSize = m_lowResVoxel->m_voxelSizef;
+
+	char* filePath = "../../temporary/boxCutBoundingBox.txt";
+	m_swapMngr->initGroupVoxelFromSaveFile(filePath);
+
+	cout << "Loaded mesh for swapping.\n"
+		<< " - Press 'E' to reload" << endl
+		<< " - Press 'F' to swap" << endl
+		<< " - Press 'S' to cut grouped bones" << endl << endl;
+
+	m_curMode = MODE_FINDING_CUT_SURFACE;
+}
+
+std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
+{
+	vector<arrayInt> originIdxs = m_voxelProcess->getListOfVoxelIdxs();
+	vector<bone*> boneArray = m_voxelProcess->boneArray;
+
+	// The full list contain more voxel
+	vector<voxelBox> *originBox = &m_highResVoxel->m_boxes;
+	vector<voxelBox> *fullBox = &m_highResFullVoxel->m_boxes;
+	hashVoxel *hashTableFull = &m_highResFullVoxel->m_hashTable;
+
+	vector<arrayInt> fullIdxs;
+	arrayInt hashOccupy(fullBox->size(), 0);
+
+	for (int i = 0; i < originIdxs.size(); i++)
+	{
+		arrayInt idxs = originIdxs[i];
+		arrayInt newIdxs;
+		for (auto vidx : idxs)
+		{
+			// Find it on the full voxel object
+			Vec3f center = originBox->at(vidx).center;
+			int idxInFull = hashTableFull->getBoxIndexFromCoord(center);
+			ASSERT(idxInFull != -1);
+			newIdxs.push_back(idxInFull);
+			fullBox->at(idxInFull).boneIndex = i;
+			hashOccupy[idxInFull] = 1;
+		}
+
+		fullIdxs.push_back(newIdxs);
+	}
+
+	// Other voxel
+	// Just merge it to biggest bone
+	// The voxel will be manipulated later
+	arrayInt remainIdxs;
+	for (int i = 0; i < fullBox->size(); i++)
+	{
+		if (hashOccupy[i] == 0) // Free voxel
+		{
+			Vec3f centerP = m_surfaceObj->midPoint();
+			if (fullBox->at(i).center[0] < centerP[0])
+			{
+				remainIdxs.push_back(i);
+			}
+		}
+	}
+
+	while (remainIdxs.size() > 0)
+	{
+		for (int ii = 0; ii < remainIdxs.size(); ii++)
+		{
+			int vIdx = remainIdxs[ii];
+			// Find bone around
+			int boneIdx = -1;
+			int biggestBoneV = 0;
+			arrayInt nbVoxel = m_highResFullVoxel->m_boxShareFaceWithBox[vIdx];
+			for (auto nbIdx : nbVoxel)
+			{
+				int bIdx = fullBox->at(nbIdx).boneIndex;
+				if (bIdx != -1)
+				{
+					if (biggestBoneV < boneArray[bIdx]->m_volumeRatio)
+					{
+						biggestBoneV = boneArray[bIdx]->m_volumeRatio;
+						boneIdx = bIdx;
+					}
+				}
+			}
+
+			if (boneIdx != -1)
+			{
+				fullIdxs[boneIdx].push_back(vIdx);
+				fullBox->at(vIdx).boneIndex = boneIdx;
+				remainIdxs.erase(remainIdxs.begin() + ii);
+				break;
+			}
+		}
+	}
+
+	// Re edit center bone. THey should be symmetric
+	for (int i = 0; i < boneArray.size(); i++)
+	{
+		if (boneArray[i]->m_type == CENTER_BONE)
+		{
+			arrayInt vidxs = fullIdxs[i];
+			arrayInt hashV(fullBox->size(), 0);
+			for (auto id : vidxs)
+			{
+				hashV[id] = 1;
+			}
+
+			
+			for (int ii = 0; ii < vidxs.size(); ii++)
+			{
+				int id = vidxs[ii];
+				int symIdx = hashTableFull->getSymmetricBox(id);
+				if (hashV[symIdx] == 0)
+				{
+					vidxs.push_back(symIdx);
+					hashV[symIdx] = 1;
+				}
+			}
+
+			fullIdxs[i] = vidxs;
+		}
+	}
+
+	return fullIdxs;
+}
+
+void myDocment::saveCutMeshToObj()
+{
+	string path = "../../temporary/meshCut";
+	vector<Polyhedron*> cutSurfaces = m_meshCutting->m_cutSurface;
+	for (int i = 0; i < cutSurfaces.size(); i++)
+	{
+		auto p = cutSurfaces[i];
+		string cutmeshPath = path + "/meshCut_" + to_string(i) + ".obj";
+		writePolygon(p, cutmeshPath.c_str());
+	}
+
+
 }

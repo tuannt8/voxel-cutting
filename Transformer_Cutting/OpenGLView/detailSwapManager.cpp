@@ -1648,8 +1648,11 @@ bool detailSwapManager::swapVoxel(int sourceMeshIdx, int destMeshIdx, arrayInt v
 
 	if (bShouldSwap)
 	{// Swap
+		arrayInt sourceIdx, destIdx;
+		getTheVoxelWeShouldSwap(sourceMeshIdx, destMeshIdx, voxelIdxsInSource, sourceIdx, destIdx);
+
 		// Check if it a an object, the source mesh
-		if(isObjectIfRemoveVoxel(sourceMeshIdx, voxelIdxsInSource))
+		if (isObjectIfRemoveVoxel(sourceMeshIdx, sourceIdx))
 		{
 			swapLayer(sourceMeshIdx, destMeshIdx, voxelIdxsInSource);
 			return true;
@@ -1689,7 +1692,7 @@ bool detailSwapManager::isObjectIfRemoveVoxel(int boneIndex, arrayInt boxIdxsToR
 	{
 		voxelOccupy[meshBoxIdx[i]] = 1;
 	}
-
+	// Remove the box in the removing list
 	for (int i = 0; i < boxIdxsToRemove.size(); i++)
 	{
 		voxelOccupy[boxIdxsToRemove[i]] = 0;
@@ -2131,7 +2134,7 @@ void detailSwapManager::initFromCutTree2(cutSurfTreeMngr2* testCut)
 	// Load mesh box
 	loadMeshBoxFromCutTreeWithPose2(testCut);
 	constructVolxeHashFromCutTree2(testCut);
-	constructBVHOfMeshBoxesFromCutTree2(testCut);
+//	constructBVHOfMeshBoxesFromCutTree2(testCut);
 
 	tempMark = new int[s_boxes->size()];
 	voxelOccupy = new int[s_boxes->size()];
@@ -2176,8 +2179,9 @@ void detailSwapManager::loadMeshBoxFromCutTreeWithPose2(cutSurfTreeMngr2* testCu
 		bvhVoxel* newMeshBox = new bvhVoxel;
 		newMeshBox->boneName = curBone->m_name;
 		newMeshBox->boneType = curBone->m_type;
-		newMeshBox->leftDown = curB.leftDown;
-		newMeshBox->rightUp = curB.rightUp;
+		newMeshBox->curLeftDown = curB.leftDown;
+		newMeshBox->curRightUp = curB.rightUp;
+		newMeshBox->boxes = s_boxes;
 
 		// assign
 		meshBox[i] = newMeshBox;
@@ -2301,7 +2305,7 @@ bool detailSwapManager::swapVoxelVolume(int sourceMeshIdx, int destMeshIdx, arra
 	arrayFloat errSource = meshSource->getCurrentError2();
 	arrayFloat errDest = meshDest->getCurrentError2();
 
-	// Grow the wap area
+	// Grow the swap area
 	while (1)
 	{
 		bool bContinueCheck = false;
@@ -2359,11 +2363,19 @@ bool detailSwapManager::swapVoxelVolume(int sourceMeshIdx, int destMeshIdx, arra
 	if (bShouldSwap)
 	{// Swap
 		// Check if it a an object, the source mesh
-		if (isObjectIfRemoveVoxel(sourceMeshIdx, voxelIdxsInSource))
+		arrayInt sourceIdx, destIdx;
+		getTheVoxelWeShouldSwap(sourceMeshIdx, destMeshIdx, voxelIdxsInSource, sourceIdx, destIdx);
+
+		if (isObjectIfRemoveVoxel(sourceMeshIdx, sourceIdx))
 		{
 			swapLayer(sourceMeshIdx, destMeshIdx, voxelIdxsInSource);
 			return true;
 		}
+// 		if (isObjectIfRemoveVoxel(sourceMeshIdx, voxelIdxsInSource))
+// 		{
+// 			swapLayer(sourceMeshIdx, destMeshIdx, voxelIdxsInSource);
+// 			return true;
+// 		}
 	}
 
 	return false;
@@ -2414,6 +2426,20 @@ void detailSwapManager::constructVolxeHashFromCutTree2(cutSurfTreeMngr2* testCut
 	rightUpVoxel = s_octree->m_root->rightUpTight;
 
 	voxelSize = s_octree->boxSize;
+
+	for (unsigned int i = 0; i < meshBox.size(); i++)
+	{
+		bvhVoxel* m = meshBox[i];
+		arrayInt vIdxs = s_octree->intersectWithBox(m->curLeftDown, m->curRightUp);
+		m->voxelIdxs = vIdxs;
+		m->update();
+
+		int bIdx = i;
+		for (auto i : vIdxs)
+		{
+			s_boxes->at(i).boneIndex = bIdx;
+		}
+	}
 }
 
 void detailSwapManager::getSwapableVoxel2(int xyzDirect, float cPos, int meshBoxIdx1, int meshBoxIdx2, arrayInt &swapableIdx1, arrayInt &swapableIdx2, arrayInt &remainIdx1, arrayInt &remainIdx2)
@@ -2878,6 +2904,7 @@ bool detailSwapManager::shouldSwapVolumeProgress(int sourceMeshIdx, int destMesh
 	// error of source mesh and dest mesh after swap
 	arrayInt sourceIdx, destIdx;
 	getTheVoxelWeShouldSwap(sourceMeshIdx, destMeshIdx, voxelIdx, sourceIdx, destIdx);
+
 	arrayFloat errSourceAssume = meshSource->getErrorWithAssumeRemoveVoxel2(sourceIdx);
 	arrayFloat errDestAssume = meshDest->getErrorWithAssumeAddVoxel2(destIdx);
 
@@ -3550,5 +3577,73 @@ void detailSwapManager::restoreCenterMesh()
 			s_boxes->at(vIdx[j]).boneIndex = i;
 		}
 	}
+}
+
+void detailSwapManager::initGroupVoxelFromSaveFile(char* filePath)
+{
+	FILE *f = fopen(filePath, "r");
+	ASSERT(f);
+	int nbMesh;
+	fscanf(f, "%d\n", &nbMesh);
+	for (int i = 0; i < nbMesh; i++)
+	{
+		bvhVoxel * newBox = new bvhVoxel;
+		char nameB[100];
+		fscanf(f, "%s\n", &nameB);
+		newBox->boneName = CString(nameB);
+		fscanf(f, "%d\n", &newBox->boneType);
+		Vec3f ld, ru;
+		fscanf(f, "%f %f %f\n", &ld[0], &ld[1], &ld[2]);
+		fscanf(f, "%f %f %f\n", &ru[0], &ru[1], &ru[2]);
+		newBox->curLeftDown = ld;
+		newBox->curRightUp = ru;
+
+		newBox->boxes = s_boxes;
+		newBox->voxelSize = voxelSize;
+
+		meshBox.push_back(newBox);
+	}
+	fclose(f);
+
+	// Bone order
+	std::vector<bone*> boneOrder;
+	s_skeleton->getSortedGroupBoneArray(boneOrder);
+
+	// Correspond with the list of the cut box
+	std::vector<bone*> correctBoneOrder; // correspond with the cut boxes
+	for (int i = 0; i < boneOrder.size(); i++)
+	{
+		CString name = meshBox[i]->boneName;
+		// Find the corresponding bone
+		for (auto b : boneOrder)
+		{
+			if (name.Compare(b->m_name) == 0)
+			{
+				correctBoneOrder.push_back(b);
+				break;
+			}
+		}
+	}
+
+	// Volume ratio
+	float totalBoneVol = 0;
+	for (int i = 0; i < meshBox.size(); i++)
+	{
+		meshBox[i]->expectedVolRatio = correctBoneOrder[i]->getVolumef();
+		totalBoneVol += correctBoneOrder[i]->getVolumef();
+	}
+	for (int i = 0; i < meshBox.size(); i++)
+	{
+		meshBox[i]->expectedVolRatio /= totalBoneVol;
+	}
+
+	// Bone array
+	boneArray = correctBoneOrder;
+
+	// Init voxel 
+	constructVolxeHashFromCutTree2();
+
+	tempMark = new int[s_boxes->size()];
+	voxelOccupy = new int[s_boxes->size()];
 }
 

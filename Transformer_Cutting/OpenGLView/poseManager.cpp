@@ -596,10 +596,10 @@ void poseGroupCutManager::init()
 	m_boneMapTree.nbCenterBone = 0;
 	m_boneMapTree.sortedBone = boneArray;
 	m_boneMapTree.neighborPair = &neighborInfo;
-	arrayInt b0; b0.push_back(1);
-	arrayInt b1; b1.push_back(0);
-	boneAroundBone.push_back(b0);
-	boneAroundBone.push_back(b1);
+
+	// Bone neighbor
+	getBoneNeighbor(boneAroundBone, boneArray);
+
 	m_boneMapTree.boneAroundBone = &boneAroundBone;
 
 	m_boneMapTree.constructTree();
@@ -674,4 +674,43 @@ neighborPose poseGroupCutManager::getPoseByIdx(int poseIdx)
 	neighborPose pose = (*it).second;
 
 	return pose;
+}
+
+void poseGroupCutManager::getBoneNeighbor(std::vector<arrayInt> &boneAroundB, std::vector<bone*> * boneList)
+{
+	for (int i = 0; i < boneList->size(); i++)
+	{
+		auto b = boneList->at(i);
+		// Find neighbor of b
+		arrayInt nb;
+		int idx = findIdx(boneList, b->parent);
+		if (idx != -1)
+		{
+			nb.push_back(idx);
+		}
+
+		for (auto c : b->child)
+		{
+			int cIdx = findIdx(boneList, c);
+			if (cIdx != -1)
+			{
+				nb.push_back(cIdx);
+			}
+		}
+
+		boneAroundB.push_back(nb);
+	}
+}
+
+int poseGroupCutManager::findIdx(std::vector<bone*> * boneList, bone* b)
+{
+	for (int i = 0; i < boneList->size(); i++)
+	{
+		if (boneList->at(i) == b)
+		{
+			return i;
+		}
+	}
+
+	return -1;
 }

@@ -12,6 +12,21 @@
 namespace Util
 {
 	// Draw
+	void setUpTranparentGL(){
+		glEnable(GL_CULL_FACE);
+
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_LIGHTING);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+		glEnable(GL_BLEND);
+	};
+	void endTransparentGL()
+	{
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LIGHTING);
+		glDisable(GL_CULL_FACE);
+	}
 	void renderCylinder(float x1, float y1, float z1, float x2, float y2, float z2, float radius, int subdivisions)
 	{
 		GLUquadricObj *quadric = gluNewQuadric();

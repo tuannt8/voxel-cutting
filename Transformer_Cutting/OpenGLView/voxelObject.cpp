@@ -198,6 +198,27 @@ bool voxelObject::init(SurfaceObj *obj, int res, float scale)
 
 }
 
+bool voxelObject::init(voxelObject *highRes, int voxelRes)
+{
+	s_surObj = highRes->s_surObj;
+
+	// Octree
+	m_octree.init(s_surObj, voxelRes);
+	m_centerf = m_octree.centerMesh;
+	m_voxelSizef = m_octree.boxSize;
+	// Remove high empty box
+	m_octree.removeLowOccupationBox(&highRes->m_octree);
+
+	// Voxel hash
+	constructVolxeHash();
+
+	// Boxes
+	constructNeighbor();
+
+
+	return false;
+}
+
 void voxelObject::constructVolxeHash()
 {
 	float voxelSize = m_octree.boxSize;

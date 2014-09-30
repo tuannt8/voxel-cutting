@@ -24,6 +24,7 @@ public:
 	void updateNode(int nodeIdx);
 
 	void updateDisplay(int idx1, int idx2);
+	int updateBestIdx(int idx1);
 
 	void showWeightInputDialog();
 	int findBestOption(int yIdx);

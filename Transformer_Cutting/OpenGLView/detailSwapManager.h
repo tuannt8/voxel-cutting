@@ -48,7 +48,7 @@ public:
 	// 1.2. Construct hash table of all voxel
 	void constructVolxeHash();
 	void constructVolxeHashFromCutTree(cutSurfTreeMngr2* testCut);
-	void constructVolxeHashFromCutTree2(cutSurfTreeMngr2* testCut);
+	void constructVolxeHashFromCutTree2(cutSurfTreeMngr2* testCut = nullptr);
 
 	// 1.3. BVH of voxel of object
 	// But it is actually low performance. Does not use in new code
@@ -182,6 +182,6 @@ public:
 	float getBenefit(arrayFloat weight, arrayFloat before, arrayFloat after);
 	bool isBenefitVolume(int sourceIdx, int destIdx);
 	float benefitWithoutVolume(int sourceIdx, int destIdx, arrayInt idxs);
-
+	void initGroupVoxelFromSaveFile(char* filePath);
 };
 

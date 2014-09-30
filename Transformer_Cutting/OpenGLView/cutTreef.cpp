@@ -414,6 +414,7 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 			float cuts = (centerMesh[0] - curB.leftDown[0]) / nbRemainBox;
 			if (cuts < cutStep)
 				cuts = cutStep;
+			cuts = cutStep; // Checking bug, some does not appear
 			for (float cx = curB.leftDown[0] + cuts; cx < centerMesh[0]; cx += cuts)
 			{
 				// Each cut surface has a mirror surface. It create 3 boxes
@@ -428,6 +429,11 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 					newNode->xyzd = 0; newNode->coord = cx;
 					node->children.push_back(newNode);
 					constructTreeVoxelRecur(newNode);
+				}
+
+				if (node->depth == 0) // root node
+				{
+					std::cout << " - Cut side box X, # children of root node: " << node->children.size() << "\n";
 				}
 			}
 
@@ -449,6 +455,11 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 					constructTreeVoxelRecur(newNode);
 				}
 
+				if (node->depth == 0) // root node
+				{
+					std::cout << " - Cut side box x, # children of root node: " << node->children.size() << "\n";
+				}
+
 			}
 		}
 
@@ -458,6 +469,7 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 			float cuts = (curB.rightUp[yz] - curB.leftDown[yz]) / nbRemainBox;
 			if (cuts < cutStep)
 				cuts = cutStep;
+			cuts = cutStep; // Checking bug, some does not appear
 			for (float coord = curB.leftDown[yz] + cuts; coord < curB.rightUp[yz]; coord += cuts)
 			{
 
@@ -474,6 +486,10 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 					constructTreeVoxelRecur(newNode);
 				}
 
+				if (node->depth == 0) // root node
+				{
+					std::cout << " - Cut center box y,z, # children of root node: " << node->children.size() << "\n";
+				}
 			}
 		}
 	}
@@ -490,6 +506,7 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 				float cuts = (curB.rightUp[d] - curB.leftDown[d]) / nbRemainBox;
 				if (cuts < cutStep)
 					cuts = cutStep;
+				cuts = cutStep; // Checking bug, some does not appear
 				for (float coord = curB.leftDown[d] + cuts; coord < curB.rightUp[d]; coord += cuts)
 				{
 					cutTreefNode * newNode = new cutTreefNode(node);
@@ -506,6 +523,11 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 					}
 
 				}
+			}
+
+			if (node->depth == 0) // root node
+			{
+				std::cout << " - Cut side box x, y, z, # children of root node " << node->children.size() << "\n";
 			}
 		}
 	}
@@ -985,18 +1007,12 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 
 		if (bDrawTransparant)
 		{
-			glEnable(GL_CULL_FACE);
-			
-			glDisable(GL_DEPTH_TEST); 
-			glDisable(GL_LIGHTING); 
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			glEnable(GL_BLEND);
+			Util::setUpTranparentGL();
+
 			glColor4f(color[idxC][0], color[idxC][1], color[idxC][2], 0.1);
 			Util_w::drawBoxSurface(node->centerBoxf[i].leftDown, node->centerBoxf[i].rightUp);
-			glDisable(GL_BLEND);
-			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_LIGHTING);
-			glDisable(GL_CULL_FACE);
+			
+			Util::endTransparentGL();
 		}
 
 		if (boneName)
@@ -1037,11 +1053,10 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 
 		if (bDrawTransparant)
 		{
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			glEnable(GL_BLEND);
+			Util::setUpTranparentGL();
 			glColor4f(color[idxC][0], color[idxC][1], color[idxC][2], 0.5);
 			Util_w::drawBoxSurface(node->sideBoxf[i].leftDown, node->sideBoxf[i].rightUp);
-			glDisable(GL_BLEND);
+			Util::endTransparentGL();
 		}
 
 		if (boneName)
@@ -1062,11 +1077,10 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 
 		if (bDrawTransparant)
 		{
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			glEnable(GL_BLEND);
+			Util::setUpTranparentGL();
 			glColor4f(color[idxC][0], color[idxC][1], color[idxC][2], 0.5);
 			Util_w::drawBoxSurface(b.leftDown, b.rightUp);
-			glDisable(GL_BLEND);
+			Util::endTransparentGL();
 		}
 
 		if (boneName)

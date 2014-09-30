@@ -144,18 +144,21 @@ void skeleton::drawBoneRecursive(bone* node, int mode)
 	glRotatef(node->m_angle[1], 1, 0, 0);// x
 	glRotatef(node->m_angle[2], 0, 0, 1);// z
 
-	static arrayVec3f color = Util_w::randColor(10);
+	static arrayVec3f color = Util_w::randColor(30);
 	glColor3fv(color[colorIndex++].data());
 	node->draw(mode, meshScale);
 
 	for (size_t i = 0; i < node->child.size(); i++)
 	{
+
 		drawBoneRecursive(node->child[i], mode);
 
 		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
 		{
-			glRotatef(180, 0,0,1);
+			glPushMatrix();
+			glScalef(1, -1, 1);
 			drawBoneRecursive(node->child[i], mode);
+			glPopMatrix();
 		}
 	}
 

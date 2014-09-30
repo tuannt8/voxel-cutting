@@ -1,0 +1,17 @@
+8
+Torso
+0 1 2
+head
+0 1 2
+arm
+0 1 2
+elbow
+0 1 2
+hand
+0 1 2
+leg
+0 1 2
+lowerLeg
+0 1 2
+feet
+0 1 2

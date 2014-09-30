@@ -20,7 +20,7 @@
 		</bone>
 		<bone>
 			<bone_properties>
-				<bone_name>hand</bone_name>
+				<bone_name>arm</bone_name>
 				<bone_size>20.881901, 20.905399, 26.588009</bone_size>
 				<joint_pos_parent> 0, 0, 40	</joint_pos_parent>
 				<joint_pos_child> 0, 20 ,40	</joint_pos_child>
@@ -30,13 +30,25 @@
 			<children>
 				<bone>
 					<bone_properties>
-						<bone_name>hand2</bone_name>
+						<bone_name>elbow</bone_name>
 						<bone_size>20.882000, 20.911100, 37.982880</bone_size>
 						<joint_pos_parent> 0, 0, 28.799995</joint_pos_parent>
 						<joint_pos_child> 0, 0, 28.799995</joint_pos_child>
 						<bone_type>side_bone</bone_type>
 						<rotation_about_xyz> 0, 0, 0 </rotation_about_xyz>
 					</bone_properties>
+					<children>
+						<bone>
+							<bone_properties>
+								<bone_name>hand</bone_name>
+								<bone_size>15, 15, 15</bone_size>
+								<joint_pos_parent> 0, 0, 38</joint_pos_parent>
+								<joint_pos_child> 0, 0, 38</joint_pos_child>
+								<bone_type>side_bone</bone_type>
+								<rotation_about_xyz> 0, 0, 0 </rotation_about_xyz>
+							</bone_properties>
+						</bone>
+					</children>
 				</bone>
 			</children>
 		</bone>
@@ -52,13 +64,25 @@
 			<children>
 				<bone>
 					<bone_properties>
-						<bone_name>leg2</bone_name>
+						<bone_name>lowerLeg</bone_name>
 						<bone_size>20.874100,20.903000,41.781197</bone_size>
 						<joint_pos_parent>0.000000,0.000000,23.600002</joint_pos_parent>
 						<joint_pos_child>0.000000,0.000000,23.600002</joint_pos_child>
 						<bone_type>side_bone</bone_type>
 						<rotation_about_xyz>0.000000,0.000000,0.000000</rotation_about_xyz>
 					</bone_properties>
+					<children>
+						<bone>
+							<bone_properties>
+								<bone_name>feet</bone_name>
+								<bone_size>35, 20,10</bone_size>
+								<joint_pos_parent>-5,0.000000,42</joint_pos_parent>
+								<joint_pos_child>-5.000000,0.000000,42</joint_pos_child>
+								<bone_type>side_bone</bone_type>
+								<rotation_about_xyz>0.000000,0.000000,0.000000</rotation_about_xyz>		
+							</bone_properties>							
+						</bone>
+					</children>
 				</bone>
 			</children>
 		</bone>

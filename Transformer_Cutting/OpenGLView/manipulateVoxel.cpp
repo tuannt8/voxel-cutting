@@ -243,7 +243,7 @@ void manipulateVoxel::resolveVoxelBox()
 		// We consider symmetric
 		if (boxes->at(i).center[0] > centerMesh[0])
 		{
-			break;
+			continue;
 		}
 
 		arrayInt boxList = voxelState[i];
