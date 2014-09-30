@@ -8,6 +8,7 @@
 #include "coordAssignManager.h"
 #include "debugInfo.h"
 #include "manipulateVoxel.h"
+#include "processHoleMesh.h"
 
 //#include "MeshCutting.h"
 #define XML_ORIGINAL_MESH_KEY "original_mesh_path_name"
@@ -74,8 +75,10 @@ private:
 	void loadSwapGroupFromFile();
 	std::vector<arrayInt> getVoxelIdxFullFromVoxelProcess();
 	void saveCutMeshToObj();
+	void convertPolyHedronToMayaObj(Polyhedron *cutPieces, const char* path) const;
 public:
 	// Process
+	processHoleMeshPtr holeMesh;
 	appMode m_curMode; // Application state
 	cutSurfTreeMngr2 m_cutSurface; // kd tree that store configuration
 

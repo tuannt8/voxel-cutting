@@ -13,6 +13,16 @@ struct indexBone
 {
 	int boneType;
 	int idxInArray;
+
+	int getIdx(int nbCenterB)
+	{
+		if (boneType == CENTER_BONE)
+		{
+			return idxInArray;
+		}
+		else
+			return idxInArray + nbCenterB;
+	}
 };
 
 

@@ -267,7 +267,7 @@ void manipulateVoxel::resolveVoxelBox()
 	std::vector<arrayFloat> curError = getCurrentErrorOfBox(boxVoxelIdxs);
 	for (int i = 0; i < voxelInConflict.size(); i++)
 	{
-		// Assign to box with largest error
+		// Assign to box with smallest size
 		int vIdx = voxelInConflict[i];
 		arrayInt boxIdxs = voxelState[vIdx];
 		int idx = -1; float smallest = MAX;
@@ -275,9 +275,9 @@ void manipulateVoxel::resolveVoxelBox()
 		{
 			int curIdx = boxIdxs[j];
 			arrayFloat curE = meshBox[curIdx]->getErrorAssumeVoxelList(boxVoxelIdxs[curIdx]);
-			if (curE[ASPECT_ERROR] < smallest)
+			if (meshBox[curIdx]->m_volumeRatio < smallest)
 			{
-				smallest = curE[ASPECT_ERROR];
+				smallest = meshBox[curIdx]->m_volumeRatio;
 				idx = boxIdxs[j];
 			}
 		}

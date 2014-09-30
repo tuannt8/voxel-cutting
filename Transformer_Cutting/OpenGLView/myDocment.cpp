@@ -26,8 +26,6 @@ myDocment::myDocment()
 	m_curMode = MODE_NONE;
 
 	std::cout << endl << "Press 'S' to construct the cut tree" << endl << endl;
-// 	loadTestVoxelBitSet();
-// 	m_curMode = MODE_TEST;
 }
 
 
@@ -124,6 +122,10 @@ void myDocment::draw(BOOL mode[10])
 			m_highResVoxel->drawVoxelLeaf();
 			glColor3f(0.7, 0.7, 0.7);
 			m_highResVoxel->drawVoxelLeaf(1);
+		}
+		if (mode[6] && holeMesh)
+		{
+			holeMesh->drawSeparatePart();
 		}
 	}
 
@@ -379,6 +381,7 @@ void myDocment::constructCutTree()
 
 	m_cutSurface.s_groupSkeleton = m_skeleton;
 	m_cutSurface.s_voxelObj = m_lowResVoxel;
+	m_cutSurface.bUniformCut = false;
 	m_cutSurface.init();
 	
 	time.SetEnd();
@@ -763,11 +766,17 @@ void myDocment::startToStateCuttingMesh()
 
 void myDocment::saveFile()
 {
-	CString path;
-	if (!getSavePath(path))
+// 	CString path;
+// 	if (!getSavePath(path))
+// 	{
+// 		AfxMessageBox(_T("Error choosing output folder"));
+// 		return;
+// 	}
+
+	CString path = _T("../../temporary/meshes");
+	if (!PathFileExists(path))
 	{
-		AfxMessageBox(_T("Error choosing output folder"));
-		return;
+		AfxMessageBox(_T("Folder does not exist"));
 	}
 
 	arrayBone_p boneArray = m_meshCutting->boneArray;
@@ -777,11 +786,11 @@ void myDocment::saveFile()
 
 	// Write the original mesh
 	CStringA originalMesh(path);
-	CStringA originalMeshName("originalMesh.txt");
+	CStringA originalMeshName("originalMesh.obj");
 	originalMesh += ("\\");
 	originalMesh += originalMeshName;
 	infoFile.addNode(XML_ORIGINAL_MESH_KEY, originalMeshName.GetBuffer());
-	m_surfaceObj->writeObjData(originalMesh.GetBuffer());
+	m_surfaceObj->writeObjMayaData(originalMesh.GetBuffer());
 
 	// Write the skeleton information
 	CStringA skeletonPath(path);
@@ -797,7 +806,7 @@ void myDocment::saveFile()
 	for (int i = 0; i < cutPieces.size(); i++)
 	{
 		CStringA meshPath(path);
-		CStringA meshPathName; meshPathName.Format("meshPath_%d.txt", i);
+		CStringA meshPathName; meshPathName.Format("meshPath_%d.obj", i);
 		meshPath.AppendFormat("\\%s", meshPathName.GetBuffer());
 
 		myXMLNode * meshPartNode = infoFile.addNode(XML_MESH_PART);
@@ -805,7 +814,7 @@ void myDocment::saveFile()
 		infoFile.addElementToNode(meshPartNode, XML_BONE_NAME, std::string(CStringA(boneArray[i]->m_name)));
 		infoFile.addVectoriToNode(meshPartNode, XML_COORD_MAP, coord[i]);
 
-		writePolygon(cutPieces[i], meshPath.GetBuffer());
+		convertPolyHedronToMayaObj(cutPieces[i], meshPath.GetBuffer());
 	}
 
 	CStringA infoPath(path);
@@ -912,6 +921,10 @@ void myDocment::loadStateForPostProcess()
 	// We need mesh index, bone array and coord
 	m_voxelProcess->loadFromFile();
 	m_voxelProcess->cutCenterBoxByHalf(); // For better performance
+
+	cout << "Mesh loaded" << endl
+		<< " - Press 'S' to change to state cut mesh" << endl
+		<< endl;
 }
 
 void myDocment::updateRealtime()
@@ -925,15 +938,23 @@ void myDocment::updateRealtime()
 void myDocment::loadFile()
 {
 	// Init
-	char* surfacePath = "../../Data/elipseCar/elipseCar.stl";
+	char* surfacePath = "../../Data/jetSki/jetSki.stl";
 	cprintf("Init document\n");
 
 	// 1. Surface
 	cprintf("Load surface object: %s\n", surfacePath);
 	CTimeTick tm; tm.SetStart();
-
-	m_surfaceObj = new SurfaceObj;
-	m_surfaceObj->readObjDataSTL(surfacePath);
+	// Pre process
+	holeMesh = processHoleMeshPtr(new processHoleMesh);
+	holeMesh->processMeshSTL(surfacePath);
+	m_surfaceObj = holeMesh->getBiggestWaterTightPart();
+	if (!m_surfaceObj)
+	{
+		AfxMessageBox(_T("The input mesh is not water tight"));
+		return;
+	}
+// 	m_surfaceObj = new SurfaceObj;
+// 	m_surfaceObj->readObjDataSTL(surfacePath);
 	m_surfaceObj->centerlize();
 	m_surfaceObj->constructAABBTree();
 
@@ -1058,67 +1079,69 @@ void myDocment::drawTest(BOOL mode[])
 	}
 	if (mode[6])
 	{
-		voxelSplitObj * v = &m_highResVoxel->m_voxelBitSet;
-		Vec3i ruLower = v->rightUpi;
-		ruLower[0] = shift;
-		setLower.drawBoxSolid(&m_highResVoxel->m_hashTable);
+// 		voxelSplitObj * v = &m_highResVoxel->m_voxelBitSet;
+// 		Vec3i ruLower = v->rightUpi;
+// 		ruLower[0] = shift;
+// 		setLower.drawBoxSolid(&m_highResVoxel->m_hashTable);
 	}
 }
 
 std::vector<arrayInt> testCut(voxelObject* obj, arrayInt idxs, int xcoord)
 {
-	std::vector<voxelBox> * boxes = &obj->m_boxes;
-	std::vector<arrayInt> * boxShareFaceWithBox = &obj->m_boxShareFaceWithBox;
+// 	std::vector<voxelBox> * boxes = &obj->m_boxes;
+// 	std::vector<arrayInt> * boxShareFaceWithBox = &obj->m_boxShareFaceWithBox;
+// 
+// 	voxelBitConvex setLower = voxelBitConvex::makeCubeBitSet(v->leftDowni, ruLower);
+// 		glColor3f(1, 1, 0);
+// 	int* mark = new int[boxes->size()];
+// 	std::fill(mark, mark + boxes->size(), 0);
+// 	for (int i = 0; i < idxs.size(); i++)
+// 	{
+// 		mark[idxs[i]] = 1;
+// 	}
+// 
+// 	int* hashvQ = new int[boxes->size()];
+// 	std::fill(hashvQ, hashvQ + boxes->size(), 0);
+// 
+// 	std::vector<arrayInt> out;
+// 	arrayInt remain = idxs;
+// 	while (remain.size() > 0)
+// 	{
+// 		arrayInt newObj;
+// 		std::queue<int> vQ;
+// 		vQ.push(remain[0]);
+// 
+// 		bool isLowerCut = boxes->at(remain[0]).center[0] < xcoord;
+// 
+// 		while (!vQ.empty())
+// 		{
+// 			int idx = vQ.front();
+// 			vQ.pop();
+// 			newObj.push_back(idx);
+// 			mark[idx] = 0; // No longer available
+// 
+// 			// add all its neighbor
+// 			arrayInt neighborN = boxShareFaceWithBox->at(idx);
+// 			for (int j = 0; j < neighborN.size(); j++)
+// 			{
+// 				bool curisLowerCut = boxes->at(neighborN[j]).center[0] < xcoord;
+// 				if (mark[neighborN[j]] == 1
+// 					&& hashvQ[neighborN[j]] == 0
+// 					&& isLowerCut == curisLowerCut)
+// 				{
+// 					hashvQ[neighborN[j]] = 1;
+// 					vQ.push(neighborN[j]);
+// 				}
+// 			}
+// 		}
+// 
+// 		out.push_back(newObj);
+// 		remain = Util_w::substractArrayInt(remain, newObj, boxes->size());
+// 	}
+// 
+// 	return out;
 
-		voxelBitConvex setLower = voxelBitConvex::makeCubeBitSet(v->leftDowni, ruLower);
-		glColor3f(1, 1, 0);
-	int* mark = new int[boxes->size()];
-	std::fill(mark, mark + boxes->size(), 0);
-	for (int i = 0; i < idxs.size(); i++)
-	{
-		mark[idxs[i]] = 1;
-	}
-
-	int* hashvQ = new int[boxes->size()];
-	std::fill(hashvQ, hashvQ + boxes->size(), 0);
-
-	std::vector<arrayInt> out;
-	arrayInt remain = idxs;
-	while (remain.size() > 0)
-	{
-		arrayInt newObj;
-		std::queue<int> vQ;
-		vQ.push(remain[0]);
-
-		bool isLowerCut = boxes->at(remain[0]).center[0] < xcoord;
-
-		while (!vQ.empty())
-		{
-			int idx = vQ.front();
-			vQ.pop();
-			newObj.push_back(idx);
-			mark[idx] = 0; // No longer available
-
-			// add all its neighbor
-			arrayInt neighborN = boxShareFaceWithBox->at(idx);
-			for (int j = 0; j < neighborN.size(); j++)
-			{
-				bool curisLowerCut = boxes->at(neighborN[j]).center[0] < xcoord;
-				if (mark[neighborN[j]] == 1
-					&& hashvQ[neighborN[j]] == 0
-					&& isLowerCut == curisLowerCut)
-				{
-					hashvQ[neighborN[j]] = 1;
-					vQ.push(neighborN[j]);
-				}
-			}
-		}
-
-		out.push_back(newObj);
-		remain = Util_w::substractArrayInt(remain, newObj, boxes->size());
-	}
-
-	return out;
+	return std::vector<arrayInt>();
 }
 
 void myDocment::keyPressModeTest(char c)
@@ -1244,6 +1267,8 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 	vector<voxelBox> *fullBox = &m_highResFullVoxel->m_boxes;
 	hashVoxel *hashTableFull = &m_highResFullVoxel->m_hashTable;
 
+	vector<voxelList*> meshCut = m_voxelProcess->meshBox;
+
 	vector<arrayInt> fullIdxs;
 	arrayInt hashOccupy(fullBox->size(), 0);
 
@@ -1283,6 +1308,7 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 
 	while (remainIdxs.size() > 0)
 	{
+		arrayInt remainTemp;
 		for (int ii = 0; ii < remainIdxs.size(); ii++)
 		{
 			int vIdx = remainIdxs[ii];
@@ -1295,9 +1321,10 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 				int bIdx = fullBox->at(nbIdx).boneIndex;
 				if (bIdx != -1)
 				{
-					if (biggestBoneV < boneArray[bIdx]->m_volumeRatio)
+					arrayFloat err = meshCut[bIdx]->getErrorAssumeVoxelList(originIdxs[bIdx]);
+					if (biggestBoneV < err[VOLUME_ERROR])
 					{
-						biggestBoneV = boneArray[bIdx]->m_volumeRatio;
+						biggestBoneV = err[VOLUME_ERROR];
 						boneIdx = bIdx;
 					}
 				}
@@ -1306,9 +1333,22 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 			if (boneIdx != -1)
 			{
 				fullIdxs[boneIdx].push_back(vIdx);
-				fullBox->at(vIdx).boneIndex = boneIdx;
-				remainIdxs.erase(remainIdxs.begin() + ii);
-				break;
+				fullBox->at(vIdx).state = boneIdx;
+// 				remainIdxs.erase(remainIdxs.begin() + ii);
+// 				break;
+			}
+			else
+				remainTemp.push_back(vIdx);
+		}
+
+		remainIdxs = remainTemp;
+
+		for (int i = 0; i < fullBox->size(); i++)
+		{
+			if (fullBox->at(i).state != -1)
+			{
+				fullBox->at(i).boneIndex = fullBox->at(i).state;
+				fullBox->at(i).state = -1;
 			}
 		}
 	}
@@ -1325,7 +1365,6 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 				hashV[id] = 1;
 			}
 
-			
 			for (int ii = 0; ii < vidxs.size(); ii++)
 			{
 				int id = vidxs[ii];
@@ -1346,14 +1385,48 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 
 void myDocment::saveCutMeshToObj()
 {
-	string path = "../../temporary/meshCut";
+	string path = "../../temporary/meshCut"; // if not exist, create
+	if (!PathFileExists(CString(path.c_str())))
+	{
+		AfxMessageBox(_T("Folder does not exist"));
+	}
 	vector<Polyhedron*> cutSurfaces = m_meshCutting->m_cutSurface;
 	for (int i = 0; i < cutSurfaces.size(); i++)
 	{
 		auto p = cutSurfaces[i];
 		string cutmeshPath = path + "/meshCut_" + to_string(i) + ".obj";
-		writePolygon(p, cutmeshPath.c_str());
+		convertPolyHedronToMayaObj(p, cutmeshPath.c_str());
+	}
+}
+
+void myDocment::convertPolyHedronToMayaObj(Polyhedron *cutPieces, const char* path) const
+{
+	std::vector<cVertex> * vertices = &cutPieces->vertices;
+	std::map<cVertex*, int> hashIndex;
+	for (int i = 0; i < vertices->size(); i++)
+	{
+		hashIndex.insert(std::pair<cVertex*, int>(&vertices->at(i), i));
 	}
 
+	std::ofstream myfile;
+	myfile.open(path);
+	// Write vertex
+	for (int i = 0; i < vertices->size(); i++)
+	{
+		myfile << "v " << vertices->at(i).v[0] << " " << vertices->at(i).v[1] << " " << vertices->at(i).v[2] << "\n";
+	}
 
+	// Write face
+	for (int i = 0; i < cutPieces->faces.size(); i++)
+	{
+		carve::poly::Face<3> &f = cutPieces->faces[i];
+		myfile << "f ";
+		for (int j = 0; j < f.nVertices(); j++)
+		{
+			int idx = hashIndex.find((cVertex*)f.vertex(j))->second;
+			myfile << idx + 1 << " ";
+		}
+		myfile << "\n";
+	}
+	myfile.close();
 }

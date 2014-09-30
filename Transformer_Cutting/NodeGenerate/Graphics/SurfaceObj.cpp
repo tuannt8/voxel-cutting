@@ -11,6 +11,26 @@ SurfaceObj::SurfaceObj(void)
 	BVHAABB=NULL;
 }
 
+SurfaceObj::SurfaceObj(arrayVec3f pts, arrayVec3i tris)
+{
+	Point0 = pts;
+	Point = pts;
+	Dis.resize(pts.size());
+	Face = tris;
+
+	PointNormal.resize(Point.size());
+	FaceNormal.resize(Face.size());
+
+	//Initialize topology information
+	Container = new TopologyContainer;
+	Container->init(&Point0, &Point, &Face, &Edge);
+	Modifier = new TopologyModifier;
+
+	//face normal vector °è»ê
+	computeFaceNormal();
+	computeCenterPoint();
+}
+
 SurfaceObj::~SurfaceObj(void)
 {
 	if(Container){delete Container; Container=NULL;}
@@ -791,4 +811,25 @@ Vec3f SurfaceObj::getBoundingBoxSize() const
 {
 	ASSERT(BVHAABB);
 	return BVHAABB->root()->RightUp - BVHAABB->root()->LeftDown;
+}
+
+void SurfaceObj::writeObjMayaData(const char* path)
+{
+	FILE* f = fopen(path, "w");
+	if (!f)
+	{
+		throw "File can not open";
+	}
+	ASSERT(f);
+
+	for (auto p:Point)
+	{
+		fprintf(f, "v %f %f %f\n", p[0], p[1], p[2]);
+	}
+	for (auto t:Face)
+	{
+		fprintf(f, "f %d %d %d\n", t[0] + 1, t[1] + 1, t[2] + 1);
+	}
+
+	fclose(f);
 }

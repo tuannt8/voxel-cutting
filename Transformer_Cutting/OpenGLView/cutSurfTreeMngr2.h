@@ -66,7 +66,7 @@ public:
 
 private:
 	void setVoxelArray();
-
+	void drawNeighborRelation();
 public:
 	// Group bone
 	// Share data from main document
@@ -89,6 +89,7 @@ public:
 	std::vector<voxelBox> boxes; // all voxel pixel box
 	hashVoxel hashTable;
 
+	bool bUniformCut;
 	cutTreef m_tree2;
 	cutTreefNode *leatE2Node2;
 
@@ -114,6 +115,9 @@ public:
 	std::vector<boneTransform2> coords;
 	std::vector<CString> names;
 	std::vector<Vec3f> centerPos;
+	arrayVec2i meshNeighbor;
+	neighborPose currentPose;
+	std::vector<meshPiece> allMeshes;
 
 	// User define weight error
 	Vec3f m_weightError; // neighbor - aspect - volume

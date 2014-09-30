@@ -20,6 +20,7 @@ class SurfaceObj
 {
 public:
 	SurfaceObj(void);
+	SurfaceObj(arrayVec3f pts, arrayVec3i tris);
 	~SurfaceObj(void);
 	
 //functions
@@ -29,6 +30,7 @@ public:
 	void init(std::vector<Vec3f> _point, std::vector<Vec3i> _face);
 	void writeObjData(char* filename);
 	void writeSTLData(char * filePath);
+	void writeObjMayaData(const char* path);
 
 	bool isIntersectWithBox(Box box, bool isInside);
 
@@ -106,7 +108,8 @@ private:
 	void computeFaceNormal();
 	Vec3f computeFaceNormal(Vec3f p1, Vec3f p2, Vec3f p3);
 	void computePointNormal();
-	
+
+
 
 
 	//variables

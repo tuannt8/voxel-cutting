@@ -24,6 +24,7 @@ public:
 	std::vector<std::vector<int>>* facesAroundEdge();
 	std::vector<int> facesAroundEdge(int idx);
 	std::vector<std::vector<int>>* edgesInFace();
+	arrayInt faceShareEdgeWithFace(int idxInQ);
 
 	std::vector<Vec3f>* point0();
 	std::vector<Vec3f>* point();

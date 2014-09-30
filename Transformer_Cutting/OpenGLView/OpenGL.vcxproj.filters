@@ -189,6 +189,9 @@
     <ClCompile Include="dynamicManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="processHoleMesh.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KEGIES.h">
@@ -355,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="dynamicManager.h">
       <Filter>Energy</Filter>
+    </ClInclude>
+    <ClInclude Include="processHoleMesh.h">
+      <Filter>MyDocument</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

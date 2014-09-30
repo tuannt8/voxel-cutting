@@ -11,11 +11,11 @@ typedef enum
 {
 	NONE_NB = -1,
 	X_PLUS = 0,
-	X_MINUS,
-	Y_PLUS,
-	Y_MINUS,
-	Z_PLUS,
-	Z_MINUS,
+	X_MINUS = 1,
+	Y_PLUS = 2,
+	Y_MINUS = 3,
+	Z_PLUS = 4,
+	Z_MINUS = 5,
 	NUM_POS
 }neighborPos;
 

@@ -412,9 +412,9 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 			//1.1. Side box is not full, can create more
 			// We can divide center box by x
 			float cuts = (centerMesh[0] - curB.leftDown[0]) / nbRemainBox;
-			if (cuts < cutStep)
+			if (bUniformCutStep || cuts < cutStep)
 				cuts = cutStep;
-			cuts = cutStep; // Checking bug, some does not appear
+
 			for (float cx = curB.leftDown[0] + cuts; cx < centerMesh[0]; cx += cuts)
 			{
 				// Each cut surface has a mirror surface. It create 3 boxes
@@ -467,9 +467,9 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 		for (int yz = 1; yz < 3; yz++)
 		{
 			float cuts = (curB.rightUp[yz] - curB.leftDown[yz]) / nbRemainBox;
-			if (cuts < cutStep)
+			if (bUniformCutStep || cuts < cutStep)
 				cuts = cutStep;
-			cuts = cutStep; // Checking bug, some does not appear
+
 			for (float coord = curB.leftDown[yz] + cuts; coord < curB.rightUp[yz]; coord += cuts)
 			{
 
@@ -504,9 +504,9 @@ void cutTreef::constructTreeVoxelRecur(cutTreefNode *node)
 			for (int d = 0; d < 3; d++)
 			{
 				float cuts = (curB.rightUp[d] - curB.leftDown[d]) / nbRemainBox;
-				if (cuts < cutStep)
+				if (bUniformCutStep || cuts < cutStep)
 					cuts = cutStep;
-				cuts = cutStep; // Checking bug, some does not appear
+
 				for (float coord = curB.leftDown[d] + cuts; coord < curB.rightUp[d]; coord += cuts)
 				{
 					cutTreefNode * newNode = new cutTreefNode(node);

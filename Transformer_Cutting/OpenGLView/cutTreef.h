@@ -56,6 +56,7 @@ public:
 
 	// With symmetric
 	float cutStep;
+	bool bUniformCutStep;
 
 
 	std::vector<boneAbstract> centerBoneOrder;

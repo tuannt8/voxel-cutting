@@ -42,7 +42,26 @@ namespace Util_w
 	{
 		Util::renderCylinder(pt1[0], pt1[1], pt1[2], pt2[0], pt2[1], pt2[2], radius, subdivisions);
 	}
-
+	void drawTriFace(std::vector<Vec3f> *points, arrayInt idxs, std::vector<Vec3i>* face)
+	{
+		glBegin(GL_TRIANGLES);
+		for (auto id : idxs)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				glVertex3fv((*points)[(*face)[id][j]].data());
+			}
+		}
+		glEnd();
+	}
+	void drawSphere(Vec3f center, float radius, int res = 5)
+	{
+		glPushMatrix();
+		glTranslatef(center[0], center[1], center[2]);
+		GLUquadricObj *qobj = gluNewQuadric();
+		gluSphere(qobj, radius, res, res);
+		glPopMatrix();
+	}
 	void drawTriFace(std::vector<Vec3f> *points, std::vector<Vec3i>* face)
 	{
 		glBegin(GL_TRIANGLES);
@@ -198,7 +217,7 @@ namespace Util_w
 		return color;
 	}
 
-	arrayInt substractArrayInt(arrayInt minusEnd, arrayInt subtrahend, int maxContentValue)
+	arrayInt substractArrayInt(arrayInt minuEnd, arrayInt subtrahend, int maxContentValue)
 	{
 		int * hash = new int[maxContentValue];
 		std::fill(hash, hash + maxContentValue, 0);
@@ -208,11 +227,11 @@ namespace Util_w
 		}
 
 		arrayInt out;
-		for (int i = 0; i < minusEnd.size(); i++)
+		for (int i = 0; i < minuEnd.size(); i++)
 		{
-			if (hash[minusEnd[i]] == 0)
+			if (hash[minuEnd[i]] == 0)
 			{
-				out.push_back(minusEnd[i]);
+				out.push_back(minuEnd[i]);
 			}
 		}
 

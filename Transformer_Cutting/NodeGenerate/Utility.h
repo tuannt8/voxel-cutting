@@ -27,6 +27,24 @@ namespace Util
 		glEnable(GL_LIGHTING);
 		glDisable(GL_CULL_FACE);
 	}
+	void getTwoOtherIndex(int xyzDirect, int &xyz1, int &xyz2)
+	{
+		if (xyzDirect == 0)
+		{
+			xyz1 = 1;
+			xyz2 = 2;
+		}
+		if (xyzDirect == 1)
+		{
+			xyz1 = 0;
+			xyz2 = 2;
+		}
+		if (xyzDirect == 2)
+		{
+			xyz1 = 1;
+			xyz2 = 0;
+		}
+	}
 	void renderCylinder(float x1, float y1, float z1, float x2, float y2, float z2, float radius, int subdivisions)
 	{
 		GLUquadricObj *quadric = gluNewQuadric();

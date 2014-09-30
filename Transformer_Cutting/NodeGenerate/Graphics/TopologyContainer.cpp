@@ -173,3 +173,24 @@ std::vector<Vec3i>* TopologyContainer::face()
 {
 	return Face;
 }
+
+arrayInt TopologyContainer::faceShareEdgeWithFace(int idxInQ)
+{
+	arrayInt faceIdx;
+	arrayInt edgeOnF = EdgesInFace->at(idxInQ);
+
+	for (int i = 0; i < 3; i++)
+	{
+		int edge = edgeOnF[i];
+		arrayInt faceAroundE = FacesAroundEdge->at(edge);
+		for (auto fIdx : faceAroundE)
+		{
+			if (fIdx != idxInQ)
+			{
+				faceIdx.push_back(fIdx);
+			}
+		}
+	}
+
+	return faceIdx;
+}

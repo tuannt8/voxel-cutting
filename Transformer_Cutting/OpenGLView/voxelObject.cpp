@@ -6,9 +6,11 @@
 voxelBox::voxelBox()
 {
 	boneIndex = -1;
+	state = -1;
 }
 
 voxelBox::voxelBox(Vec3f ld, Vec3f ru)
+: voxelBox()
 {
 	leftDown = ld;
 	rightUp = ru;

@@ -62,6 +62,7 @@ void cutSurfTreeMngr2::drawLeaf(int nodeIdx)
 
 
 	m_tree2.drawVoxel(curNode, &boxes);
+	drawNeighborRelation();
 
 	for (int i = 0; i < coords.size(); i++)
 	{
@@ -91,7 +92,7 @@ bool compareBone_descen(const boneAbstract &lhs, const boneAbstract &rhs)
 bool compareBoneVolume_descen(const boneAbstract &lhs, const boneAbstract &rhs)
 {
 
-	return lhs.volumeRatiof < rhs.volumeRatiof;
+	return lhs.volumeRatiof > rhs.volumeRatiof;
 }
 
 void cutSurfTreeMngr2::ParseSkeletonOrder()
@@ -789,6 +790,7 @@ void cutSurfTreeMngr2::updateDisplay(int idx1, int idx2)
 		++it;
 	}
 	neighborPose pose = (*it).second;
+	currentPose = pose;
 
 	std::vector<cutTreefNode*> *nodes = &pose.nodes;
 
@@ -817,6 +819,7 @@ void cutSurfTreeMngr2::updateDisplay(int idx1, int idx2)
 	std::vector<bone*> sortedBone = poseMngr.sortedBone;
 	std::vector<meshPiece> *centerBox = &curNode->centerBoxf;
 	std::vector<meshPiece> *sideBox = &curNode->sideBoxf;
+	allMeshes.clear();
 
 	for (int i = 0; i < sortedBone.size(); i++)
 	{
@@ -828,13 +831,19 @@ void cutSurfTreeMngr2::updateDisplay(int idx1, int idx2)
 			mesh = centerBox->at(meshIdx);
 		}
 		else
+		{
 			mesh = sideBox->at(meshIdx-centerBox->size());
+		}
+			
 
 		Vec3f center = (mesh.leftDown + mesh.rightUp)/2.0;
 		
 		names.push_back(boneName);
 		centerPos.push_back(center);
+		allMeshes.push_back(mesh);
 	}
+
+	meshNeighbor = poseMngr.neighborPair;
 }
 
 int cutSurfTreeMngr2::findBestOption(int idx1)
@@ -950,7 +959,7 @@ void cutSurfTreeMngr2::parserSkeletonGroup()
 
 	// Sort the bone, by order of volume
 	std::sort(m_centerBoneOrder.begin(), m_centerBoneOrder.end(), compareBoneVolume_descen);
-	std::sort(m_sideBoneOrder.begin(), m_sideBoneOrder.end(), compareBone_descen);
+	std::sort(m_sideBoneOrder.begin(), m_sideBoneOrder.end(), compareBoneVolume_descen);
 
 	// neighbor information
 	std::vector<indexBone> idxMap;
@@ -991,6 +1000,7 @@ void cutSurfTreeMngr2::constructCutTree()
 	m_tree2.poseMngr = &poseMngr;
 	poseMngr.s_skeleton = s_groupSkeleton;
 
+	m_tree2.bUniformCutStep = bUniformCut;
 	m_tree2.constructTreeWithVoxel();
 	leatE2Node2 = m_tree2.lestE2Node;
 
@@ -1018,6 +1028,7 @@ int cutSurfTreeMngr2::updateBestIdx(int idx1)
 	std::vector<bone*> sortedBone = poseMngr.sortedBone;
 	std::vector<meshPiece> *centerBox = &curNode->centerBoxf;
 	std::vector<meshPiece> *sideBox = &curNode->sideBoxf;
+	allMeshes.clear();
 
 	for (int i = 0; i < sortedBone.size(); i++)
 	{
@@ -1029,15 +1040,67 @@ int cutSurfTreeMngr2::updateBestIdx(int idx1)
 			mesh = centerBox->at(meshIdx);
 		}
 		else
+		{
 			mesh = sideBox->at(meshIdx - centerBox->size());
+		}
+
 
 		Vec3f center = (mesh.leftDown + mesh.rightUp) / 2.0;
 
 		names.push_back(boneName);
 		centerPos.push_back(center);
+		allMeshes.push_back(mesh);
 	}
 
+	meshNeighbor = poseMngr.neighborPair;
+
 	return cofIdx;
+}
+
+void cutSurfTreeMngr2::drawNeighborRelation()
+{
+	std::vector<neighborPos> poseConfig = currentPose.posConfig;
+	for (int i = 0; i < meshNeighbor.size(); i++)
+	{
+		Vec2i nbIdxs = meshNeighbor[i];
+		neighborPos curType = poseConfig[i];
+
+		Vec3f pt1, pt2;
+		int idxContact = floor(curType / 2);
+		int idx1, idx2;
+		Util::getTwoOtherIndex(idxContact, idx1, idx2);
+
+		Vec3f ld1 = allMeshes[nbIdxs[0]].leftDown;
+		Vec3f ru1 = allMeshes[nbIdxs[0]].rightUp;
+
+		Vec3f ld2 = allMeshes[nbIdxs[1]].leftDown;
+		Vec3f ru2 = allMeshes[nbIdxs[1]].rightUp;
+
+		Vec3f ldContact, ruContact;
+		ldContact[idx1] = std::max({ld1[idx1], ld2[idx1]});
+		ldContact[idx2] = std::max({ ld1[idx2], ld2[idx2] });
+
+		ruContact[idx1] = std::min({ ru1[idx1], ru2[idx1] });
+		ruContact[idx2] = std::min({ ru1[idx2], ru2[idx2] });
+
+		Vec3f ptMid = (ldContact + ruContact) / 2;
+		pt1 = ptMid;
+		pt2 = ptMid;
+
+		pt1[idxContact] = (ld1[idxContact] + ru1[idxContact]) / 2;
+		pt2[idxContact] = (ld2[idxContact] + ru2[idxContact]) / 2;
+
+		glLineWidth(3.0);
+		glBegin(GL_LINES);
+		glVertex3fv(pt1.data());
+		glVertex3fv(pt2.data());
+		glEnd();
+		glLineWidth(1.0);
+		
+		float radius = (pt1 - pt2).norm() / 10;
+		Util_w::drawSphere(pt1, radius);
+		Util_w::drawSphere(pt2, radius);
+	}
 }
 
 

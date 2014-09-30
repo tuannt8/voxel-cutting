@@ -159,6 +159,7 @@
     <ClCompile Include="myDocment.cpp" />
     <ClCompile Include="octreeSolid.cpp" />
     <ClCompile Include="poseManager.cpp" />
+    <ClCompile Include="processHoleMesh.cpp" />
     <ClCompile Include="SideDialog.cpp" />
     <ClCompile Include="skeleton.cpp" />
     <ClCompile Include="energyMnager.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="neighbor.h" />
     <ClInclude Include="octreeSolid.h" />
     <ClInclude Include="poseManager.h" />
+    <ClInclude Include="processHoleMesh.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="rotationMap.h" />
     <ClInclude Include="SideDialog.h" />
