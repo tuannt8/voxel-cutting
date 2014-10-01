@@ -17,6 +17,7 @@
 #define IDD_CONTROL_DIALOG              136
 #define IDD_DIALOG_ASSIGN_COORD         137
 #define IDD_DIALOG_GROUP_CUT            138
+#define IDD_DIALOG_FILTER_CUT_GROUP                     139
 #define IDC_EDIT1                       1005
 #define IDC_EDIT3                       1006
 #define IDC_EDIT2                       1007
@@ -42,6 +43,7 @@
 #define IDC_BUTTON2_LOAD_COORD          1026
 #define IDC_BUTTON_SAVE_COORD           1027
 #define IDC_COMBO1                      1028
+#define IDC_COMBO2                      1029
 #define ID_TOOL_CONVERTSTLTOOBJ         32771
 #define ID_RENDERMODE_LINE              32778
 #define ID_RENDERMODE_LINEANDSURFACE    32779
@@ -96,7 +98,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        139
+#define _APS_NEXT_RESOURCE_VALUE        140
 #define _APS_NEXT_COMMAND_VALUE         32830
 #define _APS_NEXT_CONTROL_VALUE         1029
 #define _APS_NEXT_SYMED_VALUE           102

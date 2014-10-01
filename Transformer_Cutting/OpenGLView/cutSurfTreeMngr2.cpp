@@ -4,6 +4,7 @@
 #include "neighbor.h"
 #include "Resource.h"
 
+using namespace std;
 
 cutSurfTreeMngr2::cutSurfTreeMngr2(void)
 {
@@ -1012,6 +1013,7 @@ int cutSurfTreeMngr2::updateBestIdx(int idx1)
 	if (idx1 < 0)
 	{
 		curNode = nullptr;
+		cout << "Out of range, cutting pose" << endl;
 		return -1;
 	}
 
@@ -1097,10 +1099,134 @@ void cutSurfTreeMngr2::drawNeighborRelation()
 		glEnd();
 		glLineWidth(1.0);
 		
-		float radius = (pt1 - pt2).norm() / 10;
+		float radius = s_voxelObj->m_voxelSizef / 5;
 		Util_w::drawSphere(pt1, radius);
 		Util_w::drawSphere(pt2, radius);
 	}
+}
+
+void cutSurfTreeMngr2::filterPose(std::vector<neighborPos> pp)
+{
+	cout << "Filter the pose" << endl;
+
+	poseMngr.updateFilteredList(pp);
+}
+
+void cutSurfTreeMngr2::updateDisplayFilter(int idx1, int idx2)
+{
+	std::vector<neighborPose> *poseMap = &m_tree2.poseMngr->filteredPose;
+	if (idx1 < 0 || idx1 >= poseMap->size())
+	{
+		curNode = nullptr;
+		return;
+	}
+
+	neighborPose pose = poseMap->at(idx1);
+	currentPose = pose;
+
+	std::vector<cutTreefNode*> *nodes = &pose.nodes;
+
+	if (idx2 == -1)
+	{
+		idx2 = pose.smallestErrorIdx;
+	}
+
+	if (idx2 < 0 || idx2 >= nodes->size())
+	{
+		return;
+	}
+
+	std::cout << "Pose: " << idx1 << "; " << nodes->size() << " configurations" << std::endl;
+
+	poseIdx = idx1;
+	nodeIdx = idx2;
+
+	// We have the node
+	curNode = nodes->at(idx2);
+
+	// Bone name
+	names.clear();
+	centerPos.clear();
+	std::map<int, int> boneMeshMapIdx = pose.mapBone_meshIdx[idx2];
+	std::vector<bone*> sortedBone = poseMngr.sortedBone;
+	std::vector<meshPiece> *centerBox = &curNode->centerBoxf;
+	std::vector<meshPiece> *sideBox = &curNode->sideBoxf;
+	allMeshes.clear();
+
+	for (int i = 0; i < sortedBone.size(); i++)
+	{
+		CString boneName = sortedBone[i]->m_name;
+		int meshIdx = boneMeshMapIdx[i];
+		meshPiece mesh;
+		if (meshIdx < centerBox->size())
+		{
+			mesh = centerBox->at(meshIdx);
+		}
+		else
+		{
+			mesh = sideBox->at(meshIdx - centerBox->size());
+		}
+
+
+		Vec3f center = (mesh.leftDown + mesh.rightUp) / 2.0;
+
+		names.push_back(boneName);
+		centerPos.push_back(center);
+		allMeshes.push_back(mesh);
+	}
+
+	meshNeighbor = poseMngr.neighborPair;
+}
+
+int cutSurfTreeMngr2::updateBestIdxFilter(int idx1)
+{
+	if (idx1 < 0)
+	{
+		curNode = nullptr;
+		cout << "Out of range, cutting pose" << endl;
+		return -1;
+	}
+
+	neighborPose pose = m_tree2.poseMngr->getFilteredPose(idx1);
+
+	int cofIdx = pose.smallestErrorIdx;
+	std::vector<cutTreefNode*> *nodes = &pose.nodes;
+	curNode = nodes->at(cofIdx);
+
+	// Bone name
+	names.clear();
+	centerPos.clear();
+	std::map<int, int> boneMeshMapIdx = pose.mapBone_meshIdx[cofIdx];
+	std::vector<bone*> sortedBone = poseMngr.sortedBone;
+	std::vector<meshPiece> *centerBox = &curNode->centerBoxf;
+	std::vector<meshPiece> *sideBox = &curNode->sideBoxf;
+	allMeshes.clear();
+
+	for (int i = 0; i < sortedBone.size(); i++)
+	{
+		CString boneName = sortedBone[i]->m_name;
+		int meshIdx = boneMeshMapIdx[i];
+		meshPiece mesh;
+		if (meshIdx < centerBox->size())
+		{
+			mesh = centerBox->at(meshIdx);
+		}
+		else
+		{
+			mesh = sideBox->at(meshIdx - centerBox->size());
+		}
+
+
+		Vec3f center = (mesh.leftDown + mesh.rightUp) / 2.0;
+
+		names.push_back(boneName);
+		centerPos.push_back(center);
+		allMeshes.push_back(mesh);
+	}
+
+	meshNeighbor = poseMngr.neighborPair;
+
+	return cofIdx;
 }
 
 

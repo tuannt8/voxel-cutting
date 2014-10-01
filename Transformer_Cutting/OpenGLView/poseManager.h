@@ -29,6 +29,7 @@ public:
 	bool operator < (const neighborPose& b);
 
 	void computeUniqeID();
+	bool containFilter(std::vector<neighborPos> pp);
 public:
 	int posConfigId; // Computed from posConfig
 	std::vector<neighborPos> posConfig;
@@ -59,6 +60,8 @@ public:
 	std::map<int, neighborPose> poseMap; // Do we need sort for fast access??
 
 	neighborPose getPose(int poseIdx);
+
+	std::vector<neighborPose> filteredPose;
 public:
 	BoneMapTree m_boneMapTree;
 	skeleton *s_skeleton;
@@ -97,6 +100,7 @@ public:
 	std::vector<meshPiece> meshBoxes;
 	void findPossibleMap(BoneMapTreeNode *node, cutTreefNode* cutTNode);
 
+	void updateFilteredList(std::vector<neighborPos> pp);
 public:
 	int findIdx(std::vector<bone*>* v, bone* e);
 	bool isNeighborSufficient(int boneIdx, int meshIdx);
@@ -107,6 +111,7 @@ public:
 	void computeVolumeRatioOfBone();
 
 	float getVolumeError(cutTreefNode* cutTNode, std::map<int, int>* boneMeshIdxMap);
+	neighborPose getFilteredPose(int idx1);
 };
 
 class poseGroupCutManager

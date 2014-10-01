@@ -146,6 +146,7 @@
     <ClCompile Include="dynamicManager.cpp" />
     <ClCompile Include="energyDoc.cpp" />
     <ClCompile Include="errorHash.cpp" />
+    <ClCompile Include="FilterCutDialog.cpp" />
     <ClCompile Include="groupCut.cpp" />
     <ClCompile Include="groupCutManager.cpp" />
     <ClCompile Include="KEGIES.cpp" />
@@ -201,6 +202,7 @@
     <ClInclude Include="dynamicManager.h" />
     <ClInclude Include="energyDoc.h" />
     <ClInclude Include="errorHash.h" />
+    <ClInclude Include="FilterCutDialog.h" />
     <ClInclude Include="groupCut.h" />
     <ClInclude Include="groupCutManager.h" />
     <ClInclude Include="matTranform.h" />

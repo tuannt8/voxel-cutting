@@ -9,6 +9,7 @@
 #include "debugInfo.h"
 #include "manipulateVoxel.h"
 #include "processHoleMesh.h"
+#include "FilterCutDialog.h"
 
 //#include "MeshCutting.h"
 #define XML_ORIGINAL_MESH_KEY "original_mesh_path_name"
@@ -44,6 +45,7 @@ public:
 	void updateIdx(int yIdx, int zIdx);
 	void updateRealtime();
 
+	void updateFilterCutGroup();
 private:
 	void loadFile(); // Load for cutting
 	void loadTestVoxelBitSet();
@@ -76,11 +78,13 @@ private:
 	std::vector<arrayInt> getVoxelIdxFullFromVoxelProcess();
 	void saveCutMeshToObj();
 	void convertPolyHedronToMayaObj(Polyhedron *cutPieces, const char* path) const;
+
 public:
 	// Process
 	processHoleMeshPtr holeMesh;
 	appMode m_curMode; // Application state
-	cutSurfTreeMngr2 m_cutSurface; // kd tree that store configuration
+	cutSurfTreeMngr2 m_cutSurface; 
+	FilterCutDialog * cutFilterDialog;
 
 	detailSwapManager *m_swapMngr;
 	groupCutManager *m_groupCutMngr;

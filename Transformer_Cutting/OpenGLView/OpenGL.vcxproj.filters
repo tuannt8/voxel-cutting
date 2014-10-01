@@ -192,6 +192,9 @@
     <ClCompile Include="processHoleMesh.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="FilterCutDialog.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KEGIES.h">
@@ -361,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="processHoleMesh.h">
       <Filter>MyDocument</Filter>
+    </ClInclude>
+    <ClInclude Include="FilterCutDialog.h">
+      <Filter>controlDialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -26,11 +26,17 @@ myDocment::myDocment()
 	m_curMode = MODE_NONE;
 
 	std::cout << endl << "Press 'S' to construct the cut tree" << endl << endl;
+
+	
 }
 
 
 myDocment::~myDocment()
 {
+	if (cutFilterDialog)
+	{
+		delete cutFilterDialog;
+	}
 	if (m_meshCutting)
 	{
 		delete m_meshCutting;
@@ -262,7 +268,7 @@ void myDocment::receiveKey(char c)
 	{
 		if (c == 'B') // Best configuration
 		{
-			int cofIdx = m_cutSurface.updateBestIdx(idx1);
+			int cofIdx = m_cutSurface.updateBestIdxFilter(idx1);
 			// update
 			CMainFrame* mainF = (CMainFrame*)AfxGetMainWnd();
 
@@ -394,6 +400,16 @@ void myDocment::constructCutTree()
 		<< " - 'D' to voxelize and 'G' to swap\n"
 		<< " - 'S' to change to state splitting group bones\n"
 		<< endl << endl;
+
+	cutFilterDialog = new FilterCutDialog;
+	CFrameWnd * pFrame = (CFrameWnd *)(AfxGetApp()->m_pMainWnd);
+	CView * pView = pFrame->GetActiveView();
+	cutFilterDialog->Create(FilterCutDialog::IDD, pView);
+	cutFilterDialog->initFromCutTree(&m_cutSurface);
+	cutFilterDialog->doc = this;
+	cutFilterDialog->ShowWindow(SW_SHOW);
+
+	updateFilterCutGroup();
 }
 
 void myDocment::updateIdx(int yIdx, int zIdx)
@@ -403,7 +419,7 @@ void myDocment::updateIdx(int yIdx, int zIdx)
 
 	if (m_curMode == MODE_FINDING_CUT_SURFACE)
 	{
-		m_cutSurface.updateDisplay(idx1, idx2);
+		m_cutSurface.updateDisplayFilter(idx1, idx2);
 	}
 	else if (m_curMode == MODE_SPLIT_BONE_GROUP)
 	{
@@ -1429,4 +1445,10 @@ void myDocment::convertPolyHedronToMayaObj(Polyhedron *cutPieces, const char* pa
 		myfile << "\n";
 	}
 	myfile.close();
+}
+
+void myDocment::updateFilterCutGroup()
+{
+	std::vector<neighborPos> pp = cutFilterDialog->chosenPose;
+	m_cutSurface.filterPose(pp);
 }

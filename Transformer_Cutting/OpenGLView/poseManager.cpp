@@ -121,6 +121,22 @@ void neighborPose::computeUniqeID()
 	}
 }
 
+bool neighborPose::containFilter(std::vector<neighborPos> pp)
+{
+	for (int i = 0; i < pp.size(); i++)
+	{
+		if (pp[i] != NONE_NB)
+		{
+			if (pp[i] != posConfig[i])
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 neighborPos * poseManager::posArray()
 {
 	static neighborPos pos[6] = {X_PLUS, X_MINUS, Y_PLUS, Y_MINUS, Z_PLUS, Z_MINUS};
@@ -519,6 +535,32 @@ float poseManager::getVolumeError(cutTreefNode* cutTNode, std::map<int, int>* bo
 	}
 
 	return e / sortedBone.size();
+}
+
+void poseManager::updateFilteredList(std::vector<neighborPos> pp)
+{
+	filteredPose.clear();
+
+	for (auto b : poseMap)
+	{
+		neighborPose curB = b.second;
+		if (curB.containFilter(pp))
+		{
+			filteredPose.push_back(curB);
+		}
+	}
+
+	std::cout << "Filtered list has " << filteredPose.size() << " poses\n";
+}
+
+neighborPose poseManager::getFilteredPose(int idx1)
+{
+	if (idx1 < 0 || idx1 >= filteredPose.size())
+	{
+		throw std::exception("Out of range vector");
+		return neighborPose();
+	}
+	return filteredPose[idx1];
 }
 
 poseGroupCutManager::poseGroupCutManager()
