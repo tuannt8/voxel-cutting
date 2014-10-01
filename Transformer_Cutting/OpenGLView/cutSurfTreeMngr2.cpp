@@ -1187,46 +1187,54 @@ int cutSurfTreeMngr2::updateBestIdxFilter(int idx1)
 		return -1;
 	}
 
-	neighborPose pose = m_tree2.poseMngr->getFilteredPose(idx1);
+	try{
 
-	int cofIdx = pose.smallestErrorIdx;
-	std::vector<cutTreefNode*> *nodes = &pose.nodes;
-	curNode = nodes->at(cofIdx);
+		neighborPose pose = m_tree2.poseMngr->getFilteredPose(idx1);
 
-	// Bone name
-	names.clear();
-	centerPos.clear();
-	std::map<int, int> boneMeshMapIdx = pose.mapBone_meshIdx[cofIdx];
-	std::vector<bone*> sortedBone = poseMngr.sortedBone;
-	std::vector<meshPiece> *centerBox = &curNode->centerBoxf;
-	std::vector<meshPiece> *sideBox = &curNode->sideBoxf;
-	allMeshes.clear();
+		int cofIdx = pose.smallestErrorIdx;
+		std::vector<cutTreefNode*> *nodes = &pose.nodes;
+		curNode = nodes->at(cofIdx);
 
-	for (int i = 0; i < sortedBone.size(); i++)
-	{
-		CString boneName = sortedBone[i]->m_name;
-		int meshIdx = boneMeshMapIdx[i];
-		meshPiece mesh;
-		if (meshIdx < centerBox->size())
+		// Bone name
+		names.clear();
+		centerPos.clear();
+		std::map<int, int> boneMeshMapIdx = pose.mapBone_meshIdx[cofIdx];
+		std::vector<bone*> sortedBone = poseMngr.sortedBone;
+		std::vector<meshPiece> *centerBox = &curNode->centerBoxf;
+		std::vector<meshPiece> *sideBox = &curNode->sideBoxf;
+		allMeshes.clear();
+
+		for (int i = 0; i < sortedBone.size(); i++)
 		{
-			mesh = centerBox->at(meshIdx);
+			CString boneName = sortedBone[i]->m_name;
+			int meshIdx = boneMeshMapIdx[i];
+			meshPiece mesh;
+			if (meshIdx < centerBox->size())
+			{
+				mesh = centerBox->at(meshIdx);
+			}
+			else
+			{
+				mesh = sideBox->at(meshIdx - centerBox->size());
+			}
+
+
+			Vec3f center = (mesh.leftDown + mesh.rightUp) / 2.0;
+
+			names.push_back(boneName);
+			centerPos.push_back(center);
+			allMeshes.push_back(mesh);
 		}
-		else
-		{
-			mesh = sideBox->at(meshIdx - centerBox->size());
-		}
 
+		meshNeighbor = poseMngr.neighborPair;
 
-		Vec3f center = (mesh.leftDown + mesh.rightUp) / 2.0;
-
-		names.push_back(boneName);
-		centerPos.push_back(center);
-		allMeshes.push_back(mesh);
+		return cofIdx;
 	}
-
-	meshNeighbor = poseMngr.neighborPair;
-
-	return cofIdx;
+	catch (...)
+	{
+		cout << "Out of range, cutting pose" << endl;
+		return -1;
+	}
 }
 
 
