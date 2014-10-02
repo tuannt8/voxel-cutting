@@ -41,36 +41,12 @@ neighborPos poseManager::possibleNeighbor(meshPiece* parent, meshPiece* child)
 	Vec3f diag(voxelSizef, voxelSizef, voxelSizef);
 	if(geoF.collisionBtwBox(Box(parent->leftDown, parent->rightUp), Box(child->leftDown - diag/2.0, child->rightUp + diag/2.0)))
 	{
-// 		Vec3f pSizef = parent->rightUp - parent->leftDown;
-// 		Vec3f centerP = (parent->rightUp + parent->leftDown)/2.0;
-// 		Vec3f centerC =  (child->rightUp + child->leftDown)/2.0;
-// 
-// 		Vec3f dd = centerC-centerP;
-// 		// scale
-// 		float longest = 0;
-// 		int idx = -1;
-// 		for (int j = 0; j < 3; j++)
-// 		{
-// 			dd[j] = dd[j] / (pSizef[j] / 2.0);
-// 			if (longest < abs(dd[j]))
-// 			{
-// 				longest = abs(dd[j]);
-// 				idx = j;
-// 			}
-// 		}
-// 
-// 		neighborPos *pp = posArray();
-// 		if (dd[idx] > 0)
-// 			return pp[idx*2]; // plus axis direction
-// 		else
-// 			return pp[idx*2+1]; // minus axis direction
-
 		Vec3f parentLD = parent->leftDown;
 		Vec3f parentRU = parent->rightUp;
 		Vec3f childLD = child->leftDown;
 		Vec3f childRU = child->rightUp;
 		neighborPos *pp = posArray();
-		float error = 0.1*voxelSizef;
+		float error = 0.001*voxelSizef;
 		for (int xyzd = 0; xyzd < 3; xyzd++) // Test on three direction
 		{
 			// Check if Plus
@@ -653,31 +629,48 @@ neighborPos poseGroupCutManager::possibleNeighbor(meshPiece* parent, meshPiece* 
 	// Best is to check overlap. maximum is the size of voxel
 	GeometricFunc geoF;
 	Vec3f diag(voxelSizef, voxelSizef, voxelSizef);
+
+
+	// Otherwise, use center distance
 	if (geoF.collisionBtwBox(Box(parent->leftDown, parent->rightUp), Box(child->leftDown - diag / 2.0, child->rightUp + diag / 2.0)))
 	{
-		Vec3f pSizef = parent->rightUp - parent->leftDown;
-		Vec3f centerP = (parent->rightUp + parent->leftDown) / 2.0;
-		Vec3f centerC = (child->rightUp + child->leftDown) / 2.0;
-
-		Vec3f dd = centerC - centerP;
-		// scale
-		float longest = 0;
-		int idx = -1;
-		for (int j = 0; j < 3; j++)
+		// If have face contact
+		int direct;
+		if (geoF.isBoxFaceContactBox(Box(parent->leftDown, parent->rightUp), Box(child->leftDown, child->rightUp), direct))
 		{
-			dd[j] = dd[j] / (pSizef[j] / 2.0);
-			if (longest < abs(dd[j]))
+			int p = direct*2;
+			if (parent->leftDown[direct] > child->leftDown[direct])
 			{
-				longest = abs(dd[j]);
-				idx = j;
+				p++;
 			}
+			return (neighborPos)p;
 		}
-
-		neighborPos *pp = posArray();
-		if (dd[idx] > 0)
-			return pp[idx * 2]; // plus axis direction
 		else
-			return pp[idx * 2 + 1]; // minus axis direction
+		{
+			Vec3f pSizef = parent->rightUp - parent->leftDown;
+			Vec3f centerP = (parent->rightUp + parent->leftDown) / 2.0;
+			Vec3f centerC = (child->rightUp + child->leftDown) / 2.0;
+
+			Vec3f dd = centerC - centerP;
+			// scale
+			float longest = 0;
+			int idx = -1;
+			for (int j = 0; j < 3; j++)
+			{
+				dd[j] = dd[j] / (pSizef[j] / 2.0);
+				if (longest < abs(dd[j]))
+				{
+					longest = abs(dd[j]);
+					idx = j;
+				}
+			}
+
+			neighborPos *pp = posArray();
+			if (dd[idx] > 0)
+				return pp[idx * 2]; // plus axis direction
+			else
+				return pp[idx * 2 + 1]; // minus axis direction
+		}
 	}
 
 	return NONE_NB;

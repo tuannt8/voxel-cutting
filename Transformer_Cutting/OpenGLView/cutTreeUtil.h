@@ -11,6 +11,8 @@ public:
 	{
 		volumef = 0;
 		m_isCoordSet = false;
+		leftDown = Vec3f(MAX, MAX, MAX);
+		rightUp = Vec3f(MIN, MIN, MIN);
 	};
 	meshPiece(Vec3f ld, Vec3f ru)
 	{
@@ -144,6 +146,7 @@ public:
 	cutTreefNode *parent;
 	std::vector<cutTreefNode*> children;
 	int depth;
+	int childIdxToParent;
 
 	// Box
 	std::vector<meshPiece> centerBoxf;

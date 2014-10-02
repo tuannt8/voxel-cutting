@@ -55,6 +55,53 @@ void groupCutNode::draw(std::vector<bone*> bones, std::map<int, int> boneMeshmap
 	}
 }
 
+void groupCutNode::drawNeighbor(std::vector<bone*> bones, std::map<int, int> boneMeshmap, arrayVec2i neighborInfo, std::vector<neighborPos> posConfig, float voxelSize)
+{
+	for (int i = 0; i < neighborInfo.size(); i++)
+	{
+		int meshIdx1 = boneMeshmap[neighborInfo[i][0]];
+		int meshIdx2 = boneMeshmap[neighborInfo[i][1]];
+		neighborPos relativePos = posConfig[i];
+
+
+		Vec3f pt1, pt2;
+		int idxContact = floor(relativePos / 2);
+		int idx1, idx2;
+		Util::getTwoOtherIndex(idxContact, idx1, idx2);
+
+		Vec3f ld1 = boxf[meshIdx1].leftDown;
+		Vec3f ru1 = boxf[meshIdx1].rightUp;
+
+		Vec3f ld2 = boxf[meshIdx2].leftDown;
+		Vec3f ru2 = boxf[meshIdx2].rightUp;
+
+		Vec3f ldContact, ruContact;
+		ldContact[idx1] = std::max({ ld1[idx1], ld2[idx1] });
+		ldContact[idx2] = std::max({ ld1[idx2], ld2[idx2] });
+
+		ruContact[idx1] = std::min({ ru1[idx1], ru2[idx1] });
+		ruContact[idx2] = std::min({ ru1[idx2], ru2[idx2] });
+
+		Vec3f ptMid = (ldContact + ruContact) / 2;
+		pt1 = ptMid;
+		pt2 = ptMid;
+
+		pt1[idxContact] = (ld1[idxContact] + ru1[idxContact]) / 2;
+		pt2[idxContact] = (ld2[idxContact] + ru2[idxContact]) / 2;
+
+		glLineWidth(3.0);
+		glBegin(GL_LINES);
+		glVertex3fv(pt1.data());
+		glVertex3fv(pt2.data());
+		glEnd();
+		glLineWidth(1.0);
+
+		float radius = voxelSize / 5;
+		Util_w::drawSphere(pt1, radius);
+		Util_w::drawSphere(pt2, radius);
+	}
+}
+
 
 groupCut::groupCut()
 {
@@ -277,4 +324,5 @@ void groupCut::drawPose(int poseIdx, int configIdx)
 	std::map<int, int> boneMeshMap = pp.mapBone_meshIdx[configIdx];
 
 	node->draw(bones, boneMeshMap);
+	node->drawNeighbor(bones, boneMeshMap, boxPose.neighborInfo, pp.posConfig, voxelSize);
 }

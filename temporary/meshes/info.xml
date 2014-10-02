@@ -2,16 +2,16 @@
 <skeleton_mesh_path_name>skeleton.xml</skeleton_mesh_path_name>
 <mesh_cut_part>
 	<polygon_name>meshPath_0.obj</polygon_name>
-	<bone_name>head</bone_name>
+	<bone_name>Torso</bone_name>
 	<bone_mesh_coordinate_map>
 		<x>0</x>
-		<y>2</y>
-		<z>1</z>
+		<y>1</y>
+		<z>2</z>
 	</bone_mesh_coordinate_map>
 </mesh_cut_part>
 <mesh_cut_part>
 	<polygon_name>meshPath_1.obj</polygon_name>
-	<bone_name>Torso</bone_name>
+	<bone_name>head</bone_name>
 	<bone_mesh_coordinate_map>
 		<x>0</x>
 		<y>1</y>
@@ -39,37 +39,21 @@
 <mesh_cut_part>
 	<polygon_name>meshPath_4.obj</polygon_name>
 	<bone_name>hand</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>1</y>
-		<z>2</z>
-	</bone_mesh_coordinate_map>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
 </mesh_cut_part>
 <mesh_cut_part>
 	<polygon_name>meshPath_5.obj</polygon_name>
 	<bone_name>leg</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>1</y>
-		<z>2</z>
-	</bone_mesh_coordinate_map>
+	<bone_mesh_coordinate_map>0, 1, 2 </bone_mesh_coordinate_map>
 </mesh_cut_part>
 <mesh_cut_part>
 	<polygon_name>meshPath_6.obj</polygon_name>
 	<bone_name>lowerLeg</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>1</y>
-		<z>2</z>
-	</bone_mesh_coordinate_map>
+	<bone_mesh_coordinate_map>0, 1, 2 </bone_mesh_coordinate_map>
 </mesh_cut_part>
 <mesh_cut_part>
 	<polygon_name>meshPath_7.obj</polygon_name>
 	<bone_name>feet</bone_name>
-	<bone_mesh_coordinate_map>
-		<x>0</x>
-		<y>1</y>
-		<z>2</z>
-	</bone_mesh_coordinate_map>
+	<bone_mesh_coordinate_map>0, 1, 2 </bone_mesh_coordinate_map>
 </mesh_cut_part>
 

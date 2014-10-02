@@ -12,6 +12,7 @@ public:
 	groupCutNode(groupCutNode *parentIn);
 	void draw(int mode);
 	void draw(std::vector<bone*> bones, std::map<int, int> boneMeshmap);
+	void drawNeighbor(std::vector<bone*> bones, std::map<int, int> boneMeshmap, arrayVec2i neighborInfo, std::vector<neighborPos> posConfig, float voxelSize);
 public:
 	// Tree data
 	std::vector<groupCutNode*> child;

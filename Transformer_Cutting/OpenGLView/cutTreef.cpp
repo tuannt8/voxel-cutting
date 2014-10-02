@@ -906,7 +906,32 @@ cutTreefNode::cutTreefNode(cutTreefNode* parentNode)
 	sideBoxf = parentNode->sideBoxf;
 	parent = parentNode;
 	depth = parentNode->depth + 1;
-	
+	childIdxToParent = parentNode->children.size();
+
+	// Debug
+	arrayInt parentChild = {1, 3, 9, 2};
+	if (depth == parentChild.size())
+	{
+
+		cutTreefNode* p = this;
+		int idx = 0;
+		bool found = true;
+		for (int i = 0; i < parentChild.size(); i++)
+		{
+			if (p->childIdxToParent == parentChild[i])
+			{
+				p = p->parent;
+			}
+			else
+				found = false;
+		}
+
+		if (found)
+		{
+			std::cout << "Me Me";
+		}
+	}
+
 	debugCode = CODE_NULL;
 }
 

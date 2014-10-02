@@ -13,6 +13,7 @@ cutSurfTreeMngr2::cutSurfTreeMngr2(void)
 	curNode = nullptr;
 
 	m_weightError = Vec3f(0.3, 0.3, 0.3);
+	upParentIdx = 0;
 }
 
 cutSurfTreeMngr2::~cutSurfTreeMngr2(void)
@@ -1235,6 +1236,41 @@ int cutSurfTreeMngr2::updateBestIdxFilter(int idx1)
 		cout << "Out of range, cutting pose" << endl;
 		return -1;
 	}
+}
+
+void cutSurfTreeMngr2::drawDebugCurNode()
+{
+	if (!curNode)
+	{
+		return;
+	}
+
+	cutTreefNode* p = curNode;
+	for (int i = 0; i < upParentIdx; i++)
+	{
+		if (p->parent)
+		{
+			p = p->parent;
+		}
+	}
+
+	m_tree2.drawVoxel(p, &boxes);
+}
+
+void cutSurfTreeMngr2::updateDebugDrawOfNode(int offset)
+{
+	if (!curNode)
+	{
+		return;
+	}
+
+	int newIdx = upParentIdx + offset;
+	if (curNode->depth  < newIdx)
+	{
+		return;
+	}
+
+	upParentIdx = newIdx;
 }
 
 

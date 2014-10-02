@@ -23,6 +23,8 @@ public:
 	void drawLeaf(int nodeIdx);
 	void updateNode(int nodeIdx);
 
+	void drawDebugCurNode();
+
 	void updateDisplay(int idx1, int idx2);
 	int updateBestIdx(int idx1);
 
@@ -69,6 +71,8 @@ public:
 
 	void filterPose(std::vector<neighborPos> pp);
 
+	// Debug
+	void updateDebugDrawOfNode(int offset);
 private:
 	void setVoxelArray();
 	void drawNeighborRelation();
@@ -124,8 +128,11 @@ public:
 	arrayVec2i meshNeighbor;
 	neighborPose currentPose;
 	std::vector<meshPiece> allMeshes;
+	int upParentIdx;
 
 	// User define weight error
 	Vec3f m_weightError; // neighbor - aspect - volume
+
+	
 };
 

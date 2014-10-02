@@ -162,23 +162,26 @@ void myXML::addCommentToNode(myXMLNode* node, const char* comment)
 
 void myXML::addVectoriToNode(myXMLNode * node, const char * element, Vec3i v)
 {
-	myXMLNode * dataNode = addNodeToNode(node, element);
-	addElementToNode(dataNode, X_KEY, std::to_string(v[0]));
-	addElementToNode(dataNode, Y_KEY, std::to_string(v[1]));
-	addElementToNode(dataNode, Z_KEY, std::to_string(v[2]));
+	std::stringstream str;
+	str << v[0] << ", " << v[1] << ", " << v[2];
+	addElementToNode(node, element, str.str());
 }
 
 Vec3i myXML::getVec3i(myXMLNode * node, char * element)
 {
-	myXMLNode * child = node->first_node(element);
+	ASSERT(node);
 	Vec3i pt;
-	char* xc = child->first_node(X_KEY)->value();
-	char* yc = child->first_node(Y_KEY)->value();
-	char* zc = child->first_node(Z_KEY)->value();
+	myXMLNode * child = node->first_node(element);
+	char* coord = child->value();
 
-	pt[0] = atoi(xc);
-	pt[1] = atoi(yc);
-	pt[2] = atoi(zc);
+	// parse the value
+	using namespace std;
+	vector<string> out;
+	Util::split(string(coord), ',', out);
+
+	pt[0] = atoi(out[0].c_str());
+	pt[1] = atoi(out[1].c_str());
+	pt[2] = atoi(out[2].c_str());
 
 	return pt;
 }

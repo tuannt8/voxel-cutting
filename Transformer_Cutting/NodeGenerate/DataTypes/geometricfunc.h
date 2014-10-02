@@ -1496,14 +1496,37 @@ public:
 			}
 		}
 	}
-
-
-
-
-
-
-
-
 	/// Line - tri distance
+
+	bool isBoxFaceContactBox(Box parent, Box child, int &direct)
+	{
+		float epsilon = (parent.rightUp[0] - parent.leftDown[0])/1000;
+		ASSERT(epsilon > 0);
+		Vec3f centerL = parent.center - child.center;
+		Vec3f diagTotal = parent.center - parent.leftDown + child.center - child.leftDown;
+
+		direct = -1;
+		for (int i = 0; i < 3; i++)
+		{
+
+			float dis = std::abs(centerL[i]) - std::abs(diagTotal[i]);
+			if (dis >  epsilon)
+			{
+				return false;
+			}
+			else if (std::abs(dis) < epsilon) // contact
+			{
+				if (direct == -1)
+				{
+					direct = i;
+				}
+				else
+					return false; // Two contact face; Ambigious
+			}
+		}
+
+		return true;
+	}
+
 };
 #endif

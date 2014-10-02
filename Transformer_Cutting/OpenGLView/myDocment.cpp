@@ -149,6 +149,11 @@ void myDocment::draw(BOOL mode[10])
 			}
 		}
 
+		if (mode[7])
+		{
+			m_cutSurface.drawDebugCurNode();
+		}
+
 	}
 	else if (m_curMode == MODE_SPLIT_BONE_GROUP)
 	{
@@ -304,6 +309,14 @@ void myDocment::receiveKey(char c)
 				m_swapMngr->swapVoxel2();
 			}
 		}
+		if (c == 'P') // Debug
+		{
+			m_cutSurface.updateDebugDrawOfNode(1);
+		}
+		if (c == 'O')
+		{
+			m_cutSurface.updateDebugDrawOfNode(-1);
+		}
 	}
 
 	if (m_curMode == MODE_FIT_BONE)
@@ -361,6 +374,7 @@ void myDocment::changeState()
 		constructCutTree();
 		break;
 	case MODE_FINDING_CUT_SURFACE:
+		cutFilterDialog->EndDialog(0);
 		changeToCutGroupBone();
 		break;
 	case MODE_SPLIT_BONE_GROUP:
