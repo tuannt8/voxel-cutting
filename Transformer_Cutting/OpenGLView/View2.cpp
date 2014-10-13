@@ -82,7 +82,11 @@ void View2::DrawView()
 	UpdateView();
 	SetupView();
 
-	//drawAxis(true, &m_Cam1);
+	if (m_displayMode[0])
+	{
+		drawAxis(true, &m_Cam1);
+	}
+
 
 // 	if (pDoc->m_mode == MODE_FINDING_CUT_SURFACE)
 // 	{
@@ -286,10 +290,12 @@ void View2::drawAxis(bool atOrigin, CCamera* cam)
 
 void View2::SetupView()
 {
-	GLfloat diffuseLight[] = {0.4f,0.4f,0.4f,1.0f};
-	GLfloat ambientLight[] = {0.2f,0.2f,0.2f,1.0f};
-	GLfloat specular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+	GLfloat diffuseLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat ambientLight[] = { 0.4f, 0.4f, 0.4f, 1.0f };
+	GLfloat specular[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+	GLfloat position[] = { m_Cam1.m_Pos.x, m_Cam1.m_Pos.y, m_Cam1.m_Pos.z, 0.0 };
 
+	glEnable(GL_MULTISAMPLE);
 	glEnable(GL_DEPTH_TEST);                                        
 	//  	glEnable(GL_CULL_FACE);  
 	// 
@@ -305,13 +311,15 @@ void View2::SetupView()
 	glEnable(GL_LIGHTING);   
 	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
 	glEnable(GL_LIGHT0);
 
 	glFrontFace(GL_CW);
 
 	glShadeModel(GL_SMOOTH); 
 	//glShadeModel(GL_FLAT);
-	glPolygonMode(GL_FRONT, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 void View2::UpdateView()

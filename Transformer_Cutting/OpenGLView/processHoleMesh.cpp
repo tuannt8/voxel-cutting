@@ -22,7 +22,7 @@ void processHoleMesh::processMeshSTL(char* path)
 	TopologyContainer * topo = originalSurface->container();
 	arrayVec3i * tris = originalSurface->face();
 	vector<arrayInt> * faceAroundEdge = topo->facesAroundEdge();
-
+	
 	// Hash 
 	arrayInt faceHash(tris->size(), 0);
 
@@ -65,15 +65,16 @@ void processHoleMesh::processMeshSTL(char* path)
 	}
 
 	// Water tight
+	std::vector<arrayInt> *edgeOnFace = originalSurface->container()->edgesInFace();
 	for (auto idxs : independentObj)
 	{
 		bool isWaterTight = true;
 		for (auto id: idxs)
 		{
-			Vec3i t = tris->at(id);
-			for (int i = 0; i < 3; i++)
+			arrayInt edges = edgeOnFace->at(id);
+			for (auto eIdx : edges)
 			{
-				if ((*faceAroundEdge)[t[i]].size() != 2)
+				if (faceAroundEdge->at(eIdx).size() != 2)
 				{
 					isWaterTight = false;
 					break;
@@ -120,11 +121,17 @@ SurfaceObj * processHoleMesh::getBiggestWaterTightPart()
 		// Create a new surface
 		return new SurfaceObj(*pts, newTris);
 	}
+
+
+
 	return nullptr;
 }
 
 void processHoleMesh::drawSeparatePart() const
 {
+	if (!originalSurface)
+		return;
+
 	static arrayVec3f colors = Util_w::randColor(20);
 	for (int i = 0; i < independentObj.size(); i++)
 	{

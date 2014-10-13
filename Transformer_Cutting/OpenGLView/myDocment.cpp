@@ -19,6 +19,9 @@ myDocment::myDocment()
 	m_lowResVoxel = nullptr; 
 	m_highResVoxel = nullptr; 
 	m_skeleton = nullptr;
+	cutFilterDialog = nullptr;
+	m_surfaceObj = nullptr;
+
 	shift = 0;
 	m_debug = debugInfoPtr(new debugInfo);
 
@@ -81,6 +84,12 @@ myDocment::~myDocment()
 	{
 		delete m_finalSwap;
 	}
+
+	if (m_highResFullVoxel)
+	{
+		delete m_highResFullVoxel;
+		m_highResFullVoxel = nullptr;
+	}
 }
 
 void myDocment::draw(BOOL mode[10])
@@ -93,13 +102,13 @@ void myDocment::draw(BOOL mode[10])
 		return;
 	}
 
-	if (mode[1])
+	if (mode[1] && m_surfaceObj)
 	{
 		glColor3f(0.8, 0.8, 0.8);
 		m_surfaceObj->drawObject();
 	}
 
-	if (!mode[2])
+	if (!mode[2] && m_lowResVoxel)
 	{
 		glColor3f(0, 0, 0);
 		m_lowResVoxel->drawVoxelLeaf();
@@ -107,7 +116,7 @@ void myDocment::draw(BOOL mode[10])
 		m_lowResVoxel->drawVoxelLeaf(1);
 	}
 
-	if (!mode[3])
+	if (!mode[3] && m_highResVoxel)
 	{
 		glColor3f(0, 0, 0);
 		m_highResFullVoxel->drawVoxelLeaf();
@@ -117,12 +126,12 @@ void myDocment::draw(BOOL mode[10])
 
 	if (m_curMode == MODE_NONE)
 	{
-		if (mode[4])
+		if (mode[4] && m_lowResVoxel)
 		{
 			glColor3f(1, 0, 0);
 			m_lowResVoxel->drawVoxel();
 		}
-		if (mode[5])
+		if (mode[5] && m_highResVoxel)
 		{
 			glColor3f(0, 0, 0);
 			m_highResVoxel->drawVoxelLeaf();
@@ -132,6 +141,10 @@ void myDocment::draw(BOOL mode[10])
 		if (mode[6] && holeMesh)
 		{
 			holeMesh->drawSeparatePart();
+		}
+		if (mode[7])
+		{
+			drawTest();
 		}
 	}
 
@@ -198,14 +211,29 @@ void myDocment::draw2(bool mode[10])
 		return;
 	}
 
-	if (mode[1])
+	if (mode[1] && m_skeleton) // draw normal bone
 	{
 		glLineWidth(2.0);
 		glColor3f(0, 0, 1);
 		m_skeleton->draw(SKE_DRAW_BOX_WIRE);
 		glLineWidth(1.0);
 	}
+	if (mode[2] && m_skeleton)
+	{
+		glColor3f(1, 1, 1);
+		m_skeleton->draw(SKE_DRAW_BOX_SOLID);
+	}
 
+	if (mode[3] && m_skeleton)
+	{
+		glColor3f(0, 0, 1);
+		m_skeleton->drawGroup(SKE_DRAW_BOX_WIRE);
+	}
+	if (mode[4] && m_skeleton)
+	{
+		glColor3f(1, 1, 1);
+		m_skeleton->drawGroup(SKE_DRAW_BOX_SOLID);
+	}
 // 	glColor3f(0, 0, 1);
 // 	m_highResVoxel->drawVoxel(1);
 // 	m_debug->s_voxelObj = m_highResVoxel;
@@ -266,6 +294,20 @@ void myDocment::receiveKey(char c)
 			m_curMode = MODE_FIT_BONE;
 			loadStateForPostProcess();
 			return;
+		}
+
+		if (c == 'R') // reload skeleton
+		{
+			if (m_skeleton)
+			{
+				delete m_skeleton;
+			}
+			m_skeleton = new skeleton;
+			char* skeletonPath = "../../Data/skeleton.xml";
+			m_skeleton->loadFromFile(skeletonPath);
+			m_skeleton->computeTempVar();
+			m_skeleton->groupBone();
+			cprintf("Load skeleton: %s\n", skeletonPath);
 		}
 	}
 
@@ -374,7 +416,6 @@ void myDocment::changeState()
 		constructCutTree();
 		break;
 	case MODE_FINDING_CUT_SURFACE:
-		cutFilterDialog->EndDialog(0);
 		changeToCutGroupBone();
 		break;
 	case MODE_SPLIT_BONE_GROUP:
@@ -490,6 +531,8 @@ void myDocment::changeToCutGroupBone()
 		AfxMessageBox(_T("Box cut is not ready"));
 		return;
 	}
+
+	cutFilterDialog->EndDialog(0);
 
 	m_curMode = MODE_SPLIT_BONE_GROUP;
 	
@@ -968,21 +1011,22 @@ void myDocment::updateRealtime()
 void myDocment::loadFile()
 {
 	// Init
-	char* surfacePath = "../../Data/jetSki/jetSki.stl";
+	char* surfacePath = "../../Data/spaceShip/spaceShip.stl";
 	cprintf("Init document\n");
 
 	// 1. Surface
 	cprintf("Load surface object: %s\n", surfacePath);
 	CTimeTick tm; tm.SetStart();
-	// Pre process
-	holeMesh = processHoleMeshPtr(new processHoleMesh);
-	holeMesh->processMeshSTL(surfacePath);
-	m_surfaceObj = holeMesh->getBiggestWaterTightPart();
+	// Preprocess
+ 	holeMesh = processHoleMeshPtr(new processHoleMesh);
+ 	holeMesh->processMeshSTL(surfacePath);
+ 	m_surfaceObj = holeMesh->getBiggestWaterTightPart();
 	if (!m_surfaceObj)
 	{
 		AfxMessageBox(_T("The input mesh is not water tight"));
 		return;
 	}
+
 // 	m_surfaceObj = new SurfaceObj;
 // 	m_surfaceObj->readObjDataSTL(surfacePath);
 	m_surfaceObj->centerlize();
@@ -1114,6 +1158,24 @@ void myDocment::drawTest(BOOL mode[])
 // 		ruLower[0] = shift;
 // 		setLower.drawBoxSolid(&m_highResVoxel->m_hashTable);
 	}
+}
+
+void myDocment::drawTest()
+{
+// 	vector<voxelBox> *boxes = &m_lowResVoxel->m_boxes;
+// 	arrayVec3f colors = {Vec3f(0,0,0), Vec3f(0.5, 0.5, 0.5), Vec3f(1,1,1)};
+// 
+// 	for (auto b : *boxes)
+// 	{
+// 		glColor3fv(colors[0].data());
+// 		b.draw(0);
+// 		glColor3fv(colors[1].data());
+// 		if (b.center[0] <0)
+// 		{
+// 			glColor3fv(colors[2].data());
+// 		}
+// 		b.draw(1);
+// 	}
 }
 
 std::vector<arrayInt> testCut(voxelObject* obj, arrayInt idxs, int xcoord)

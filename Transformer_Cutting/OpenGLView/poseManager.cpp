@@ -97,7 +97,7 @@ void neighborPose::computeUniqeID()
 	}
 }
 
-bool neighborPose::containFilter(std::vector<neighborPos> pp)
+bool neighborPose::containFilter(std::vector<neighborPos> pp) const
 {
 	for (int i = 0; i < pp.size(); i++)
 	{
@@ -517,10 +517,10 @@ void poseManager::updateFilteredList(std::vector<neighborPos> pp)
 {
 	filteredPose.clear();
 
-	for (auto b : poseMap)
+	for (auto it = poseMap.begin(); it != poseMap.end(); it++)
 	{
-		neighborPose curB = b.second;
-		if (curB.containFilter(pp))
+		neighborPose *curB = &it->second;
+		if (curB->containFilter(pp))
 		{
 			filteredPose.push_back(curB);
 		}
@@ -534,9 +534,8 @@ neighborPose poseManager::getFilteredPose(int idx1)
 	if (idx1 < 0 || idx1 >= filteredPose.size())
 	{
 		throw std::exception("Out of range vector");
-		return neighborPose();
 	}
-	return filteredPose[idx1];
+	return *filteredPose[idx1];
 }
 
 poseGroupCutManager::poseGroupCutManager()

@@ -203,7 +203,7 @@ void groupCutManager::draw(BOOL mode[10])
 	}
 	if (mode[6])
 	{
-		for (int i = 0; i < meshBoxes.size(); i++)
+		for (int i = 0; i < s_meshBoxes->size(); i++)
 		{
 			glColor3fv(color[i+1].data());
 			(*s_meshBoxes)[i]->drawVoxels(&mirror, 1);

@@ -29,7 +29,7 @@ public:
 	bool operator < (const neighborPose& b);
 
 	void computeUniqeID();
-	bool containFilter(std::vector<neighborPos> pp);
+	bool containFilter(std::vector<neighborPos> pp) const;
 public:
 	int posConfigId; // Computed from posConfig
 	std::vector<neighborPos> posConfig;
@@ -61,7 +61,7 @@ public:
 
 	neighborPose getPose(int poseIdx);
 
-	std::vector<neighborPose> filteredPose;
+	std::vector<neighborPose*> filteredPose;
 public:
 	BoneMapTree m_boneMapTree;
 	skeleton *s_skeleton;

@@ -82,7 +82,7 @@ public:
 	// Share data from main document
 	skeleton *s_groupSkeleton;
 	voxelObject *s_voxelObj;
-
+	std::vector<voxelBox>* s_boxes;
 
 
 	// Data load from file

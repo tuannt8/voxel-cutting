@@ -62,8 +62,8 @@ void cutSurfTreeMngr2::drawLeaf(int nodeIdx)
 		return;
 	}
 
-
-	m_tree2.drawVoxel(curNode, &boxes);
+	s_boxes = &s_voxelObj->m_boxes;
+	m_tree2.drawVoxel(curNode, s_boxes);
 	drawNeighborRelation();
 
 	for (int i = 0; i < coords.size(); i++)
@@ -1115,14 +1115,14 @@ void cutSurfTreeMngr2::filterPose(std::vector<neighborPos> pp)
 
 void cutSurfTreeMngr2::updateDisplayFilter(int idx1, int idx2)
 {
-	std::vector<neighborPose> *poseMap = &m_tree2.poseMngr->filteredPose;
+	std::vector<neighborPose*> *poseMap = &m_tree2.poseMngr->filteredPose;
 	if (idx1 < 0 || idx1 >= poseMap->size())
 	{
 		curNode = nullptr;
 		return;
 	}
 
-	neighborPose pose = poseMap->at(idx1);
+	neighborPose pose = *poseMap->at(idx1);
 	currentPose = pose;
 
 	std::vector<cutTreefNode*> *nodes = &pose.nodes;
@@ -1244,6 +1244,7 @@ void cutSurfTreeMngr2::drawDebugCurNode()
 	{
 		return;
 	}
+	s_boxes = &s_voxelObj->m_boxes;
 
 	cutTreefNode* p = curNode;
 	for (int i = 0; i < upParentIdx; i++)
@@ -1254,7 +1255,7 @@ void cutSurfTreeMngr2::drawDebugCurNode()
 		}
 	}
 
-	m_tree2.drawVoxel(p, &boxes);
+	m_tree2.drawVoxel(p, s_boxes);
 }
 
 void cutSurfTreeMngr2::updateDebugDrawOfNode(int offset)

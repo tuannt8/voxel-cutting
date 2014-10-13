@@ -36,6 +36,7 @@ public: // Variable
 
 private: // Bump variable
 	arrayInt m_hashBoxIdx;
+	std::vector<arrayInt> m_voxelState;
 
 private: // bump function
 	void assignBoneSizeToMesh();
@@ -44,7 +45,7 @@ private: // bump function
 	int getNearestBox(int voxelIdx);
 	std::vector<arrayFloat> getCurrentErrorOfBox(const std::vector<arrayInt> &boxVoxelIdxs);
 	void drawVoxelBox();
-
+	int getNearestNeighborBox(int voxelIdx);
 };
 
 typedef std::shared_ptr<manipulateVoxel> manipulateVoxelPtr;

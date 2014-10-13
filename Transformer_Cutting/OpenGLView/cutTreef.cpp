@@ -1004,13 +1004,15 @@ void cutTreefNode::draw(float centerX, std::vector<boneAbstract> *centerBoneOrde
 
 void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 {
-	bool boneName = true;
+	bool boneName = false;
 	bool bDrawVoxel = false;
 	bool bDrawTransparant = true;
 	//glEnable(GL_CULL_FACE);
 
 	static std::vector<Vec3f> color = Util_w::randColor(6);
-	int idxC = 0;
+	color[0] = Vec3f(1, 1, 1);
+	color[1] = Vec3f(0.5, 0.5, 0.5);
+ 	int idxC = 0;
 	for (int i = 0; i < node->centerBoxf.size(); i++)
 	{
 		arrayInt idxs = node->centerBoxf[i].voxels;
@@ -1021,12 +1023,16 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 			for (int i = 0; i < idxs.size(); i++)
 			{
 				voxelBox vBox = boxes->at(idxs[i]);
+				glColor3f(0, 0, 0);
 				Util_w::drawBoxWireFrame(vBox.leftDown, vBox.rightUp);
+				glColor3fv(color[idxC].data());
+				Util_w::drawBoxSurface(vBox.leftDown, vBox.rightUp);
 			}
 		}
 
 
 		glLineWidth(2.0);
+		glColor3f(0, 0, 0);
 		Util_w::drawBoxWireFrame(node->centerBoxf[i].leftDown, node->centerBoxf[i].rightUp);
 		glLineWidth(1.0);
 
@@ -1059,7 +1065,10 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 			for (int i = 0; i < idxs.size(); i++)
 			{
 				voxelBox vBox = boxes->at(idxs[i]);
+				glColor3f(0, 0, 0);
 				Util_w::drawBoxWireFrame(vBox.leftDown, vBox.rightUp);
+				glColor3fv(color[idxC].data());
+				Util_w::drawBoxSurface(vBox.leftDown, vBox.rightUp);
 			}
 
 			// Symmetric
@@ -1067,12 +1076,16 @@ void cutTreef::drawVoxel(cutTreefNode*node, std::vector<voxelBox>* boxes)
 			{
 				voxelBox vBox = boxes->at(idxs[i]);
 				Box a = Util_w::getSymetrixBox(Box(vBox.leftDown, vBox.rightUp), 0, centerMesh[0]);
+				glColor3f(0, 0, 0);
 				Util_w::drawBoxWireFrame(a.leftDown, a.rightUp);
+				glColor3fv(color[idxC].data());
+				Util_w::drawBoxSurface(a.leftDown, a.rightUp);
 			}
 		}
 
 		// Bounding
 		glLineWidth(2.0);
+		glColor3f(0, 0, 0);
 		Util_w::drawBoxWireFrame(node->sideBoxf[i].leftDown, node->sideBoxf[i].rightUp);
 		glLineWidth(1.0);
 

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "manipulateVoxel.h"
 #include "neighbor.h"
 
@@ -229,7 +229,7 @@ void manipulateVoxel::resolveVoxelBox()
 	std::vector<voxelBox> * boxes = &s_voxelObj->m_boxes;
 	Vec3f centerMesh = s_voxelObj->m_centerf;
 
-	std::vector<arrayInt> voxelState = markVoxelHash();
+	m_voxelState = markVoxelHash();
 
 	// Resolve the voxel
 	std::vector<arrayInt> boxVoxelIdxs;
@@ -238,7 +238,8 @@ void manipulateVoxel::resolveVoxelBox()
 	// Assign the voxel the belong to one box
 	// Resolve the voxel that does not belong to any box
 	arrayInt voxelInConflict;
-	for (int i = 0; i < voxelState.size(); i++)
+	arrayInt freeVoxel;
+	for (int i = 0; i < m_voxelState.size(); i++)
 	{
 		// We consider symmetric
 		if (boxes->at(i).center[0] > centerMesh[0])
@@ -246,20 +247,38 @@ void manipulateVoxel::resolveVoxelBox()
 			continue;
 		}
 
-		arrayInt boxList = voxelState[i];
+		arrayInt boxList = m_voxelState[i];
 		if (boxList.size() == 1) // Belong to one box
 		{
 			boxVoxelIdxs[boxList[0]].push_back(i);
+			m_hashBoxIdx[i] = boxList[0];
 		}
 		else if (boxList.size() == 0) // Does not belong to any
 		{
 			// Resolve by distance to box face or aspect ratio
 			// We use distance to box face first
-			int boxIdx = getNearestBox(i);
-			boxVoxelIdxs[boxIdx].push_back(i);
+// 			int boxIdx = getNearestBox(i);
+// 			boxVoxelIdxs[boxIdx].push_back(i);
+			freeVoxel.push_back(i);
 		}
 		else
 			voxelInConflict.push_back(i);
+	}
+
+	// Resolve free voxel
+	while (freeVoxel.size() > 0)
+	{
+		for (auto it = freeVoxel.begin(); it != freeVoxel.end(); it++)
+		{
+			int boxIdx = getNearestNeighborBox(*it);
+			if (boxIdx != -1)
+			{
+				boxVoxelIdxs[boxIdx].push_back(*it);
+				m_hashBoxIdx[*it] = boxIdx;
+				freeVoxel.erase(it);
+				break;
+			}
+		}
 	}
 
 	// resolve the voxel that belong to multi box
@@ -269,7 +288,7 @@ void manipulateVoxel::resolveVoxelBox()
 	{
 		// Assign to box with smallest size
 		int vIdx = voxelInConflict[i];
-		arrayInt boxIdxs = voxelState[vIdx];
+		arrayInt boxIdxs = m_voxelState[vIdx];
 		int idx = -1; float smallest = MAX;
 		for (int j = 0; j < boxIdxs.size(); j++)
 		{
@@ -295,6 +314,7 @@ void manipulateVoxel::resolveVoxelBox()
 
 std::vector<arrayInt> manipulateVoxel::markVoxelHash()
 {
+	// list of mesh box that the voxel possibly lie in
 	std::vector<voxelBox> * boxes = &s_voxelObj->m_boxes;
 
 	std::vector<arrayInt> voxelState;
@@ -452,5 +472,43 @@ void manipulateVoxel::cutCenterBoxByHalf()
 			s_boxes->at(vIdx[j]).boneIndex = i;
 		}
 	}
+}
+
+int manipulateVoxel::getNearestNeighborBox(int voxelIdx)
+{
+	arrayInt vShareFace = s_voxelObj->m_boxShareFaceWithBox[voxelIdx];
+	int boxIdxNeareast = -1;
+	float nearest = MAX;
+	std::vector<voxelBox> *boxes = &s_voxelObj->m_boxes;
+
+	for (auto nbIdx : vShareFace)
+	{
+		arrayInt listMeshIdxs = m_voxelState[nbIdx];
+
+		if (m_hashBoxIdx[nbIdx] != -1)
+		{
+			listMeshIdxs.push_back(m_hashBoxIdx[nbIdx]);
+		}
+
+		for (auto mIdx : listMeshIdxs)
+		{
+			// Compute distance
+			Vec3f center = meshBox[mIdx]->centerPoint();
+			Vec3f size3F = meshBox[mIdx]->m_BoxSize3F*curScaleF;
+			Vec3f ld3F = center - size3F / 2;
+			Vec3f ru3F = center + size3F / 2;
+
+			GeometricFunc geoFunc;
+			float dis = geoFunc.disBtwPointAndBox(Box(ld3F, ru3F), boxes->at(voxelIdx).center);
+
+			if (dis < nearest)
+			{
+				nearest = dis;
+				boxIdxNeareast = mIdx;
+			}
+		}
+	}
+
+	return boxIdxNeareast;
 }
 

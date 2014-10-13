@@ -128,37 +128,42 @@ void skeleton::draw(int mode)
 	if (m_root != nullptr)
 	{
 		colorIndex = 0;
+		sideBoneDrawFlag = false;
 		drawBoneRecursive(m_root, mode);
 	}
 
 }
 
-void skeleton::drawBoneRecursive(bone* node, int mode)
+void skeleton::drawBoneRecursive(bone* node, int mode, bool mirror)
 {
 	if (node == nullptr)
 		return;
 
 	glPushMatrix();
 	glTranslatef(node->m_posCoord[0], node->m_posCoord[1], node->m_posCoord[2]);
-	glRotatef(node->m_angle[0], 0, 0, 1);// z
-	glRotatef(node->m_angle[1], 1, 0, 0);// x
+	// Rotate global x-y-z
+	// In GL, we do invert
 	glRotatef(node->m_angle[2], 0, 0, 1);// z
+	glRotatef(node->m_angle[1], 0, 1, 0);// y
+	glRotatef(node->m_angle[0], 1, 0, 0);// x
 
-	static arrayVec3f color = Util_w::randColor(30);
-	glColor3fv(color[colorIndex++].data());
-	node->draw(mode, meshScale);
+// 	static arrayVec3f color = Util_w::randColor(30);
+// 	glColor3fv(color[colorIndex++].data());
+
+	node->draw(mode, meshScale, mirror);
 
 	for (size_t i = 0; i < node->child.size(); i++)
 	{
-
-		drawBoneRecursive(node->child[i], mode);
+		drawBoneRecursive(node->child[i], mode, mirror);
 
 		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
 		{
+			sideBoneDrawFlag = true;
 			glPushMatrix();
 			glScalef(1, -1, 1);
-			drawBoneRecursive(node->child[i], mode);
+			drawBoneRecursive(node->child[i], mode, true);
 			glPopMatrix();
+			sideBoneDrawFlag = false;
 		}
 	}
 
@@ -471,21 +476,77 @@ float skeleton::getVolume()
 	return vol;
 }
 
-void bone::draw(int mode, float scale)
+void skeleton::drawGroup(int mode)
 {
+	if (m_root)
+	{
+		colorIndex = 0;
+		drawGroupRecur(m_root, mode);
+	}
+}
+
+void skeleton::drawGroupRecur(bone* node, int mode, bool mirror /*= false*/)
+{
+	if (node == nullptr)
+		return;
+
+	glPushMatrix();
+	glTranslatef(node->m_posCoord[0], node->m_posCoord[1], node->m_posCoord[2]);
+	// Rotate global x-y-z
+	// In GL, we do invert
+	glRotatef(node->m_angle[2], 0, 0, 1);// z
+	glRotatef(node->m_angle[1], 0, 1, 0);// y
+	glRotatef(node->m_angle[0], 1, 0, 0);// x
+
+// 	static arrayVec3f color = Util_w::randColor(30);
+// 	glColor3fv(color[colorIndex++].data());
+	node->draw(mode, meshScale*node->groupShrink(), mirror);
+
+	if (node == m_root)
+	{
+		for (size_t i = 0; i < node->child.size(); i++)
+		{
+			drawGroupRecur(node->child[i], mode, mirror);
+
+			if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
+			{
+				sideBoneDrawFlag = true;
+				glPushMatrix();
+				glScalef(1, -1, 1);
+				drawGroupRecur(node->child[i], mode, true);
+				glPopMatrix();
+				sideBoneDrawFlag = false;
+			}
+		}
+	}
+
+	glPopMatrix();
+}
+
+void bone::draw(int mode, float scale, bool mirror)
+{
+	glLineWidth(mirror ? 1.0 : 2.0);
+
+// 	// Scale
+// 	Vec3f center = (leftDownf + rightUpf) / 2.0;
+// 	Vec3f diag = (rightUpf - leftDownf) / 2.0;
+// 
+// 	Vec3f ldf = center - diag*scale;
+// 	Vec3f ruf = center + diag* scale;
+
 	if (mode & SKE_DRAW_BOX_WIRE)
 	{
 		Util_w::drawBoxWireFrame(leftDownf, rightUpf);
-		drawMesh(scale);
 		drawCoord();
 	}
 
 	if (mode & SKE_DRAW_BOX_SOLID)
 	{
+		
 		Util_w::drawBoxSurface(leftDownf, rightUpf);
 	}
 
-
+	glLineWidth(1.0);
 
 // 	if (child.size() == 0)
 // 	{ // Draw joint
@@ -785,9 +846,19 @@ Mat4x4f bone::getLocalTransMat()
 {
 	Mat4x4f a;
 	a = transformUtil::translationMat(m_posCoord);
-	a = a*transformUtil::rot_Z_Mat(m_angle[0]);
-	a = a*transformUtil::rot_X_Mat(m_angle[1]);
-	a = a*transformUtil::rot_Z_Mat(m_angle[1]);
+	a = a*transformUtil::rot_Z_Mat(m_angle[2]);
+	a = a*transformUtil::rot_Y_Mat(m_angle[1]);
+	a = a*transformUtil::rot_X_Mat(m_angle[0]);
 
 	return a;
+}
+
+float bone::groupShrink()
+{
+	if (bIsGroup)
+	{
+		return m_groupVolumef / m_volumef;
+	}
+	
+	return 1;
 }

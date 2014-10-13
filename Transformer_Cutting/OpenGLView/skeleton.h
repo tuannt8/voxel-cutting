@@ -30,7 +30,7 @@ public:
 	bone();
 	~bone();
 
-	void draw(int mode, float scale = 1.0);
+	void draw(int mode, float scale = 1.0, bool mirror = false);
 	void drawCoord();
 	void drawMesh(float scale = 1.0);
 	void initOther();
@@ -53,7 +53,7 @@ public:
 	Vec3f m_jointBegin;	// The beginning of the joint
 	Vec3f m_posCoord; // Original coordinate relative to parent
 						// This is also end of the joint 
-	Vec3f m_angle;	// Rotation angle by z-x-z sequence (Euler), degree
+	Vec3f m_angle;	// Rotation angle by x-y-z. global, degree
 
 	// Bone information
 	Vec3f m_sizef;
@@ -64,6 +64,7 @@ public:
 	float m_volumef;
 	Vec3f leftDownf, rightUpf;
 	float m_volumeRatio;
+
 
 	// For group bone algorithm
 	bool bIsGroup;
@@ -84,6 +85,7 @@ public:
 	int nbNeighbor() const;
 	void setBoneType(std::string typeString);
 	Mat4x4f getLocalTransMat();
+	float groupShrink();
 };
 
 typedef std::vector<bone*> arrayBone_p;
@@ -99,7 +101,9 @@ public:
 	void writeToFile(char* filePath);
 
 	void draw(int mode=SKE_DRAW_BOX_WIRE); // SKE_DRAW_...
-	void drawBoneRecursive(bone* node, int mode);
+	void drawGroup(int mode = SKE_DRAW_BOX_WIRE);
+	void drawBoneRecursive(bone* node, int mode, bool mirror = false); 
+	void drawGroupRecur(bone* node, int mode, bool mirror = false);
 	
 	void initTest(); // Manually for testing
 	void computeTempVar();
@@ -139,6 +143,9 @@ public:
 	bone* m_root;
 	float meshScale;
 	int colorIndex;
+
+
+	bool sideBoneDrawFlag;
 };
 
 typedef std::shared_ptr<skeleton> skeletonPtr;
