@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "manipulateVoxel.h"
 #include "neighbor.h"
+#include "detailSwapManager.h"
 
 
 manipulateVoxel::manipulateVoxel()
@@ -192,7 +193,7 @@ void manipulateVoxel::updateParam(int idx1, int idx2)
 
 void manipulateVoxel::drawBoxInterfere()
 {
-	static arrayVec3f color3Fif = Util_w::randColor(10);
+	static arrayVec3f color3Fif = Util_w::randColor(30);
 
 	// Draw bounding box
 	for (int i = 0; i < meshBox.size(); i++)
@@ -231,11 +232,10 @@ void manipulateVoxel::resolveVoxelBox()
 
 	m_voxelState = markVoxelHash();
 
-	// Resolve the voxel
-	std::vector<arrayInt> boxVoxelIdxs;
+	// 1. Resolve the voxel
 	boxVoxelIdxs.resize(meshBox.size());
 
-	// Assign the voxel the belong to one box
+	// 2. Assign the voxel the belong to one box
 	// Resolve the voxel that does not belong to any box
 	arrayInt voxelInConflict;
 	arrayInt freeVoxel;
@@ -257,31 +257,13 @@ void manipulateVoxel::resolveVoxelBox()
 		{
 			// Resolve by distance to box face or aspect ratio
 			// We use distance to box face first
-// 			int boxIdx = getNearestBox(i);
-// 			boxVoxelIdxs[boxIdx].push_back(i);
 			freeVoxel.push_back(i);
 		}
 		else
 			voxelInConflict.push_back(i);
 	}
 
-	// Resolve free voxel
-	while (freeVoxel.size() > 0)
-	{
-		for (auto it = freeVoxel.begin(); it != freeVoxel.end(); it++)
-		{
-			int boxIdx = getNearestNeighborBox(*it);
-			if (boxIdx != -1)
-			{
-				boxVoxelIdxs[boxIdx].push_back(*it);
-				m_hashBoxIdx[*it] = boxIdx;
-				freeVoxel.erase(it);
-				break;
-			}
-		}
-	}
-
-	// resolve the voxel that belong to multi box
+	// 3. resolve the voxel that belong to multi box
 	// We assign the box to mesh that have the largest error
 	std::vector<arrayFloat> curError = getCurrentErrorOfBox(boxVoxelIdxs);
 	for (int i = 0; i < voxelInConflict.size(); i++)
@@ -303,6 +285,47 @@ void manipulateVoxel::resolveVoxelBox()
 
 		ASSERT(idx != -1);
 		boxVoxelIdxs[idx].push_back(vIdx);
+		m_hashBoxIdx[vIdx] = idx;
+	}
+
+	// 4. Resolve free voxel
+	while (freeVoxel.size() > 0)
+	{
+		for (auto it = freeVoxel.begin(); it != freeVoxel.end(); it++)
+		{
+			int boxIdx = getNearestNeighborBox(*it);
+			if (boxIdx != -1)
+			{
+				boxVoxelIdxs[boxIdx].push_back(*it);
+				m_hashBoxIdx[*it] = boxIdx;
+				freeVoxel.erase(it);
+				break;
+			}
+		}
+	}
+
+	// 5. Process if any object is not connected
+	while (true)
+	{
+		bool found = false;
+		for (auto i = 0; i < boxVoxelIdxs.size(); i++)
+		{
+			auto idxs = boxVoxelIdxs[i];
+			// Check if the piece is unconnected
+			// Merge small part that far from original box to other piece
+			std::vector<arrayInt> independGroup = getIndependentGroup(boxes, idxs);
+			if (independGroup.size() > 1)
+			{
+				found = true;
+				mergeUnconnectedPiece(i, independGroup);
+				break;
+			}
+		}
+
+		if (!found)
+		{
+			break;
+		}
 	}
 
 	// Update
@@ -310,6 +333,53 @@ void manipulateVoxel::resolveVoxelBox()
 	{
 		meshBox[i]->updateIdxs(boxVoxelIdxs[i]);
 	}
+}
+
+std::vector<arrayInt> manipulateVoxel::getIndependentGroup(std::vector<voxelBox>* boxes, arrayInt idxs)
+{
+	int* mark = new int[boxes->size()];
+	std::fill(mark, mark + boxes->size(), 0);
+	for (int i = 0; i < idxs.size(); i++)
+	{
+		mark[idxs[i]] = 1;
+	}
+
+	int* hashvQ = new int[boxes->size()];
+	std::fill(hashvQ, hashvQ + boxes->size(), 0);
+
+	std::vector<arrayInt> out;
+	arrayInt remain = idxs;
+	while (remain.size() > 0)
+	{
+		arrayInt newObj;
+		std::queue<int> vQ;
+		vQ.push(remain[0]);
+
+		while (!vQ.empty())
+		{
+			int idx = vQ.front();
+			vQ.pop();
+			newObj.push_back(idx);
+			mark[idx] = 0; // No longer available
+
+			// add all its neighbor
+			arrayInt neighborN = s_voxelObj->m_boxShareFaceWithBox.at(idx);
+			for (int j = 0; j < neighborN.size(); j++)
+			{
+				if (mark[neighborN[j]] == 1
+					&& hashvQ[neighborN[j]] == 0)
+				{
+					hashvQ[neighborN[j]] = 1;
+					vQ.push(neighborN[j]);
+				}
+			}
+		}
+
+		out.push_back(newObj);
+		remain = Util_w::substractArrayInt(remain, newObj, boxes->size());
+	}
+
+	return out;
 }
 
 std::vector<arrayInt> manipulateVoxel::markVoxelHash()
@@ -393,7 +463,7 @@ std::vector<arrayFloat> manipulateVoxel::getCurrentErrorOfBox(const std::vector<
 
 void manipulateVoxel::drawVoxelBox()
 {
-	static arrayVec3f color_voxel = Util_w::randColor(10);
+	static arrayVec3f color_voxel = Util_w::randColor(30);
 	for (auto i = 0; i < meshBox.size(); i++)
 	{
 		glColor3fv(color_voxel[i].data());
@@ -510,5 +580,107 @@ int manipulateVoxel::getNearestNeighborBox(int voxelIdx)
 	}
 
 	return boxIdxNeareast;
+}
+
+void manipulateVoxel::mergeUnconnectedPiece(int meshIdx, std::vector<arrayInt> independGroup)
+{
+	// 1. Find the piece that we should keep
+	int keepIdx = -1;
+	float nearest = MAX;
+	for (int j = 0; j < independGroup.size(); j++)
+	{
+		float dis = averageDistanceToMesh(independGroup[j], meshIdx);
+		if (dis < nearest)
+		{
+			nearest = dis;
+			keepIdx = j;
+		}
+	}
+
+	ASSERT(keepIdx != -1);
+	boxVoxelIdxs[meshIdx] = independGroup[keepIdx];
+
+	// 2. merge other
+	for (unsigned int i = 0; i < independGroup.size(); i++)
+	{
+		if (i == keepIdx)
+		{
+			continue;
+		}
+
+		arrayInt idxs = independGroup[i];
+		arrayInt neighborMesh = findNeighborMesh(meshIdx, idxs);
+		ASSERT(neighborMesh.size() > 0);
+		// To mesh that has highest error
+		int meshToMergeIdx = -1;
+		float maxError = 0;
+		for (int j = 0; j < neighborMesh.size(); j++)
+		{
+			int meshNbIdx = neighborMesh[j];
+			arrayInt curIdxs = boxVoxelIdxs[meshNbIdx];
+			curIdxs.insert(curIdxs.end(), idxs.begin(), idxs.end());
+			arrayFloat curE = meshBox[meshNbIdx]->getErrorAssumeVoxelList(curIdxs);
+
+			if (curE[VOLUME_ERROR] > maxError)
+			{
+				maxError = curE[VOLUME_ERROR];
+				meshToMergeIdx = meshNbIdx;
+			}
+		}
+
+		// Merge
+		ASSERT(meshToMergeIdx != -1);
+		arrayInt curIdxs = boxVoxelIdxs[meshToMergeIdx];
+		curIdxs.insert(curIdxs.end(), idxs.begin(), idxs.end());
+
+		boxVoxelIdxs[meshToMergeIdx] = curIdxs;
+
+		for (auto id : idxs)
+		{
+			ASSERT(m_hashBoxIdx[id] == meshIdx);
+			m_hashBoxIdx[id] = meshToMergeIdx;
+		}
+	}
+}
+
+arrayInt manipulateVoxel::findNeighborMesh(int sourceIdx, arrayInt idxs)
+{
+	arrayInt meshHash(boxVoxelIdxs.size(), -1);
+	for (auto id : idxs)
+	{
+		arrayInt neighborVoxel = s_voxelObj->m_boxShareFaceWithBox[id];
+		for (auto nb : neighborVoxel)
+		{
+			int meshIdx = m_hashBoxIdx[nb];
+			if (meshIdx != -1 && meshIdx != sourceIdx)
+			{
+				meshHash[meshIdx] = 1;
+			}
+		}
+	}
+
+	arrayInt meshIdxNb;
+	for (int i = 0; i < meshHash.size(); i++)
+	{
+		if (meshHash[i] != -1)
+		{
+			meshIdxNb.push_back(i);
+		}
+	}
+
+	return meshIdxNb;
+}
+
+float manipulateVoxel::averageDistanceToMesh(arrayInt idxs, int meshIdx)
+{
+	std::vector<voxelBox> *boxes = & s_voxelObj->m_boxes;
+	float dis = 0;
+	Vec3f meshCenter = meshBox[meshIdx]->centerPoint();
+	for (auto id : idxs)
+	{
+		dis += (meshCenter - boxes->at(id).center).norm();
+	}
+
+	return dis / idxs.size();
 }
 

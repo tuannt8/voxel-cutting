@@ -909,6 +909,7 @@ cutTreefNode::cutTreefNode(cutTreefNode* parentNode)
 	childIdxToParent = parentNode->children.size();
 
 	// Debug
+#ifdef _DEBUG
 	arrayInt parentChild = {1, 3, 9, 2};
 	if (depth == parentChild.size())
 	{
@@ -931,6 +932,7 @@ cutTreefNode::cutTreefNode(cutTreefNode* parentNode)
 			std::cout << "Me Me";
 		}
 	}
+#endif
 
 	debugCode = CODE_NULL;
 }

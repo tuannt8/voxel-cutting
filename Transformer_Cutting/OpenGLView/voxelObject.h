@@ -77,6 +77,7 @@ public:
 	void drawBitSetBoundingBox();
 
 	void drawVoxel(int mode = 0);
+	void drawVoxelIndex();
 	void drawVoxelLeaf(int mode = 0); // 0: edge; 1: Solid
 
 	Vec3f floorV(Vec3f v, float d);

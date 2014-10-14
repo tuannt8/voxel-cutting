@@ -526,3 +526,12 @@ void voxelObject::updateSphereOccupy(energyMngerPtr curEnergyObj)
 
 	}
 }
+
+void voxelObject::drawVoxelIndex()
+{
+	for (int i = 0; i < m_boxes.size(); i++)
+	{
+		Vec3f c = m_boxes[i].center;
+		Util::printw(c[0], c[1], c[2], "%d", i);
+	}
+}

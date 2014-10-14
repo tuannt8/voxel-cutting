@@ -36,6 +36,7 @@ public: // Variable
 
 private: // Bump variable
 	arrayInt m_hashBoxIdx;
+	std::vector<arrayInt> boxVoxelIdxs;
 	std::vector<arrayInt> m_voxelState;
 
 private: // bump function
@@ -46,6 +47,10 @@ private: // bump function
 	std::vector<arrayFloat> getCurrentErrorOfBox(const std::vector<arrayInt> &boxVoxelIdxs);
 	void drawVoxelBox();
 	int getNearestNeighborBox(int voxelIdx);
+	std::vector<arrayInt> getIndependentGroup(std::vector<voxelBox>* boxes, arrayInt idxs);
+	void mergeUnconnectedPiece(int meshIdx, std::vector<arrayInt> independGroup);
+	arrayInt findNeighborMesh(int meshIdx, arrayInt idxs);
+	float averageDistanceToMesh(arrayInt idxs, int meshIdx);
 };
 
 typedef std::shared_ptr<manipulateVoxel> manipulateVoxelPtr;

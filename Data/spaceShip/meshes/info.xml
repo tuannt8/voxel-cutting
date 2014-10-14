@@ -1,0 +1,58 @@
+<original_mesh_path_name>originalMesh.obj</original_mesh_path_name>
+<skeleton_mesh_path_name>skeleton.xml</skeleton_mesh_path_name>
+<mesh_cut_part>
+	<polygon_name>meshPath_0.obj</polygon_name>
+	<bone_name>Torso</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_1.obj</polygon_name>
+	<bone_name>head</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_2.obj</polygon_name>
+	<bone_name>arm</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_3.obj</polygon_name>
+	<bone_name>elbow</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_4.obj</polygon_name>
+	<bone_name>hand</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_5.obj</polygon_name>
+	<bone_name>leg</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_6.obj</polygon_name>
+	<bone_name>lowerLeg</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_7.obj</polygon_name>
+	<bone_name>feet</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_8.obj</polygon_name>
+	<bone_name>tail</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_9.obj</polygon_name>
+	<bone_name>tail_2</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+<mesh_cut_part>
+	<polygon_name>meshPath_10.obj</polygon_name>
+	<bone_name>tail_3</bone_name>
+	<bone_mesh_coordinate_map>0, 1, 2</bone_mesh_coordinate_map>
+</mesh_cut_part>
+

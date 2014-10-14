@@ -165,7 +165,7 @@ carve::poly::Polyhedron * MeshCutting::makeCube(double minX, double minY, double
 
 void MeshCutting::draw(BOOL displayMode[10])
 {
-	static arrayVec3f color = Util_w::randColor(10);
+	static arrayVec3f color = Util_w::randColor(30);
 	if (displayMode[5])
 	{
 		if (m_polyHedron)

@@ -196,7 +196,10 @@ void myDocment::draw(BOOL mode[10])
 		{
 			m_voxelProcess->draw(mode);
 		}
-
+		if (mode[9] && m_lowResVoxel)
+		{
+			m_lowResVoxel->drawVoxelIndex();
+		}
 	}
 	else if (m_curMode == MODE_CUTTING_MESH)
 	{
@@ -446,9 +449,10 @@ void myDocment::constructCutTree()
 	m_cutSurface.init();
 	
 	time.SetEnd();
-	cout << "Construction time: " << time.GetTick() << " ms" << endl;
-	cout << "Number of configurations: " << m_cutSurface.m_tree2.leaves.size() << " (" << m_cutSurface.m_tree2.poseMngr->poseMap.size() << " groups)" << endl;
-	cout << "Now choose the configuration\n"
+	cout << "Construction time: " << time.GetTick() << " ms" << endl
+		 << "Number of configurations: " << m_cutSurface.m_tree2.leaves.size() 
+		 << " (" << m_cutSurface.m_tree2.poseMngr->poseMap.size() << " groups)" << endl
+		<< "Now choose the configuration\n"
 		<< " - 'LEFT' and 'RIGHT' to change pose index\n"
 		<< " - 'UP' and 'DOWN' to change configuration index\n"
 		<< " - 'B' for best option in pose group\n"
@@ -1038,7 +1042,7 @@ void myDocment::loadFile()
 	// 2. Voxel object, high res and low res
 	tm.SetStart();
 
-	int voxelRes = 6;
+	int voxelLowRes = 6;
 	int highRes = 6;
 	int downSampleRate = 12;
 	voxelObject * forSamplingVoxel = new voxelObject;
@@ -1051,13 +1055,19 @@ void myDocment::loadFile()
 	m_highResFullVoxel->init(m_surfaceObj, highRes);
 
 	m_lowResVoxel = new voxelObject;
-	m_lowResVoxel->init(forSamplingVoxel, voxelRes);
+	m_lowResVoxel->init(forSamplingVoxel, voxelLowRes);
 
 	tm.SetEnd();
 	cprintf("Constuct voxel; time: %f ms\n", tm.GetTick());
-	cout << "Low res: " << voxelRes << "; high res: " << highRes << endl;
+	cout << "Low res: " << voxelLowRes << "; high res: " << highRes << endl;
+	cout << m_lowResVoxel->m_boxes.size() << "Voxels low; " << m_highResVoxel->m_boxes.size() << "Full" << endl;
 
 	delete forSamplingVoxel;
+
+	if (m_lowResVoxel->m_boxes.size() > 500)
+	{
+		AfxMessageBox(_T("Voxel object has more than 500 voxels. The program may over the memory"));
+	}
 	// We may construct low res voxel from high res voxel
 
 	// 3. Skeleton
