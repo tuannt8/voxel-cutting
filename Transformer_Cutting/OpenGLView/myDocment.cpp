@@ -269,8 +269,9 @@ void myDocment::initState()
 	}
 }
 
-void myDocment::receiveKey(char c)
+void myDocment::receiveKey(UINT nchar)
 {
+	char c = char(nchar);
 	CWaitCursor w;
 
 	if (m_curMode == MODE_TEST)
@@ -316,7 +317,7 @@ void myDocment::receiveKey(char c)
 
 	if (m_curMode == MODE_FINDING_CUT_SURFACE)
 	{
-		if ((int)c == VK_LEFT || (int)c == VK_LEFT || c == 'B') // Best configuration
+		if (nchar == VK_LEFT || nchar == VK_RIGHT || c == 'B') // Best configuration
 		{
 			int cofIdx = m_cutSurface.updateBestIdxFilter(idx1);
 			// update
@@ -1015,7 +1016,7 @@ void myDocment::updateRealtime()
 void myDocment::loadFile()
 {
 	// Init
-	char* surfacePath = "../../Data/spaceShip/spaceShip.stl";
+	char* surfacePath = "../../Data/subMarine/subMarine.stl";
 	cprintf("Init document\n");
 
 	// 1. Surface
@@ -1042,8 +1043,8 @@ void myDocment::loadFile()
 	// 2. Voxel object, high res and low res
 	tm.SetStart();
 
-	int voxelLowRes = 6;
-	int highRes = 6;
+	int voxelLowRes = 4;
+	int highRes = 4;
 	int downSampleRate = 12;
 	voxelObject * forSamplingVoxel = new voxelObject;
 	forSamplingVoxel->init(m_surfaceObj, downSampleRate); // TODO: The box should be symmetric !!!!

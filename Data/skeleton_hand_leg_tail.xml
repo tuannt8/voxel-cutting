@@ -52,6 +52,40 @@
 				</bone>
 			</children>
 		</bone>
+		<bone name = "leg">
+			<bone_properties>
+				<bone_name>leg</bone_name>
+				<bone_size>10,10,30</bone_size>
+				<joint_pos_parent>-5,-11.600000,0.000000</joint_pos_parent>
+				<joint_pos_child>-5,-11.600000,0.000000</joint_pos_child>
+				<bone_type>side_bone</bone_type>
+				<rotation_about_xyz>0.000000,180.000000,0.000000</rotation_about_xyz>
+			</bone_properties>
+			<children>
+				<bone>
+					<bone_properties>
+						<bone_name>lowerLeg</bone_name>
+						<bone_size>20.874100,20.903000,41.781197</bone_size>
+						<joint_pos_parent>0.000000,0.000000,30</joint_pos_parent>
+						<joint_pos_child>0.000000,0.000000,30</joint_pos_child>
+						<bone_type>side_bone</bone_type>
+						<rotation_about_xyz>0.000000,0.000000,0.000000</rotation_about_xyz>
+					</bone_properties>
+					<children>
+						<bone>
+							<bone_properties>
+								<bone_name>feet</bone_name>
+								<bone_size>35, 20,10</bone_size>
+								<joint_pos_parent>5,0.000000,42</joint_pos_parent>
+								<joint_pos_child>5.000000,0.000000,42</joint_pos_child>
+								<bone_type>side_bone</bone_type>
+								<rotation_about_xyz>0.000000,0.000000,0.000000</rotation_about_xyz>		
+							</bone_properties>							
+						</bone>
+					</children>
+				</bone>
+			</children>
+		</bone>
 		<bone name = "tail">
 			<bone_properties>
 				<bone_name>tail</bone_name>

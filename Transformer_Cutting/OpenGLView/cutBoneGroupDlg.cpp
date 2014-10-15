@@ -202,6 +202,8 @@ bool cutBoneGroupDlg::setPoseSelection(int poseIdx)
 		return false;
 	}
 
+	neighborPose pp = curG->boxPose.getPoseByIdx(poseIdx);
+
 	// Update text
 	CString a; 
 	a.Format(_T("%d"), poseIdx);
@@ -210,7 +212,7 @@ bool cutBoneGroupDlg::setPoseSelection(int poseIdx)
 	a.Format(_T("%d"), nodeIdxInPose);
 	curIdxInPoseText.SetWindowText(a);
 
-	a.Format(_T("%d"), nodeIdxInPose);
+	a.Format(_T("%d"), pp.nodeGroupBoneCut.size());
 	totalIdxInPoseText.SetWindowTextW(a);
 
 	return true;

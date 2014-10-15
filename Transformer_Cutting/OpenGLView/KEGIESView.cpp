@@ -382,10 +382,6 @@ void CKEGIESView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	CKEGIESDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 
-	pDoc->document.receiveKey(lsChar);
-
-
-
 	if (nChar >= 48 && nChar <= 57)
 	{
 		m_displayMode[nChar - 48] = ! m_displayMode[nChar - 48];
@@ -421,11 +417,8 @@ void CKEGIESView::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		update();
 	}
 	
+	pDoc->document.receiveKey(nChar);
 
-	if(key != KEY_NONE)
-	{
-
-	}
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 

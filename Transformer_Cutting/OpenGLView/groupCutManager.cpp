@@ -309,6 +309,8 @@ void groupCutManager::manualInit()
 		gc->boxPose.voxelSizef = voxelSize;
 	}
 
+
+
 	// Init tree
 	for (int i = 0; i < boneGroupArray.size(); i++)
 	{
@@ -411,8 +413,11 @@ void groupCutManager::initFromSwapBox(detailSwapManager * m_swapMngr)
 		gc->boxPose.neighborInfo = neighbor;
 		gc->boxPose.init();
 		gc->boxPose.voxelSizef = voxelSize;
+
 	}
 
+
+	computeVolumeRatioInGroup();
 
 	// Init tree
 	for (int i = 0; i < boneGroupArray.size(); i++)
@@ -465,5 +470,23 @@ void groupCutManager::updateRealTime()
 	idx1 = _ttoi(stext);
 
 	m_dlg->curIdxInPoseText.GetWindowText(stext);
-	idx2 = StrToInt(stext) - 1;
+	idx2 = StrToInt(stext);
+}
+
+void groupCutManager::computeVolumeRatioInGroup()
+{
+	for (size_t i = 0; i < boneGroupArray.size(); i++)
+	{
+		std::vector<bone*> bones = boneGroupArray[i].bones;
+		float totalV = 0;
+		for (auto b : bones)
+		{
+			totalV += b->m_volumef;
+		}
+
+		for (auto b : bones)
+		{
+			b->m_volumeRatioInGroup = b->m_volumef / totalV;
+		}
+	}
 }

@@ -1228,11 +1228,12 @@ int cutSurfTreeMngr2::updateBestIdxFilter(int idx1)
 		}
 
 		meshNeighbor = poseMngr.neighborPair;
+		poseIdx = idx1;
+		nodeIdx = cofIdx;
 
 		return cofIdx;
 	}
-	catch (...)
-	{
+	catch (...)	{
 		cout << "Out of range, cutting pose" << endl;
 		return -1;
 	}

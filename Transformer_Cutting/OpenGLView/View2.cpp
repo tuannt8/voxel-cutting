@@ -172,14 +172,14 @@ void View2::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 
 	CKEGIESDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
-	pDoc->document.receiveKey(lsChar);
+
 
 	if (nChar >= 48 && nChar <= 57   )
 	{
 		m_displayMode[nChar - 48] = ! m_displayMode[nChar - 48];
 	}
 
-
+	pDoc->document.receiveKey(nChar);
 	CView::OnKeyDown(nChar, nRepCnt, nFlags);
 }
 

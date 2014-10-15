@@ -44,32 +44,34 @@ public:
 
 	char* getTypeString();
 public:
-	// Tree hierarchy
-	bone* parent;
-	neighhorType neighborType;
-	std::vector<bone*> child;
-
-	// Coordinate information relative to parent
-	Vec3f m_jointBegin;	// The beginning of the joint
-	Vec3f m_posCoord; // Original coordinate relative to parent
-						// This is also end of the joint 
-	Vec3f m_angle;	// Rotation angle by x-y-z. global, degree
 
 	// Bone information
 	Vec3f m_sizef;
 	CString m_name;
 	int m_type;
 
+	// Tree hierarchy
+	bone* parent;
+	neighhorType neighborType;
+	std::vector<bone*> child;
+
+	// Coordinate information relative to parent
+	Vec3f m_angle;	// Rotation angle by x-y-z. global, degree
+	Vec3f m_jointBegin;	// The beginning of the joint
+	Vec3f m_posCoord; // Original coordinate relative to parent
+						// This is also end of the joint 
+
 	// Temporary var
 	float m_volumef;
 	Vec3f leftDownf, rightUpf;
-	float m_volumeRatio;
+	float m_volumeRatio; // Original ratio
 
 
 	// For group bone algorithm
 	bool bIsGroup;
 	float m_groupVolumef;
-	float m_groupVolumeRatio;
+	float m_groupVolumeRatio; // total volume group
+	float m_volumeRatioInGroup; // ratio in group
 
 
 	// mesh information

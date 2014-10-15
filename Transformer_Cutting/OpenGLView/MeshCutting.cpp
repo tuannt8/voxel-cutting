@@ -193,7 +193,6 @@ void MeshCutting::draw(BOOL displayMode[10])
 		{
 			glColor3fv(color[i].data());
 			drawPolygonFace(m_cutPieces[i]);
-
 		}
 	}
 }

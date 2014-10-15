@@ -76,6 +76,7 @@ public:
 	void getConfiguration(int boneGroupIdx, std::vector<bone*>& boneInGroup, std::vector<meshPiece>& cutBoxByBoneOrder);
 	
 	void updateRealTime();
+	void computeVolumeRatioInGroup();
 	// draw
 	int curBoneIdx;
 	int idx1, idx2;

@@ -597,6 +597,8 @@ void poseGroupCutManager::parserConfigure(groupCutNode * node)
 			it->second.mapBone_meshIdx.push_back(boneMeshIdxMap);
 			// re order the box
 
+//			ASSERT(!(it - poseMap.begin() == 4));
+
 			float volError = getVolumeError(node, &boneMeshIdxMap);
 			if (volError < it->second.smallestVolumeError)
 			{
@@ -689,7 +691,7 @@ float poseGroupCutManager::getVolumeError(groupCutNode * node, std::map<int, int
 	for (int i = 0; i < boneArray->size(); i++)
 	{
 		int meshIdx = boneMeshIdxMap->at(i);
-		e += errorCompute::normE2((*boneArray)[i]->m_volumeRatio, meshBoxes[meshIdx].volumeRatio);
+		e += errorCompute::normE2( meshBoxes[meshIdx].volumeRatio, (*boneArray)[i]->m_volumeRatioInGroup);
 	}
 
 	return e / boneArray->size();

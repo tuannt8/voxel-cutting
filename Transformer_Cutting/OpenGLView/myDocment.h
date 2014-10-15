@@ -41,7 +41,7 @@ public:
 	void draw(BOOL mode[10]);
 	void draw2(bool mode[10]);
 
-	void receiveKey(char c);
+	void receiveKey(UINT nchar);
 	void updateIdx(int yIdx, int zIdx);
 	void updateRealtime();
 
