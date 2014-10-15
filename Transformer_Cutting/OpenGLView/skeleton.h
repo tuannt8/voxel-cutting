@@ -33,6 +33,7 @@ public:
 	void draw(int mode, float scale = 1.0, bool mirror = false);
 	void drawCoord();
 	void drawMesh(float scale = 1.0);
+	void drawBoneWithMeshSize();
 	void initOther();
 
 	BOOL isLarger(bone* a);
@@ -78,6 +79,7 @@ public:
 	Polyhedron *mesh;
 	Vec3i meshRot; // z-x-z 90 rotation, Euler
 	Mat4x4f transformMat;
+	Vec3f meshSizeScale;
 	
 public:
 	// for neighbor check; temp var
@@ -88,6 +90,7 @@ public:
 	void setBoneType(std::string typeString);
 	Mat4x4f getLocalTransMat();
 	float groupShrink();
+
 };
 
 typedef std::vector<bone*> arrayBone_p;
@@ -104,8 +107,7 @@ public:
 
 	void draw(int mode=SKE_DRAW_BOX_WIRE); // SKE_DRAW_...
 	void drawGroup(int mode = SKE_DRAW_BOX_WIRE);
-	void drawBoneRecursive(bone* node, int mode, bool mirror = false); 
-	void drawGroupRecur(bone* node, int mode, bool mirror = false);
+	void drawBoneWithMeshSize();
 	
 	void initTest(); // Manually for testing
 	void computeTempVar();
@@ -128,6 +130,9 @@ public:
 
 	float getVolume();
 private:
+
+	void drawBoneRecursive(bone* node, int mode, bool mirror = false);
+	void drawGroupRecur(bone* node, int mode, bool mirror = false);
 	void getSortedBoneArrayRecur(bone* node, std::vector<bone*> &sortedArray);
 	void getBoneAndNeighborInfoRecur(bone* node, int parentIdx, std::vector<bone*> &boneArray, std::vector<std::pair<int,int>> &neighborA);
 	void buildTransformMatrixRecur(bone* node);
@@ -140,7 +145,7 @@ private:
 	void getSortedBoneGroupArrayRecur(bone* node, std::vector<bone*> & sortedArray);
 	void writeBoneToXML(myXML * doc, myXMLNode * node, bone* boneNode);
 	void loadBoneData(myXML * doc, myXMLNode * xmlNode, bone* boneNode);
-
+	void drawBoneWithMeshSizeRecur(bone* mode);
 public:
 	bone* m_root;
 	float meshScale;

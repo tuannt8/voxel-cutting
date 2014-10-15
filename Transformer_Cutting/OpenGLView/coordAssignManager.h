@@ -15,6 +15,7 @@ public:
 	void draw2(BOOL mode[10]);
 
 	void draw(BOOL mode[10]);
+	void drawBoneMap();
 
 public:
 	detailSwapManager *s_detailSwap;

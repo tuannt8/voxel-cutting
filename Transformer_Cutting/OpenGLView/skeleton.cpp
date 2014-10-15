@@ -523,6 +523,49 @@ void skeleton::drawGroupRecur(bone* node, int mode, bool mirror /*= false*/)
 	glPopMatrix();
 }
 
+void skeleton::drawBoneWithMeshSize()
+{
+	ASSERT(m_root);
+	drawBoneWithMeshSizeRecur(m_root);
+}
+
+void skeleton::drawBoneWithMeshSizeRecur(bone* node)
+{
+	if (node == nullptr)
+		return;
+
+	glPushMatrix();
+	glTranslatef(node->m_posCoord[0], node->m_posCoord[1], node->m_posCoord[2]);
+	// Rotate global x-y-z
+	// In GL, we do invert
+	glRotatef(node->m_angle[2], 0, 0, 1);// z
+	glRotatef(node->m_angle[1], 0, 1, 0);// y
+	glRotatef(node->m_angle[0], 1, 0, 0);// x
+
+	// 	static arrayVec3f color = Util_w::randColor(30);
+	// 	glColor3fv(color[colorIndex++].data());
+
+	node->drawBoneWithMeshSize();
+
+	for (size_t i = 0; i < node->child.size(); i++)
+	{
+		drawBoneWithMeshSizeRecur(node->child[i]);
+
+		if (node == m_root && node->child[i]->m_type == TYPE_SIDE_BONE)
+		{
+			sideBoneDrawFlag = true;
+			glPushMatrix();
+			glScalef(1, -1, 1);
+			drawBoneWithMeshSizeRecur(node->child[i]);
+			glPopMatrix();
+			sideBoneDrawFlag = false;
+		}
+	}
+
+
+	glPopMatrix();
+}
+
 void bone::draw(int mode, float scale, bool mirror)
 {
 	glLineWidth(mirror ? 1.0 : 2.0);
@@ -861,4 +904,18 @@ float bone::groupShrink()
 	}
 	
 	return 1;
+}
+
+void bone::drawBoneWithMeshSize()
+{
+	Vec3f center = (leftDownf + rightUpf) / 2;
+	Vec3f ld, ru;
+	ld = center - meshSizeScale / 2;
+	ru = center + meshSizeScale / 2;
+	glColor3f(0, 0, 1);
+	Util_w::drawBoxWireFrame(ld, ru);
+	glColor3f(0.9, 0.9, 0.9);
+	Util_w::drawBoxSurface(ld, ru);
+
+	drawCoord();
 }

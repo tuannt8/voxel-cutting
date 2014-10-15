@@ -16,6 +16,7 @@ public:
 	arrayVec3i coords;
 	//map x-y-z bone on world coord
 	// 0 (x) of bone is coords[0] of world
+	// mesh [bone]
 
 public:
 	void init(detailSwapManager* detailSwap);
@@ -52,4 +53,5 @@ public:
 	void updateComboBoxText();
 	afx_msg void OnBnClickedButtonSaveCoord();
 	afx_msg void OnBnClickedButton2LoadCoord();
+	afx_msg void AutoAssign();
 };

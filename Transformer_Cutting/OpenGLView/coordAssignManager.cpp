@@ -174,3 +174,36 @@ void coordAssignManager::draw2(BOOL mode[10])
 		glEnd();
 	}
 }
+
+void coordAssignManager::drawBoneMap()
+{
+	arrayVec3i coords = dlg->coords;
+	for (size_t i = 0; i < m_meshBoxFull.size(); i++)
+	{
+		bvhVoxel *m = &m_meshBoxFull[i];
+		Vec3f sizeMesh = m->curRightUp - m->curLeftDown;
+
+		Vec3i coordMap = coords[i];
+		if (coordMap[0] == -1 || coordMap[1] == -1 || coordMap[2] == -1)
+		{
+			continue;
+		}
+
+		Vec3f sizeBoneMap;
+		for (int j = 0; j < 3; j++)
+		{
+			sizeBoneMap[j] = sizeMesh[coordMap[j]];
+		}
+
+		// Fit size Bone to bone
+		Vec3f sizeBone = m_boneFullArray[i]->m_sizef;
+		float scalef = std::pow((sizeBone[0] * sizeBone[1] * sizeBone[2]) / (sizeBoneMap[0]*sizeBoneMap[1]*sizeBoneMap[2]), 1/3);
+
+		for (int j = 0; j < 3; j++)
+		{
+			sizeBoneMap[j] *= scalef;
+		}
+
+		m_boneFullArray[i]->meshSizeScale = sizeBoneMap;
+	}
+}

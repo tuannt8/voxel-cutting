@@ -41,6 +41,7 @@ BEGIN_MESSAGE_MAP(coordAsignDlg, CDialog)
 	ON_CBN_SELCHANGE(IDC_COMBO_MAP_Y, &coordAsignDlg::OnCbnSelchangeComboMapY)
 	ON_BN_CLICKED(IDC_BUTTON_SAVE_COORD, &coordAsignDlg::OnBnClickedButtonSaveCoord)
 	ON_BN_CLICKED(IDC_BUTTON2_LOAD_COORD, &coordAsignDlg::OnBnClickedButton2LoadCoord)
+	ON_BN_CLICKED(IDC_BUTTON1, &coordAsignDlg::AutoAssign)
 END_MESSAGE_MAP()
 
 void coordAsignDlg::init(detailSwapManager* detailSwap)
@@ -286,4 +287,34 @@ void coordAsignDlg::OnBnClickedButton2LoadCoord()
 	updateComboBoxText();
 	boneComboBox.SetCurSel(0);
 	setCurBoneSlection(0);
+}
+
+
+void coordAsignDlg::AutoAssign()
+{
+	for (size_t i = 0; i < s_meshBoxFull->size(); i++)
+	{
+		bvhVoxel *m = &s_meshBoxFull->at(i);
+		Vec3f sizeMesh = m->curRightUp - m->curLeftDown;
+
+		Vec3f sizeBone = s_boneFullArray->at(i)->m_sizef;
+
+		// Map by size length ratio
+		Vec3i SMLIdxMesh = Util_w::SMLIndexSizeOrder(sizeMesh);
+		Vec3i SMLIdxBone = Util_w::SMLIndexSizeOrder(sizeBone);
+
+		Vec3i orderInMesh; // 0: smallest; 1: medium; 2: largest
+		for (int j = 0; j < 3; j++)
+		{
+			orderInMesh[SMLIdxMesh[j]] = j;
+		}
+
+		Vec3i mapCoord;
+		for (int j = 0; j < 3; j ++)
+		{
+			mapCoord[orderInMesh[j]] = SMLIdxBone[j];
+		}
+
+		coords[i] = mapCoord;
+	}
 }

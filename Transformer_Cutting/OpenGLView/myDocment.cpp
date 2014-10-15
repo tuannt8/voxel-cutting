@@ -237,26 +237,14 @@ void myDocment::draw2(bool mode[10])
 		glColor3f(1, 1, 1);
 		m_skeleton->drawGroup(SKE_DRAW_BOX_SOLID);
 	}
-// 	glColor3f(0, 0, 1);
-// 	m_highResVoxel->drawVoxel(1);
-// 	m_debug->s_voxelObj = m_highResVoxel;
-// 	glColor3f(0, 0, 1);
-// 	m_debug->drawtestVoxelSym();
 
-	if (m_finalSwap)
+	else if (m_curMode == MODE_ASSIGN_COORDINATE)
 	{
-// 		static arrayVec3f color = Util_w::randColor(10);
-// 		std::vector<bvhVoxel*> mb = m_finalSwap->meshBox;
-// 		for (int i = 0; i < mb.size(); i++)
-// 		{
-// 			if (mode[i])
-// 			{
-// 				glColor3fv(color[i+1].data());
-// 				mb[i]->drawVoxels(nullptr, 0);
-// 				glColor3fv(color[i].data());
-// 				mb[i]->drawVoxels(nullptr, 1);
-// 			}
-// 		}
+		if (m_coordAssign)
+		{
+			m_coordAssign->drawBoneMap();//mapping
+			m_skeleton->drawBoneWithMeshSize();
+		}
 	}
 
 }
