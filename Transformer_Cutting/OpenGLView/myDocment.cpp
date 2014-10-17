@@ -6,6 +6,7 @@
 #include <afxwin.h>
 #include "log.h"
 #include "MainFrm.h"
+#include "KEGIESView.h"
 
 using namespace std;
 
@@ -21,16 +22,17 @@ myDocment::myDocment()
 	m_skeleton = nullptr;
 	cutFilterDialog = nullptr;
 	m_surfaceObj = nullptr;
+	view1 = nullptr;
+	view2 = nullptr;
 
 	shift = 0;
 	m_debug = debugInfoPtr(new debugInfo);
 
-	loadFile();
 	m_curMode = MODE_NONE;
 
 	std::cout << endl << "Press 'S' to construct the cut tree" << endl << endl;
 
-	
+
 }
 
 
@@ -108,7 +110,7 @@ void myDocment::draw(BOOL mode[10])
 		m_surfaceObj->drawObject();
 	}
 
-	if (!mode[2] && m_lowResVoxel)
+	if (mode[2] && m_lowResVoxel)
 	{
 		glColor3f(0, 0, 0);
 		m_lowResVoxel->drawVoxelLeaf();
@@ -116,35 +118,34 @@ void myDocment::draw(BOOL mode[10])
 		m_lowResVoxel->drawVoxelLeaf(1);
 	}
 
-	if (!mode[3] && m_highResVoxel)
+	if (mode[3] && m_lowResVoxel)
 	{
-		glColor3f(0, 0, 0);
-		m_highResFullVoxel->drawVoxelLeaf();
-		glColor3f(0.9, 0.9, 0.9);
-		m_highResFullVoxel->drawVoxelLeaf(1);
+		glColor3f(1, 0, 0);
+		m_lowResVoxel->drawVoxel();
 	}
 
 	if (m_curMode == MODE_NONE)
 	{
-		if (mode[4] && m_lowResVoxel)
+		if (mode[4] && m_surfaceObj)
 		{
 			glColor3f(1, 0, 0);
-			m_lowResVoxel->drawVoxel();
+			m_surfaceObj->drawBVH();
 		}
-		if (mode[5] && m_highResVoxel)
+		if (mode[5] && m_surfaceObj)
+		{
+			glColor3f(0, 0, 1);
+			m_surfaceObj->drawWireFrame();
+		}
+		if (mode[6] && m_highResFullVoxel)
 		{
 			glColor3f(0, 0, 0);
-			m_highResVoxel->drawVoxelLeaf();
-			glColor3f(0.7, 0.7, 0.7);
-			m_highResVoxel->drawVoxelLeaf(1);
+			m_highResFullVoxel->drawVoxelLeaf();
+			glColor3f(0.9, 0.9, 0.9);
+			m_highResFullVoxel->drawVoxelLeaf(1);
 		}
-		if (mode[6] && holeMesh)
+		if (mode[7] && holeMesh)
 		{
 			holeMesh->drawSeparatePart();
-		}
-		if (mode[7])
-		{
-			drawTest();
 		}
 	}
 
@@ -158,23 +159,18 @@ void myDocment::draw(BOOL mode[10])
 		{
 			if (m_swapMngr)
 			{
-				m_swapMngr->draw(mode);
+				m_swapMngr->draw();
 			}
 		}
-
-		if (mode[7])
-		{
-			m_cutSurface.drawDebugCurNode();
-		}
-
 	}
 	else if (m_curMode == MODE_SPLIT_BONE_GROUP)
 	{
 		if (mode[4])
 		{
-			m_swapMngr->draw(mode);
+			m_swapMngr->draw();
 		}
-		else
+		
+		if (mode[5])
 		{
 			m_groupCutMngr->draw(mode);
 		}
@@ -188,17 +184,24 @@ void myDocment::draw(BOOL mode[10])
 	}
 	else if (m_curMode == MODE_FIT_BONE)
 	{
-		if (m_finalSwap)
+		if (mode[4] && m_finalSwap)
 		{
-			m_finalSwap->draw(mode);
+			m_finalSwap->draw();
 		}
 		if (m_voxelProcess)
 		{
-			m_voxelProcess->draw(mode);
-		}
-		if (mode[9] && m_lowResVoxel)
-		{
-			m_lowResVoxel->drawVoxelIndex();
+			if (mode[5])
+			{
+				m_voxelProcess->drawCoord(m_boxPlaceMngr->getCurBoneIdx());
+				m_voxelProcess->drawBoxInterfere();
+			}
+
+			if (mode[6])
+			{
+				m_voxelProcess->drawVoxelBox();
+			}
+
+
 		}
 	}
 	else if (m_curMode == MODE_CUTTING_MESH)
@@ -221,29 +224,33 @@ void myDocment::draw2(bool mode[10])
 		m_skeleton->draw(SKE_DRAW_BOX_WIRE);
 		glLineWidth(1.0);
 	}
-	if (mode[2] && m_skeleton)
-	{
-		glColor3f(1, 1, 1);
-		m_skeleton->draw(SKE_DRAW_BOX_SOLID);
-	}
 
-	if (mode[3] && m_skeleton)
-	{
-		glColor3f(0, 0, 1);
-		m_skeleton->drawGroup(SKE_DRAW_BOX_WIRE);
-	}
-	if (mode[4] && m_skeleton)
-	{
-		glColor3f(1, 1, 1);
-		m_skeleton->drawGroup(SKE_DRAW_BOX_SOLID);
-	}
 
-	else if (m_curMode == MODE_ASSIGN_COORDINATE)
+	if (m_curMode == MODE_ASSIGN_COORDINATE)
 	{
-		if (m_coordAssign)
+		if (mode[2] && m_coordAssign)
 		{
 			m_coordAssign->drawBoneMap();//mapping
 			m_skeleton->drawBoneWithMeshSize();
+		}
+	}
+	else
+	{
+		if (mode[2] && m_skeleton)
+		{
+			glColor3f(1, 1, 1);
+			m_skeleton->draw(SKE_DRAW_BOX_SOLID);
+		}
+
+		if (mode[3] && m_skeleton)
+		{
+			glColor3f(0, 0, 1);
+			m_skeleton->drawGroup(SKE_DRAW_BOX_WIRE);
+		}
+		if (mode[4] && m_skeleton)
+		{
+			glColor3f(1, 1, 1);
+			m_skeleton->drawGroup(SKE_DRAW_BOX_SOLID);
 		}
 	}
 
@@ -428,7 +435,9 @@ void myDocment::changeState()
 void myDocment::constructCutTree()
 {
 	// 1. Set skeleton and voxel
-	command::print("Construct the tree");
+	cout << endl << "--------------------" << endl
+		<< "Construct cut tree" << endl;
+
 	CTimeTick time;
 	time.SetStart();
 
@@ -445,9 +454,18 @@ void myDocment::constructCutTree()
 		<< " - 'LEFT' and 'RIGHT' to change pose index\n"
 		<< " - 'UP' and 'DOWN' to change configuration index\n"
 		<< " - 'B' for best option in pose group\n"
-		<< " - 'D' to voxelize and 'G' to swap\n"
+		<< " - 'D' to voxelize and 'F' to single swap "
+		<< " and 'G' to swap\n"
 		<< " - 'S' to change to state splitting group bones\n"
-		<< endl << endl;
+		<< endl;
+	cout << "Display options" << endl
+		<< " - 1: Surface object" << endl
+		<< " - 2: Voxel object" << endl
+		<< " - 3: Octree" << endl
+		<< " - 4: Draw cut box" << endl
+		<< " - 5: draw swapping voxel" << endl;
+
+	view1->setDisplayOptions({0, 1, 0, 0, 1, 1});
 
 	cutFilterDialog = new FilterCutDialog;
 	CFrameWnd * pFrame = (CFrameWnd *)(AfxGetApp()->m_pMainWnd);
@@ -512,7 +530,9 @@ void myDocment::changeToWrapMode()
 	m_swapMngr->voxelSize = m_lowResVoxel->m_voxelSizef;
 	m_swapMngr->initFromCutTree2(&m_cutSurface);
 
-	cout << " - 'R' to save current file" << endl;
+	cout << " - 'F' to swap voxel for better box" << endl
+		<< " - 'D' to reset to swapping" << endl
+		<< " - 'S' to change to spliting group" << endl;
 
 //	m_swapMngr->swapVoxel2();
 }
@@ -534,7 +554,8 @@ void myDocment::changeToCutGroupBone()
 		delete m_groupCutMngr;
 	}
 
-	cout << "Split group bones" << endl;
+	cout << endl << "------------------------" << endl
+		<< "Split group bones" << endl;
 
 	m_groupCutMngr = new groupCutManager;
 
@@ -549,8 +570,16 @@ void myDocment::changeToCutGroupBone()
 	m_groupCutMngr->showDialog();
 
 	cout << "Use the dialog to choose the configurations of group bones" << endl
-		<< "Press 'S' to ready to assign coordinate to bones"
-		<< endl << endl;
+		<< " - Press 'S' to ready to assign coordinate to bones" << endl;
+
+	cout << "Display options: " << endl
+		<< " - 1: Surface object" << endl
+		<< " - 2: Voxel object" << endl
+		<< " - 3: Octree" << endl
+		<< " - 4: Draw voxel in cut box" << endl
+		<< " - 5: Draw box group" << endl;
+
+	view1->setDisplayOptions({ 0, 0, 0, 0, 0, 1 });
 }
 
 void myDocment::changeStateBack()
@@ -599,8 +628,14 @@ void myDocment::changeToCoordAssignMode()
 	m_coordAssign->s_detailSwap = m_swapMngr;
 	m_coordAssign->init(boneFullArray, meshBoxFull);
 
-	cout << endl << "Use dialog to assign coordinate to bones" << endl
-		<< endl;
+	cout << "-----------------------------" << endl
+		<< "Use dialog to assign coordinate to bones" << endl
+		<< "Display options: " << endl
+		<< " - 1: Surface object" << endl
+		<< " - 2: Voxel object" << endl
+		<< " - 3: Octree" << endl;
+
+	view1->setDisplayOptions({ 0 });
 }
 
 void myDocment::getBoneArrayAndMeshBox(std::vector<bone*> &boneFullArray, std::vector<bvhVoxel> &meshBoxFull)
@@ -669,14 +704,25 @@ void myDocment::changeToSwapFinal()
 
 	loadStateForPostProcess();
 
+
+
 	// Guide
-	cout << "In put the percentage in first tool bar box and update\n"
+	cout << "---------------------------------" << endl
+		<< "Swap by box placing" << endl
+		<< "Use the dialog to place the box" << endl
 		<< " - Press F to resolve the conflict\n"
 		<< " - Press R to save to mesh\n"
 		<< " - Press W to reload the mesh\n"
 		<< " - Press 'S' to cut the triangular mesh\n"
-		<< endl;
-		
+		<< "Display options" << endl
+		<< " - 1: Surface object" << endl
+		<< " - 2: Voxel object" << endl
+		<< " - 3: Octree" << endl
+		<< " - 4: cut box" << endl
+		<< " - 5: Box placed" << endl
+		<< " - 6: Voxel occupied by box placed" << endl;
+		 
+	view1->setDisplayOptions({ 0, 0, 0, 0, 1, 1, 0 });
 }
 
 void myDocment::changeToCuttingMeshMode()
@@ -700,12 +746,20 @@ void myDocment::changeToCuttingMeshMode()
 		m_meshCutting->init2(voxelIdxBones, m_voxelProcess->boneArray);
 
 	time.SetEnd();
-	cout << "\n Change to cutting mesh state" << endl
+	cout << "\n-------------------------------------" << endl
+		<< "Change to cutting mesh state" << endl
 		<< "Change state time: " << time.GetTick() << " ms" << endl
 		<< "Change to cutting triangular mesh \n"
 		<< " - Press 'F' to cut the original mesh and 'D' to save to file \n" << endl
 		<< " - Press 'E' to export cut mesh to obj file" << endl
-		<< endl;
+		<< "Display options: " << endl
+		<< " - 1: Surface object" << endl
+		<< " - 2: Voxel object" << endl
+		<< " - 3: Octree" << endl
+		<< " - 4: draw cut surface generated by voxel" << endl
+		<< " - 5: Draw cut pieces" << endl;
+
+	view1->setDisplayOptions({ 0, 0, 0, 0, 1, 1 });
 }
 
 void myDocment::writeMeshBoxStateFinalSwap(){
@@ -987,6 +1041,18 @@ void myDocment::loadStateForPostProcess()
 	// We need mesh index, bone array and coord
 	m_voxelProcess->loadFromFile();
 	m_voxelProcess->cutCenterBoxByHalf(); // For better performance
+	
+	// Dialog
+	if (m_boxPlaceMngr)
+	{
+		m_boxPlaceMngr->EndDialog(0);
+	}
+	m_boxPlaceMngr = movePlacedBoxDlgPtr(new movePlacedBoxDlg());
+	CFrameWnd * pFrame = (CFrameWnd *)(AfxGetApp()->m_pMainWnd);
+	CView * pView = pFrame->GetActiveView();
+	m_boxPlaceMngr->Create(movePlacedBoxDlg::IDD, pView);
+	m_boxPlaceMngr->initFromVoxelProcess(m_voxelProcess);
+	m_boxPlaceMngr->ShowWindow(SW_SHOW);
 
 	cout << "Mesh loaded" << endl
 		<< " - Press 'S' to change to state cut mesh" << endl
@@ -1020,8 +1086,6 @@ void myDocment::loadFile()
 		return;
 	}
 
-// 	m_surfaceObj = new SurfaceObj;
-// 	m_surfaceObj->readObjDataSTL(surfacePath);
 	m_surfaceObj->centerlize();
 	m_surfaceObj->constructAABBTree();
 
@@ -1030,26 +1094,25 @@ void myDocment::loadFile()
 
 	// 2. Voxel object, high res and low res
 	tm.SetStart();
+	//Decide size
+	float voxelSize = getVoxelSize(400); // Should be less than 500
 
-	int voxelLowRes = 4;
-	int highRes = 4;
-	int downSampleRate = 12;
 	voxelObject * forSamplingVoxel = new voxelObject;
-	forSamplingVoxel->init(m_surfaceObj, downSampleRate); // TODO: The box should be symmetric !!!!
+	forSamplingVoxel->initWithSize(m_surfaceObj, voxelSize / 3.0);
 
 	m_highResVoxel = new voxelObject;
-	m_highResVoxel->init(forSamplingVoxel, highRes);
+	m_highResVoxel->init(forSamplingVoxel, voxelSize);
 
 	m_highResFullVoxel = new voxelObject;
-	m_highResFullVoxel->init(m_surfaceObj, highRes);
+	m_highResFullVoxel->initWithSize(m_surfaceObj, voxelSize);
 
 	m_lowResVoxel = new voxelObject;
-	m_lowResVoxel->init(forSamplingVoxel, voxelLowRes);
+	m_lowResVoxel->init(forSamplingVoxel, voxelSize);
 
 	tm.SetEnd();
-	cprintf("Constuct voxel; time: %f ms\n", tm.GetTick());
-	cout << "Low res: " << voxelLowRes << "; high res: " << highRes << endl;
-	cout << m_lowResVoxel->m_boxes.size() << "Voxels low; " << m_highResVoxel->m_boxes.size() << "Full" << endl;
+	cout << "Voxel object constructed" << endl
+		<< " - Voxel size: " << voxelSize << endl
+		<< " - # of voxels: " << m_lowResVoxel->m_boxes.size() << endl;
 
 	delete forSamplingVoxel;
 
@@ -1067,6 +1130,20 @@ void myDocment::loadFile()
 	m_skeleton->groupBone();
 	cprintf("Load skeleton: %s\n", skeletonPath);
 	cprintf("Finish loading --------");
+
+	// Message
+	cout << endl << "-----------------------" << endl
+		<< "Display options in view 1:" << endl
+		<< " - 1: Surface mesh" << endl
+		<< " - 2: Voxel object" << endl
+		<< " - 3: Octree" << endl
+		<< " - 4: BVH tree" << endl
+		<< " - 5: Wire surface mesh" << endl
+		<< " - 6: draw voxel object full" << endl
+		<< " - 7: Draw components in mesh" << endl;
+	cout << "Press 'S' to construct cut tree" << endl;
+
+	view1->setDisplayOptions({ 0, 1, 1, 1 });
 }
 
 void myDocment::loadTestVoxelBitSet()
@@ -1526,4 +1603,28 @@ void myDocment::updateFilterCutGroup()
 {
 	std::vector<neighborPos> pp = cutFilterDialog->chosenPose;
 	m_cutSurface.filterPose(pp);
+}
+
+float myDocment::getVoxelSize(int nbVoxel)
+{
+	int voxelTestRes = 6;
+	voxelObject * testObj = new voxelObject;
+	testObj->init(m_surfaceObj, voxelTestRes);
+
+	AABBNode* root = m_surfaceObj->getBVH()->root();
+	Vec3f bondingBoxSize = root->RightUp - root->LeftDown;
+
+	float volumeObj = testObj->m_boxes.size() * std::pow(testObj->m_voxelSizef, 3);
+	float voxelVol = volumeObj / nbVoxel;
+
+	delete testObj;
+
+	return std::pow(voxelVol, 1.0 / 3);
+}
+
+void myDocment::setDisplayOptions(std::initializer_list<int> opts)
+{
+// 	CKEGIESView* p = (CKEGIESView*)view1;
+// 
+// 	p->setDisplayOptions(opts);
 }

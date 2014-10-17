@@ -157,6 +157,7 @@
     <ClCompile Include="manipulateVoxel.cpp" />
     <ClCompile Include="MeshCutting.cpp" />
     <ClCompile Include="meshSphereObj.cpp" />
+    <ClCompile Include="movePlacedBoxDlg.cpp" />
     <ClCompile Include="myDocment.cpp" />
     <ClCompile Include="octreeSolid.cpp" />
     <ClCompile Include="poseManager.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="KEGIESView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MeshCutting.h" />
+    <ClInclude Include="movePlacedBoxDlg.h" />
     <ClInclude Include="myDocment.h" />
     <ClInclude Include="neighbor.h" />
     <ClInclude Include="octreeSolid.h" />

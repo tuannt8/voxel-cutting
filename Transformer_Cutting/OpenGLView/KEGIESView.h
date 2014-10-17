@@ -9,6 +9,8 @@
 #include "detailSwapManager.h"
 #include "controlDialog.h"
 
+extern class CKEGIESDoc;
+
 class CKEGIESView : public CView
 {
 protected: // serialization
@@ -103,6 +105,7 @@ public:
 
 	void InitAfterShowWindow();
 	void setTextDisplay(CString text);
+	void setDisplayOptions(arrayInt opts);
 // 
 public:
 	virtual ~CKEGIESView();
@@ -155,6 +158,7 @@ public:
 	afx_msg void OnBnClickedButtontest();
 	void updateNumInput();
 	void resetDisplayMode();
+
 };
 
 #ifndef _DEBUG  // KEGIESView

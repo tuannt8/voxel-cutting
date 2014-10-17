@@ -17,8 +17,13 @@ public:
 	std::vector<arrayInt> getListOfVoxelIdxs();
 
 	void draw(BOOL mode[10]);
+	void drawCoord(int boneIdx) const;
+	void drawVoxelBox();
+	void assignBoneSizeToMesh();
+	void drawBoxInterfere();
 
 	// Not important function
+	void updateBox(int percent, arrayVec3f centerBox);
 	void updateParam(int idx1, int idx2);
 	void resolveVoxelBox();
 
@@ -33,6 +38,7 @@ public: // Variable
 
 	// Data for manipulate
 	float curScaleF;
+	arrayVec3f m_centerBox;
 
 private: // Bump variable
 	arrayInt m_hashBoxIdx;
@@ -40,17 +46,17 @@ private: // Bump variable
 	std::vector<arrayInt> m_voxelState;
 
 private: // bump function
-	void assignBoneSizeToMesh();
-	void drawBoxInterfere();
+
 	std::vector<arrayInt> markVoxelHash();
 	int getNearestBox(int voxelIdx);
 	std::vector<arrayFloat> getCurrentErrorOfBox(const std::vector<arrayInt> &boxVoxelIdxs);
-	void drawVoxelBox();
+
 	int getNearestNeighborBox(int voxelIdx);
 	std::vector<arrayInt> getIndependentGroup(std::vector<voxelBox>* boxes, arrayInt idxs);
 	void mergeUnconnectedPiece(int meshIdx, std::vector<arrayInt> independGroup);
 	arrayInt findNeighborMesh(int meshIdx, arrayInt idxs);
 	float averageDistanceToMesh(arrayInt idxs, int meshIdx);
+
 };
 
 typedef std::shared_ptr<manipulateVoxel> manipulateVoxelPtr;

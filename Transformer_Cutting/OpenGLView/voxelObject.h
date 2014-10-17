@@ -69,8 +69,10 @@ public:
 	~voxelObject();
 
 	bool init(SurfaceObj *obj, int res); 
+	bool initWithSize(SurfaceObj *obj, float voxelSize);
 	bool init(SurfaceObj *obj, int res, float scale);
 	bool init(voxelObject *highRes, int downSampleRate);
+	bool init(voxelObject *highRes, float voxelSize);
 
 	void drawBitSet(voxelSplitObj* vBitSet);
 	void drawVoxelBitDecomposed();

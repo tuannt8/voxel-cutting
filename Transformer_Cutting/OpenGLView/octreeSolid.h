@@ -41,9 +41,10 @@ public:
 	~octreeSolid(void);
 
 	void init(char* filePath, int res);
-	void initTest();
+	void initTest(); 
+	void init(SurfaceObj* obj, float voxelSize);
 	void init(SurfaceObj* obj, int res);
-
+	void removeLowOccupationBox(octreeSolid* highResOctree);
 
 	int drawMode;
 
@@ -54,7 +55,10 @@ public:
 	void drawWireOctree(int mode = 0);
 	void drawBoundingBox();
 
-	void constructTree(SurfaceObj *obj, int depth);
+public:
+	void constructTree(SurfaceObj *obj, float voxelSize);
+
+	void constructTree(SurfaceObj *obj, int res);
 	void computeBoxAndVolume(octreeSNode *node);
 
 	bool isColidWithBox(Box b);
@@ -62,7 +66,7 @@ public:
 	meshPiece intersectWithBox(meshPiece &boxIn);
 	void intersectWithBox(Box boxIn, Box &intersectBox, float &volumeSide);
 
-	void removeLowOccupationBox(octreeSolid* highResOctree);
+
 
 private:
 	void intersectWithBox(octreeSNode* node, Vec3f &ldf, Vec3f &ruf, arrayInt &idxs);

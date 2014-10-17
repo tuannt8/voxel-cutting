@@ -57,6 +57,14 @@ void octreeSolid::init(SurfaceObj* obj, int res)
 	computeBoxAndVolume(m_root);
 }
 
+void octreeSolid::init(SurfaceObj* obj, float voxelSize)
+{
+	sufObj = obj;
+
+	constructTree(sufObj, voxelSize);
+	computeBoxAndVolume(m_root);
+}
+
 void octreeSolid::draw(BOOL mode[10])
 {
 	if (mode[1])
@@ -146,6 +154,38 @@ void octreeSolid::constructTree(SurfaceObj *obj, int res)
 	m_root = new octreeSNode;
 	m_root->leftDownf = centerMesh - newDiag/2;
 	m_root->rightUpf = centerMesh + newDiag/2;
+	m_root->nodeDepth = 0;
+
+	constructTreeRecur(m_root, treeDepth);
+}
+
+void octreeSolid::constructTree(SurfaceObj *obj, float voxelSize)
+{
+	sufObj = obj;
+	boxSize = voxelSize;
+
+	Vec3f ld = sufObj->getBVH()->root()->LeftDown;
+	Vec3f ru = sufObj->getBVH()->root()->RightUp;
+	centerMesh = (ld + ru) / 2;
+	Vec3f diag = ru - ld;
+
+	float maxEdge = Util::max_(Util::max_(diag[0], diag[1]), diag[2]);
+	int maxSizei = round(maxEdge / boxSize);
+	int octreeSizei = 1;
+	treeDepth = 0;
+	while (octreeSizei < maxSizei)
+	{
+		treeDepth++;
+		octreeSizei *= 2;
+	}
+	float octreeSizef = octreeSizei * boxSize;
+
+
+	Vec3f newDiag(octreeSizef, octreeSizef, octreeSizef);
+
+	m_root = new octreeSNode;
+	m_root->leftDownf = centerMesh - newDiag / 2;
+	m_root->rightUpf = centerMesh + newDiag / 2;
 	m_root->nodeDepth = 0;
 
 	constructTreeRecur(m_root, treeDepth);

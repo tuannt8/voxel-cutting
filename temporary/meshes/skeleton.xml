@@ -54,40 +54,6 @@
 		</bone>
 		<bone>
 			<bone_properties>
-				<bone_name>leg</bone_name>
-				<bone_size>10 , 10 , 30</bone_size>
-				<joint_pos_parent>-5 , -11.6 , 0</joint_pos_parent>
-				<joint_pos_child>-5 , -11.6 , 0</joint_pos_child>
-				<bone_type>side_bone</bone_type>
-				<rotation_about_xyz>0 , 180 , 0</rotation_about_xyz>
-			</bone_properties>
-			<children>
-				<bone>
-					<bone_properties>
-						<bone_name>lowerLeg</bone_name>
-						<bone_size>20.8741 , 20.903 , 41.7812</bone_size>
-						<joint_pos_parent>0 , 0 , 30</joint_pos_parent>
-						<joint_pos_child>0 , 0 , 30</joint_pos_child>
-						<bone_type>side_bone</bone_type>
-						<rotation_about_xyz>0 , 0 , 0</rotation_about_xyz>
-					</bone_properties>
-					<children>
-						<bone>
-							<bone_properties>
-								<bone_name>feet</bone_name>
-								<bone_size>35 , 20 , 10</bone_size>
-								<joint_pos_parent>5 , 0 , 42</joint_pos_parent>
-								<joint_pos_child>5 , 0 , 42</joint_pos_child>
-								<bone_type>side_bone</bone_type>
-								<rotation_about_xyz>0 , 0 , 0</rotation_about_xyz>
-							</bone_properties>
-						</bone>
-					</children>
-				</bone>
-			</children>
-		</bone>
-		<bone>
-			<bone_properties>
 				<bone_name>tail</bone_name>
 				<bone_size>15 , 25 , 30</bone_size>
 				<joint_pos_parent>10 , 0 , -7</joint_pos_parent>

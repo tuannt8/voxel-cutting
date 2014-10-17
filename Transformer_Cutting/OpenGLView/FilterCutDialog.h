@@ -38,4 +38,5 @@ public:
 	afx_msg void OnCbnSelchangeJoin();
 	afx_msg void OnCbnSelchangeJoinType();
 	afx_msg void OnBnClickedClearFilter();
+
 };

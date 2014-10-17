@@ -195,6 +195,9 @@
     <ClCompile Include="FilterCutDialog.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="movePlacedBoxDlg.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KEGIES.h">
@@ -367,6 +370,9 @@
     </ClInclude>
     <ClInclude Include="FilterCutDialog.h">
       <Filter>controlDialog</Filter>
+    </ClInclude>
+    <ClInclude Include="movePlacedBoxDlg.h">
+      <Filter>Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

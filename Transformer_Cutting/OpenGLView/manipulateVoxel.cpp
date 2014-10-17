@@ -140,7 +140,7 @@ void manipulateVoxel::assignBoneSizeToMesh()
 
 void manipulateVoxel::draw(BOOL mode[10])
 {
-	static arrayVec3f color3F = Util_w::randColor(10);
+
 
 	if (mode[4]) // draw the scaled mesh
 	{
@@ -198,7 +198,7 @@ void manipulateVoxel::drawBoxInterfere()
 	// Draw bounding box
 	for (int i = 0; i < meshBox.size(); i++)
 	{
-		Vec3f center = meshBox[i]->centerPoint();
+		Vec3f center = m_centerBox[i];
 		Vec3f size3F = meshBox[i]->m_BoxSize3F*curScaleF;
 
 		glPushMatrix();
@@ -291,42 +291,43 @@ void manipulateVoxel::resolveVoxelBox()
 	// 4. Resolve free voxel
 	while (freeVoxel.size() > 0)
 	{
-		for (auto it = freeVoxel.begin(); it != freeVoxel.end(); it++)
+		for (auto it = freeVoxel.begin(); it != freeVoxel.end();)
 		{
 			int boxIdx = getNearestNeighborBox(*it);
 			if (boxIdx != -1)
 			{
 				boxVoxelIdxs[boxIdx].push_back(*it);
 				m_hashBoxIdx[*it] = boxIdx;
-				freeVoxel.erase(it);
-				break;
+				it = freeVoxel.erase(it);
 			}
+			else
+				it++;
 		}
 	}
 
 	// 5. Process if any object is not connected
-	while (true)
-	{
-		bool found = false;
-		for (auto i = 0; i < boxVoxelIdxs.size(); i++)
-		{
-			auto idxs = boxVoxelIdxs[i];
-			// Check if the piece is unconnected
-			// Merge small part that far from original box to other piece
-			std::vector<arrayInt> independGroup = getIndependentGroup(boxes, idxs);
-			if (independGroup.size() > 1)
-			{
-				found = true;
-				mergeUnconnectedPiece(i, independGroup);
-				break;
-			}
-		}
-
-		if (!found)
-		{
-			break;
-		}
-	}
+//	while (true)
+//	{
+// 		bool found = false;
+// 		for (auto i = 0; i < boxVoxelIdxs.size(); i++)
+// 		{
+// 			auto idxs = boxVoxelIdxs[i];
+// 			// Check if the piece is unconnected
+// 			// Merge small part that far from original box to other piece
+// 			std::vector<arrayInt> independGroup = getIndependentGroup(boxes, idxs);
+// 			if (independGroup.size() > 1)
+// 			{
+// 				found = true;
+// 				mergeUnconnectedPiece(i, independGroup);
+// 				break;
+// 			}
+// 		}
+// 
+// 		if (!found)
+// 		{
+// 			break;
+// 		}
+//	}
 
 	// Update
 	for (int i = 0; i < meshBox.size(); i++)
@@ -396,7 +397,7 @@ std::vector<arrayInt> manipulateVoxel::markVoxelHash()
 	{
 		voxelList * curList = meshBox[i];
 
-		Vec3f center = meshBox[i]->centerPoint();
+		Vec3f center = m_centerBox[i];
 		Vec3f size3F = meshBox[i]->m_BoxSize3F*curScaleF;
 
 		Vec3f ld3F = center - size3F / 2;
@@ -682,5 +683,64 @@ float manipulateVoxel::averageDistanceToMesh(arrayInt idxs, int meshIdx)
 	}
 
 	return dis / idxs.size();
+}
+
+void manipulateVoxel::updateBox(int percent, arrayVec3f centerBox)
+{
+	curScaleF = (float)percent / 100.0;
+	m_centerBox = centerBox;
+	ASSERT(centerBox.size() == meshBox.size());
+
+	// update the list voxels inside the box right away
+	hashVoxel *hashTable = &s_voxelObj->m_hashTable;
+	std::fill(m_hashBoxIdx.begin(), m_hashBoxIdx.end(), -1);
+	for (int i = 0; i < meshBox.size(); i++)
+	{
+		voxelList * curList = meshBox[i];
+
+		Vec3f center = centerBox[i];
+		Vec3f size3F = meshBox[i]->m_BoxSize3F*curScaleF;
+
+		Vec3f ld3F = center - size3F / 2;
+		Vec3f ru3F = center + size3F / 2;
+
+		Vec3f meshLD = s_voxelObj->m_hashTable.leftDown;
+		Vec3i ld3I = Util_w::XYZ2IJK(ld3F - meshLD, s_voxelObj->m_voxelSizef);
+		Vec3i ru3I = Util_w::XYZ2IJK(ru3F - meshLD, s_voxelObj->m_voxelSizef);
+
+		for (int ii = ld3I[0]; ii <= ru3I[0]; ii++)
+		{
+			for (int jj = ld3I[1]; jj <= ru3I[1]; jj++)
+			{
+				for (int kk = ld3I[2]; kk <= ru3I[2]; kk++)
+				{
+					Vec3i curPI = Vec3i(ii, jj, kk);
+					int idx = hashTable->getBoxIndexFromVoxelCoord(curPI);
+					if (idx != -1)
+					{
+						m_hashBoxIdx[idx] = i;
+					}
+				}
+			}
+		}
+	}
+}
+
+void manipulateVoxel::drawCoord(int boneIdx) const
+{
+	float length = s_voxelObj->m_voxelSizef * 3;
+	Vec3f c = m_centerBox[boneIdx];
+
+	arrayVec3f coords = { Vec3f(1, 0, 0), Vec3f(0, 1, 0), Vec3f(0, 0, 1) };
+
+	glBegin(GL_LINES);
+	for (auto co : coords)
+	{
+		glColor3fv(co.data());
+		glVertex3fv(c.data());
+		glVertex3fv((c + co*length).data());
+	}
+
+	glEnd();
 }
 

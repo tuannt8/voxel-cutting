@@ -51,6 +51,13 @@ void View2::InitGL()
 	m_hRC=Initgl.m_hRC;
 
 	m_Cam1 = AppSetting::loadcamera();
+
+	CKEGIESDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	pDoc->document.view2 = this;
 }
 
 void View2::OnDraw(CDC* pDC)

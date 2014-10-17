@@ -10,6 +10,9 @@
 #include "manipulateVoxel.h"
 #include "processHoleMesh.h"
 #include "FilterCutDialog.h"
+#include "movePlacedBoxDlg.h"
+
+extern class CKEGIESView;
 
 //#include "MeshCutting.h"
 #define XML_ORIGINAL_MESH_KEY "original_mesh_path_name"
@@ -41,13 +44,15 @@ public:
 	void draw(BOOL mode[10]);
 	void draw2(bool mode[10]);
 
+	void loadFile(); // Load for cutting
+
 	void receiveKey(UINT nchar);
 	void updateIdx(int yIdx, int zIdx);
 	void updateRealtime();
 
 	void updateFilterCutGroup();
 private:
-	void loadFile(); // Load for cutting
+
 	void loadTestVoxelBitSet();
 
 	void initState();
@@ -79,13 +84,16 @@ private:
 	std::vector<arrayInt> getVoxelIdxFullFromVoxelProcess();
 	void saveCutMeshToObj();
 	void convertPolyHedronToMayaObj(Polyhedron *cutPieces, const char* path) const;
+	float getVoxelSize(int nbVoxel);
 
+	void setDisplayOptions(std::initializer_list<int> opts);
 public:
 	// Process
 	processHoleMeshPtr holeMesh;
 	appMode m_curMode; // Application state
 	cutSurfTreeMngr2 m_cutSurface; 
 	FilterCutDialog * cutFilterDialog;
+	movePlacedBoxDlgPtr m_boxPlaceMngr;
 
 	detailSwapManager *m_swapMngr;
 	groupCutManager *m_groupCutMngr;
@@ -111,6 +119,8 @@ public:
 	int leafIdx;
 	int shift;
 
+	CKEGIESView * view1;
+	void * view2;
 public:	
 	// Test voxel cutting
 

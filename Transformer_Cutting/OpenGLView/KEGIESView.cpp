@@ -130,6 +130,14 @@ void CKEGIESView::InitGL()
 	m_hRC=Initgl.m_hRC;
 
 	m_Cam1 = AppSetting::loadcamera();
+
+	CKEGIESDoc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	if (!pDoc)
+		return;
+
+	pDoc->document.view1 = this;
+	pDoc->document.loadFile();
 }
 
 void CKEGIESView::OnDraw(CDC* /*pDC*/)
@@ -338,8 +346,8 @@ int CKEGIESView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	
 	SetTimer(TIMER_UPDATE_VIEW,10,NULL);
-	m_bDisplayAxis = AppSetting::bShowAxis;
-	m_bDisplayText = AppSetting::bShowHelpText;
+	m_bDisplayAxis = true;
+	m_bDisplayText = true;
 	textMode = AppSetting::readIntSetting("textMode");
 	return 0;
 }
@@ -786,5 +794,18 @@ void CKEGIESView::resetDisplayMode()
 	for (int i = 0; i < 10; i++)
 	{
 		m_displayMode[i] = TRUE;
+	}
+}
+
+void CKEGIESView::setDisplayOptions(arrayInt opts)
+{
+	ASSERT(opts.size() <= 10);
+	for (int i = 0; i < 10; i++)
+	{
+		m_displayMode[i] = FALSE;
+	}
+	for (size_t i = 0; i < opts.size(); i++)
+	{
+		m_displayMode[i] = opts[i];
 	}
 }

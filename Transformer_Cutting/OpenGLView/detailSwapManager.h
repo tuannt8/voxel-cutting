@@ -25,7 +25,7 @@ public:
 	detailSwapManager(void);
 	~detailSwapManager(void);
 
-	void draw(BOOL displayMode[10]);
+	void draw();
 	void draw2(BOOL displayMode[10]);
 	void updateDisplay(int idx1, int idx2);
 

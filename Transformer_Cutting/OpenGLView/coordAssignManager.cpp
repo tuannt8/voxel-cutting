@@ -117,7 +117,7 @@ void coordAssignManager::draw2(BOOL mode[10])
 	mirror.mirrorAxis = 0;
 	mirror.mirrorCoord = s_detailSwap->m_octree.centerMesh[0];
 
-	if (mode[5]) // Draw box
+	// Draw box
 	{
 		int curBone = dlg->getCurBoneIdx();
 		for (int i = 0; i < m_meshBoxFull.size(); i++)
@@ -142,7 +142,7 @@ void coordAssignManager::draw2(BOOL mode[10])
 		}
 	}
 
-	if (mode[6]) // draw coord
+	// draw coord
 	{
 		arrayVec3i coords = dlg->coords;
 		float length = 3;
@@ -197,7 +197,7 @@ void coordAssignManager::drawBoneMap()
 
 		// Fit size Bone to bone
 		Vec3f sizeBone = m_boneFullArray[i]->m_sizef;
-		float scalef = std::pow((sizeBone[0] * sizeBone[1] * sizeBone[2]) / (sizeBoneMap[0]*sizeBoneMap[1]*sizeBoneMap[2]), 1/3);
+		float scalef = std::pow((sizeBone[0] * sizeBone[1] * sizeBone[2]) / (sizeBoneMap[0]*sizeBoneMap[1]*sizeBoneMap[2]), 1.0/3);
 
 		for (int j = 0; j < 3; j++)
 		{

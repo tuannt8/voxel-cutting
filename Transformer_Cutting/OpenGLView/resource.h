@@ -17,7 +17,8 @@
 #define IDD_CONTROL_DIALOG              136
 #define IDD_DIALOG_ASSIGN_COORD         137
 #define IDD_DIALOG_GROUP_CUT            138
-#define IDD_DIALOG_FILTER_CUT_GROUP                     139
+#define IDD_DIALOG_FILTER_CUT_GROUP     139
+#define IDD_DIALOG_MOVE_PLACED_BOX      140
 #define IDC_EDIT1                       1005
 #define IDC_EDIT3                       1006
 #define IDC_EDIT2                       1007
@@ -30,6 +31,8 @@
 #define IDC_VOLUME                      1012
 #define IDC_BUTTON5                     1012
 #define IDC_EDIT4                       1013
+#define IDC_BUTTON6                     1013
+#define IDC_BUTTON6_Z_F                 1013
 #define IDC_1_LOAD_MESH                 1015
 #define IDC_1_CREATE_VOXEL              1016
 #define IDC_1_BUILD_TREE                1017
@@ -44,6 +47,15 @@
 #define IDC_BUTTON_SAVE_COORD           1027
 #define IDC_COMBO1                      1028
 #define IDC_COMBO2                      1029
+#define IDC_MOVE_X_BACK                 1032
+#define IDC_EDIT_SCALE                  1033
+#define IDC_EDIT_SPEED                  1034
+#define IDC_COMBO_BOX_PLACE_BONE_LIST   1035
+#define IDC_MOVE_X_F                    1036
+#define IDC_BUTTON3_Y_B                 1037
+#define IDC_BUTTON4_Y_F                 1038
+#define IDC_BUTTON5_Z_B                 1039
+#define IDC_BUTTON1_UPDATE              1040
 #define ID_TOOL_CONVERTSTLTOOBJ         32771
 #define ID_RENDERMODE_LINE              32778
 #define ID_RENDERMODE_LINEANDSURFACE    32779
@@ -98,9 +110,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        140
+#define _APS_NEXT_RESOURCE_VALUE        141
 #define _APS_NEXT_COMMAND_VALUE         32830
-#define _APS_NEXT_CONTROL_VALUE         1029
+#define _APS_NEXT_CONTROL_VALUE         1041
 #define _APS_NEXT_SYMED_VALUE           102
 #endif
 #endif

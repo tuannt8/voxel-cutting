@@ -119,3 +119,4 @@ void FilterCutDialog::OnBnClickedClearFilter()
 	joinComboBox.SetCurSel(0);
 	OnCbnSelchangeJoin();
 }
+

@@ -166,15 +166,15 @@ carve::poly::Polyhedron * MeshCutting::makeCube(double minX, double minY, double
 void MeshCutting::draw(BOOL displayMode[10])
 {
 	static arrayVec3f color = Util_w::randColor(30);
-	if (displayMode[5])
-	{
-		if (m_polyHedron)
-		{
-			drawPolygon(m_polyHedron);
-		}
-	}
+// 	if (displayMode[5])
+// 	{
+// 		if (m_polyHedron)
+// 		{
+// 			drawPolygon(m_polyHedron);
+// 		}
+// 	}
 
-	if (displayMode[6])
+	if (displayMode[4])
 	{
 		for (int i = 0; i < m_cutSurface.size(); i++)
 		{
@@ -187,7 +187,7 @@ void MeshCutting::draw(BOOL displayMode[10])
 		}
 	}
 
-	if (displayMode[7])
+	if (displayMode[5])
 	{
 		for (int i = 0; i < m_cutPieces.size(); i++)
 		{
@@ -482,6 +482,9 @@ Vec3f MeshCutting::getCenterBox(arrayInt voxelIdxs)
 
 void MeshCutting::CopyMeshToBone()
 {
+	// Translate cut-piece to bone coordinate
+	// Share center bone
+
 	for (int i = 0; i < m_cutPieces.size(); i++)
 	{
 		boneArray[i]->mesh = m_cutPieces[i];

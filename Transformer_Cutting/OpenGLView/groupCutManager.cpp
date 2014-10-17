@@ -192,16 +192,16 @@ void groupCutManager::draw(BOOL mode[10])
 	static arrayVec3f color = Util_w::randColor(6);
 	mirrorDraw mirror(0, s_octree->centerMesh[0]);
 
-	if (mode[5]) // draw mesh box
+	// Grid mesh box
+	for (int i = 0; i < s_meshBoxes->size(); i++)
 	{
-		for (int i = 0; i < s_meshBoxes->size(); i++)
-		{
-			glColor3fv(color[i].data());
+		glColor3fv(color[i].data());
 
-			(*s_meshBoxes)[i]->drawVoxels(&mirror, 0);
-		}
+		(*s_meshBoxes)[i]->drawVoxels(&mirror, 0);
 	}
-	if (mode[6])
+
+	// Solid mesh box
+	if (0)
 	{
 		for (int i = 0; i < s_meshBoxes->size(); i++)
 		{
@@ -210,18 +210,10 @@ void groupCutManager::draw(BOOL mode[10])
 		}
 	}
 
-	if (mode[7])
-	{
-		glLineWidth(3.0);
-		boneGroupArray[curBoneIdx].drawPose(idx1, idx2);
-		glLineWidth(1.0);
-	}
-
-	if (mode[8])
-	{
-		// Draw chosen configuration of boxes
-
-	}
+	// Group array
+	glLineWidth(3.0);
+	boneGroupArray[curBoneIdx].drawPose(idx1, idx2);
+	glLineWidth(1.0);
 }
 
 void groupCutManager::manualInit()

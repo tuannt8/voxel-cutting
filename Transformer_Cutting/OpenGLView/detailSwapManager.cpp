@@ -112,88 +112,22 @@ void detailSwapManager::loadMeshBox(char *filePath)
 	}
 }
 
-void detailSwapManager::draw(BOOL displayMode[10])
+void detailSwapManager::draw()
 {
 	mirrorDraw mirror;
 	mirror.mirrorAxis = 0;
 	mirror.mirrorCoord = m_octree.centerMesh[0];
 	static arrayVec3f color = Util_w::randColor(16);
 
-	if (displayMode[5])
+	for (int i =0 ; i < meshBox.size(); i++)
 	{
-		glColor3f(1,0,0);
-		if (swapNode)
-			swapNode->drawBoundingBox();
-	}
-// 	if (displayMode[1])
-// 	{
-// 		glColor3f(1,0,0);
-// 		m_octree.drawWireOctree();
-// 	}
-// 	if (displayMode[6])
-// 	{
-// 		glLineWidth(2.0);
-// 		for (int i = 0; i < meshBox.size(); i++)
-// 		{
-// 			glColor3f(0,0,1);
-// 			meshBox[i]->drawOriginalBox();
-// 		}
-// 		glLineWidth(1.0);
-// 	}
+		glColor3fv(color[i + 1].data());
+		meshBox[i]->drawVoxels(&mirror);
 
-	if (displayMode[7])
-	{
-
-		for (int i =0 ; i < meshBox.size(); i++)
-		{
-			if (i != m_idx1 && i != m_idx2)
-			{
-				glColor3fv(color[i + 1].data());
-				meshBox[i]->drawVoxels(&mirror);
-
-				glColor3fv(color[i].data());
-				meshBox[i]->drawVoxels(&mirror, 1);
-			}
-			else
-			{
-				// draw index
-				glColor3fv(color[i + 1].data());
-				meshBox[i]->drawVoxels(&mirror);
-
-				meshBox[i]->drawVoxelIndex();
-			}
-		}
+		glColor3fv(color[i].data());
+		meshBox[i]->drawVoxels(&mirror, 1);
 	}
 
-	if (displayMode[8])
-	{
-		for (int i =0 ; i < meshBox.size(); i++)
-		{
-			glColor3fv(color[i+1].data());
-			meshBox[i]->drawVoxels(&mirror);
-
-			glColor3fv(color[i].data());
-			meshBox[i]->drawVoxels(&mirror, 1);
-
-		}
-	}
-
-// 	if (!displayMode[5])
-// 	{
-// 		glColor3f(1,0,0);
-// 		for (int i =0 ; i < meshBox.size(); i++)
-// 		{
-// 			meshBox[i]->drawVoxelBoneIdx(i);
-// 		}
-// 	}
-
-// 	if (displayMode[6]) // Draw node index
-// 	{
-// 		if (m_idx1 >= 0 && m_idx1 < meshBox.size())
-// 			meshBox[m_idx1]->drawVoxelIndex();
-// 	}
-
-	if (displayMode[0])
 	{// draw name
 		for (int i = 0; i < meshBox.size(); i++)
 		{
@@ -201,25 +135,6 @@ void detailSwapManager::draw(BOOL displayMode[10])
 			Util::printw(c[0], c[1], c[2], (LPCSTR)CStringA(meshBox[i]->boneName));
 		}
 	}
-
-// 	if (displayMode[8])
-// 	{
-// 		glBegin(GL_LINES);
-// 		Vec3f color[3] = {Vec3f(1,0,0), Vec3f(0,1,0), Vec3f(0,0,1)};
-// 		for (int i = 0; i < coords.size(); i++)
-// 		{
-// 			Vec3i cc = coords[i];
-// 			Vec3f c = (meshBox[i]->leftDown + meshBox[i]->rightUp)/2;
-// 			for (int j = 0; j < 3; j++)
-// 			{
-// 				glColor3fv(color[j].data());
-// 				glVertex3fv(c.data());
-// 				glVertex3fv((c+color[cc[j]]).data());
-// 			}
-// 
-// 		}
-// 		glEnd();
-// 	}
 }
 
 void detailSwapManager::constructVolxeHash()

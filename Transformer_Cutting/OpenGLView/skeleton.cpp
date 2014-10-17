@@ -914,8 +914,8 @@ void bone::drawBoneWithMeshSize()
 	ru = center + meshSizeScale / 2;
 	glColor3f(0, 0, 1);
 	Util_w::drawBoxWireFrame(ld, ru);
-	glColor3f(0.9, 0.9, 0.9);
-	Util_w::drawBoxSurface(ld, ru);
+// 	glColor3f(0.9, 0.9, 0.9);
+// 	Util_w::drawBoxSurface(ld, ru);
 
 	drawCoord();
 }
