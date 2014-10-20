@@ -179,11 +179,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AppSetting.h" />
-    <ClInclude Include="bitSetMangr.h" />
-    <ClInclude Include="bitSetObject.h" />
     <ClInclude Include="boneAbstract.h" />
     <ClInclude Include="BoneMapTree.h" />
-    <ClInclude Include="boneSphere.h" />
     <ClInclude Include="boneTransform.h" />
     <ClInclude Include="bvhVoxel.h" />
     <ClInclude Include="Color.h" />
@@ -200,8 +197,6 @@
     <ClInclude Include="debugInfo.h" />
     <ClInclude Include="detailSwapManager.h" />
     <ClInclude Include="Dialog.h" />
-    <ClInclude Include="dynamicManager.h" />
-    <ClInclude Include="energyDoc.h" />
     <ClInclude Include="errorHash.h" />
     <ClInclude Include="FilterCutDialog.h" />
     <ClInclude Include="groupCut.h" />
@@ -209,7 +204,6 @@
     <ClInclude Include="matTranform.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="manipulateVoxel.h" />
-    <ClInclude Include="meshSphereObj.h" />
     <ClInclude Include="mirrorDraw.h" />
     <ClInclude Include="errorCompute.h" />
     <ClInclude Include="KEGIES.h" />
@@ -227,8 +221,6 @@
     <ClInclude Include="rotationMap.h" />
     <ClInclude Include="SideDialog.h" />
     <ClInclude Include="skeleton.h" />
-    <ClInclude Include="sphere.h" />
-    <ClInclude Include="energyMnager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="tranformCoord.h" />
     <ClInclude Include="View2.h" />

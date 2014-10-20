@@ -8,7 +8,7 @@
 <mesh_cut_part>
 	<polygon_name>meshPath_1.obj</polygon_name>
 	<bone_name>head</bone_name>
-	<bone_mesh_coordinate_map>2, 0, 1</bone_mesh_coordinate_map>
+	<bone_mesh_coordinate_map>1, 2, 0</bone_mesh_coordinate_map>
 </mesh_cut_part>
 <mesh_cut_part>
 	<polygon_name>meshPath_2.obj</polygon_name>

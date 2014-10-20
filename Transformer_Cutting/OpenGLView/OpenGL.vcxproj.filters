@@ -46,9 +46,6 @@
     <Filter Include="Voxel Data">
       <UniqueIdentifier>{3fdf8f79-779d-419b-8620-46b6cd2491ed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Energy">
-      <UniqueIdentifier>{704501db-ed2a-4f78-af9e-9ec724e85b4a}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KEGIES.cpp">
@@ -338,32 +335,8 @@
     <ClInclude Include="voxelSplitObj.h">
       <Filter>Voxel Data</Filter>
     </ClInclude>
-    <ClInclude Include="sphere.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
-    <ClInclude Include="energyDoc.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
-    <ClInclude Include="energyMnager.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
-    <ClInclude Include="boneSphere.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
     <ClInclude Include="matTranform.h">
       <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="meshSphereObj.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
-    <ClInclude Include="bitSetObject.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
-    <ClInclude Include="bitSetMangr.h">
-      <Filter>Energy</Filter>
-    </ClInclude>
-    <ClInclude Include="dynamicManager.h">
-      <Filter>Energy</Filter>
     </ClInclude>
     <ClInclude Include="processHoleMesh.h">
       <Filter>MyDocument</Filter>
