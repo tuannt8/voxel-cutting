@@ -129,7 +129,6 @@
     <ClCompile Include="bitSetObject.cpp" />
     <ClCompile Include="boneAbstract.cpp" />
     <ClCompile Include="BoneMapTree.cpp" />
-    <ClCompile Include="boneSphere.cpp" />
     <ClCompile Include="bvhVoxel.cpp" />
     <ClCompile Include="configTreeMng.cpp" />
     <ClCompile Include="controlDialog.cpp" />
@@ -156,7 +155,6 @@
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="manipulateVoxel.cpp" />
     <ClCompile Include="MeshCutting.cpp" />
-    <ClCompile Include="meshSphereObj.cpp" />
     <ClCompile Include="movePlacedBoxDlg.cpp" />
     <ClCompile Include="myDocment.cpp" />
     <ClCompile Include="octreeSolid.cpp" />
@@ -165,7 +163,6 @@
     <ClCompile Include="SideDialog.cpp" />
     <ClCompile Include="skeleton.cpp" />
     <ClCompile Include="energyMnager.cpp" />
-    <ClCompile Include="sphere.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

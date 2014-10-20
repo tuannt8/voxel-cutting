@@ -162,19 +162,10 @@
     <ClCompile Include="voxelSplitObj.cpp">
       <Filter>Voxel Data</Filter>
     </ClCompile>
-    <ClCompile Include="sphere.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="energyDoc.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="energyMnager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="boneSphere.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="meshSphereObj.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="bitSetObject.cpp">
