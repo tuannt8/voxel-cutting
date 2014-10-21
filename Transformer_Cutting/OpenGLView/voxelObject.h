@@ -8,8 +8,8 @@
 #include "octreeSolid.h"
 #include "mirrorDraw.h"
 #include "voxelSplitObj.h"
-#include "bitSetObject.h"
-#include "energyMnager.h"
+
+
 
 class voxelBox // For 2 pixel voxel
 {
@@ -74,9 +74,9 @@ public:
 	bool init(voxelObject *highRes, int downSampleRate);
 	bool init(voxelObject *highRes, float voxelSize);
 
-	void drawBitSet(voxelSplitObj* vBitSet);
-	void drawVoxelBitDecomposed();
-	void drawBitSetBoundingBox();
+// 	void drawBitSet(voxelSplitObj* vBitSet);
+// 	void drawVoxelBitDecomposed();
+// 	void drawBitSetBoundingBox();
 
 	void drawVoxel(int mode = 0);
 	void drawVoxelIndex();
@@ -84,13 +84,13 @@ public:
 
 	Vec3f floorV(Vec3f v, float d);
 	float volumef() const;
-	void updateSphereOccupy(energyMngerPtr curEnergyObj);
+	//void updateSphereOccupy(energyMngerPtr curEnergyObj);
 private:
 	void constructVolxeHash();
 	void constructVolxeHash(float scale);
 	void constructNeighbor();
 	void decomposeConvexes();
-	void constructBitSetMesh();
+//	void constructBitSetMesh();
 
 
 public: // Private member variable	
@@ -99,10 +99,10 @@ public: // Private member variable
 	std::vector<arrayInt> m_allBoxAroundBox; // All neighbor of voxel
 	std::vector<arrayInt> m_boxShareFaceWithBox; // Neighbor that share face with voxel
 
-	voxelSplitObj m_voxelBitSet; // Bit set for splitting operation
-								// Include set of convex group voxel
-
-	energy::bitSetObjectPtr meshBitSet;
+// 	voxelSplitObj m_voxelBitSet; // Bit set for splitting operation
+// 								// Include set of convex group voxel
+// 
+// 	energy::bitSetObjectPtr meshBitSet;
 
 	hashVoxel m_hashTable; // Hash table
 

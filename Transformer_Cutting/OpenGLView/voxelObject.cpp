@@ -191,9 +191,6 @@ bool voxelObject::init(SurfaceObj *obj, int res, float scale)
 	// Boxes
 	constructNeighbor();
 
-	// Create bit set object
-	constructBitSetMesh();
-
 	return true;
 
 }
@@ -461,110 +458,110 @@ void voxelObject::drawVoxelLeaf(int mode)
 	}
 }
 
-void voxelObject::decomposeConvexes()
-{
-	// Construct voxel bit set
-	// test by hard code first
-	std::vector<Box> boxDecompose;
-	boxDecompose.push_back(Box(Vec3f(-20, -20, -20), Vec3f(0, 20, 20)));
-	boxDecompose.push_back(Box(Vec3f(0, -20, 0), Vec3f(20, 20, 20)));
-	boxDecompose.push_back(Box(Vec3f(0, -20, -20), Vec3f(20, 20, 0)));
+// void voxelObject::decomposeConvexes()
+// {
+// 	// Construct voxel bit set
+// 	// test by hard code first
+// 	std::vector<Box> boxDecompose;
+// 	boxDecompose.push_back(Box(Vec3f(-20, -20, -20), Vec3f(0, 20, 20)));
+// 	boxDecompose.push_back(Box(Vec3f(0, -20, 0), Vec3f(20, 20, 20)));
+// 	boxDecompose.push_back(Box(Vec3f(0, -20, -20), Vec3f(20, 20, 0)));
+// 
+// 	// Check voxel inside these boxes.
+// 	// Assign to decomposed box
+// 	m_voxelBitSet.hashTable = &m_hashTable;
+// 	m_voxelBitSet.m_leftDownf = m_octree.m_root->leftDownf;
+// 	m_voxelBitSet.m_rightUpf = m_octree.m_root->rightUpf;
+// 
+// 	GeometricFunc geoFunc;
+// 	for (int i = 0; i < boxDecompose.size(); i++)
+// 	{
+// 		voxelBitConvex newCVBitset;
+// 		for (int j = 0; j < m_boxes.size(); j++)
+// 		{
+// 			if (geoFunc.isPointInBox(boxDecompose[i].leftDown, boxDecompose[i].rightUp, m_boxes[j].center))
+// 			{
+// 				Vec3i coordi = m_boxes[j].xyzIndex;
+// 				newCVBitset.setValue1(coordi);
+// 			}
+// 		}
+// 		newCVBitset.leftDowni = m_hashTable.leftDowni();
+// 		newCVBitset.rightUpi = m_hashTable.rightUpi();
+// 		newCVBitset.tightBoundingBox(&m_hashTable);
+// 
+// 		m_voxelBitSet.groupVoxels.push_back(newCVBitset);
+// 	}
+// 
+// 	m_voxelBitSet.computeBoundingBox();
+// }
+// 
+// void voxelObject::drawBitSet(voxelSplitObj* vBitSet)
+// {
+// 	vBitSet->drawVoxelBox();
+// }
+// 
+// void voxelObject::drawVoxelBitDecomposed()
+// {
+// 	voxelBitConvex_array *bitSetA = m_voxelBitSet.getBitSetArray();
+// 
+// 	static arrayVec3f colors = Util_w::randColor(bitSetA->size()+1);
+// 
+// 	for (int i = 0; i < bitSetA->size(); i++)
+// 	{
+// 		glColor3fv(colors[i+1].data());
+// 		bitSetA->at(i).drawBoxWire(&m_hashTable);
+// 
+// 		glColor3fv(colors[i].data());
+// 		bitSetA->at(i).drawBoxSolid(&m_hashTable);
+// 	}
+// }
+// 
+// void voxelObject::drawBitSetBoundingBox()
+// {
+// 	voxelBitConvex_array *bitSetA = m_voxelBitSet.getBitSetArray();
+// 
+// 	static arrayVec3f colors = Util_w::randColor(bitSetA->size() + 1);
+// 
+// 	for (int i = 0; i < bitSetA->size(); i++)
+// 	{
+// 		glColor3fv(colors[i].data());
+// 		bitSetA->at(i).drawBoudingBox(&m_hashTable);
+// 	}
+// }
 
-	// Check voxel inside these boxes.
-	// Assign to decomposed box
-	m_voxelBitSet.hashTable = &m_hashTable;
-	m_voxelBitSet.m_leftDownf = m_octree.m_root->leftDownf;
-	m_voxelBitSet.m_rightUpf = m_octree.m_root->rightUpf;
-
-	GeometricFunc geoFunc;
-	for (int i = 0; i < boxDecompose.size(); i++)
-	{
-		voxelBitConvex newCVBitset;
-		for (int j = 0; j < m_boxes.size(); j++)
-		{
-			if (geoFunc.isPointInBox(boxDecompose[i].leftDown, boxDecompose[i].rightUp, m_boxes[j].center))
-			{
-				Vec3i coordi = m_boxes[j].xyzIndex;
-				newCVBitset.setValue1(coordi);
-			}
-		}
-		newCVBitset.leftDowni = m_hashTable.leftDowni();
-		newCVBitset.rightUpi = m_hashTable.rightUpi();
-		newCVBitset.tightBoundingBox(&m_hashTable);
-
-		m_voxelBitSet.groupVoxels.push_back(newCVBitset);
-	}
-
-	m_voxelBitSet.computeBoundingBox();
-}
-
-void voxelObject::drawBitSet(voxelSplitObj* vBitSet)
-{
-	vBitSet->drawVoxelBox();
-}
-
-void voxelObject::drawVoxelBitDecomposed()
-{
-	voxelBitConvex_array *bitSetA = m_voxelBitSet.getBitSetArray();
-
-	static arrayVec3f colors = Util_w::randColor(bitSetA->size()+1);
-
-	for (int i = 0; i < bitSetA->size(); i++)
-	{
-		glColor3fv(colors[i+1].data());
-		bitSetA->at(i).drawBoxWire(&m_hashTable);
-
-		glColor3fv(colors[i].data());
-		bitSetA->at(i).drawBoxSolid(&m_hashTable);
-	}
-}
-
-void voxelObject::drawBitSetBoundingBox()
-{
-	voxelBitConvex_array *bitSetA = m_voxelBitSet.getBitSetArray();
-
-	static arrayVec3f colors = Util_w::randColor(bitSetA->size() + 1);
-
-	for (int i = 0; i < bitSetA->size(); i++)
-	{
-		glColor3fv(colors[i].data());
-		bitSetA->at(i).drawBoudingBox(&m_hashTable);
-	}
-}
-
-void voxelObject::constructBitSetMesh()
-{
-	using namespace energy;
-
-	meshBitSet = bitSetObjectPtr(new bitSetObject(m_hashTable.NumXYZ));
-	for (auto b : m_boxes)
-	{
-		Vec3i posi = b.xyzIndex;
-		meshBitSet->setAtPos(posi);
-	}
-}
+// void voxelObject::constructBitSetMesh()
+// {
+// 	using namespace energy;
+// 
+// 	meshBitSet = bitSetObjectPtr(new bitSetObject(m_hashTable.NumXYZ));
+// 	for (auto b : m_boxes)
+// 	{
+// 		Vec3i posi = b.xyzIndex;
+// 		meshBitSet->setAtPos(posi);
+// 	}
+// }
 
 float voxelObject::volumef() const
 {
 	return m_boxes.size() * std::pow(m_voxelSizef, 3);
 }
 
-void voxelObject::updateSphereOccupy(energyMngerPtr curEnergyObj)
-{
-	std::vector<skeSpherePtr> sArray = curEnergyObj->sphereArray();
-	
-	arrayInt voxeHash = m_hashTable.voxelHash;
-	// Clear voxel state
-	for (auto b:m_boxes)
-	{
-		b.state = 0;
-	}
-
-	for (auto s:sArray)
-	{
-
-	}
-}
+// void voxelObject::updateSphereOccupy(energyMngerPtr curEnergyObj)
+// {
+// 	std::vector<skeSpherePtr> sArray = curEnergyObj->sphereArray();
+// 	
+// 	arrayInt voxeHash = m_hashTable.voxelHash;
+// 	// Clear voxel state
+// 	for (auto b:m_boxes)
+// 	{
+// 		b.state = 0;
+// 	}
+// 
+// 	for (auto s:sArray)
+// 	{
+// 
+// 	}
+// }
 
 void voxelObject::drawVoxelIndex()
 {

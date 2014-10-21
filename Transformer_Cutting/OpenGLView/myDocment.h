@@ -15,12 +15,18 @@
 extern class CKEGIESView;
 
 //#include "MeshCutting.h"
+#define XML_INFOR				"infor"
 #define XML_ORIGINAL_MESH_KEY "original_mesh_path_name"
 #define XML_SKELETON_MESH_KEY "skeleton_mesh_path_name"
 #define XML_MESH_PART			"mesh_cut_part"
 #define XML_CUT_MESH_NAME		"polygon_name"
 #define XML_BONE_NAME			"bone_name"
 #define XML_COORD_MAP			"bone_mesh_coordinate_map"
+#define XML_BONE_COORD_RESPECT_TO_WORLD "bone_coord_respect_to_world"
+#define XML_ORIGIN				"origin"
+#define XML_LOCAL_X_RESPECT_TO_WORLD	"local_x_repect_to_wolrd"
+#define XML_LOCAL_Y_RESPECT_TO_WORLD	"local_y_repect_to_wolrd"
+#define XML_LOCAL_Z_RESPECT_TO_WORLD	"local_z_repect_to_wolrd"
 
 typedef enum
 {
@@ -53,7 +59,6 @@ public:
 	void updateFilterCutGroup();
 private:
 
-	void loadTestVoxelBitSet();
 
 	void initState();
 	void changeState();
@@ -87,6 +92,7 @@ private:
 	float getVoxelSize(int nbVoxel);
 
 	void setDisplayOptions(std::initializer_list<int> opts);
+	Polyhedron* getSymmetric_by_X(Polyhedron* cutPieces);
 public:
 	// Process
 	processHoleMeshPtr holeMesh;

@@ -495,3 +495,14 @@ void MeshCutting::updateScale(float scaleR)
 {
 	
 }
+
+arrayVec3f MeshCutting::getMeshCoordOrigin()
+{
+	arrayVec3f origin;
+	for (int i = 0; i < meshVoxelIdxs.size(); i++)
+	{
+		origin.push_back(getCenterBox(meshVoxelIdxs[i]));
+	}
+
+	return origin;
+}

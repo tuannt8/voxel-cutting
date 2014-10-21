@@ -26,6 +26,7 @@ public:
 	void init2(std::vector<arrayInt> meshIdx, std::vector<bone*> boneArray_i);
 	void initFromMesh(SurfaceObj *mesh);
 
+
 	void cutTheMesh();
 	void CopyMeshToBone();
 	void updateScale(float scaleR);
@@ -41,11 +42,13 @@ public:
 	void triangleBox(Vec3f leftDown, Vec3f rightUp, std::vector<Vec3f> &points_, std::vector<Vec3i> &faces_);
 	carve::poly::Polyhedron * makeCubeTriangular(double minX, double minY, double minZ, double maxX, double maxY, double maxZ);
 	SurfaceObj* triangulatePolygon(Polyhedron * testResult);
+	arrayVec3f getMeshCoordOrigin();
 private:
 	Polyhedron * convertTriangularToPolygonMesh(arrayVec3f * pts, arrayVec3i * faces);
 	void transformMesh();
 	Vec3f getCenterBox(arrayInt voxelIdxs);
 	
+
 
 public:
 	Polyhedron *m_polyHedron;

@@ -7,7 +7,6 @@
 #include "coordAssignManager.h"
 #include "groupCutManager.h"
 #include "myDocment.h"
-#include "energyDoc.h"
 
 class CKEGIESDoc : public CDocument
 {

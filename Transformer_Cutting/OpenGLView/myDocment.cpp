@@ -743,7 +743,7 @@ void myDocment::changeToCuttingMeshMode()
 	m_meshCutting->s_surObj = m_surfaceObj;
 	m_meshCutting->coords = m_voxelProcess->coords;
 	vector<arrayInt> voxelIdxBones = getVoxelIdxFullFromVoxelProcess();
-		m_meshCutting->init2(voxelIdxBones, m_voxelProcess->boneArray);
+	m_meshCutting->init2(voxelIdxBones, m_voxelProcess->boneArray);
 
 	time.SetEnd();
 	cout << "\n-------------------------------------" << endl
@@ -897,6 +897,7 @@ void myDocment::saveFile()
 	if (!PathFileExists(path))
 	{
 		AfxMessageBox(_T("Folder does not exist"));
+		return;
 	}
 
 	arrayBone_p boneArray = m_meshCutting->boneArray;
@@ -904,12 +905,14 @@ void myDocment::saveFile()
 	// Write the cutting information
 	myXML infoFile;
 
+	myXMLNode * mainNode = infoFile.addNode(XML_INFOR);
+
 	// Write the original mesh
 	CStringA originalMesh(path);
 	CStringA originalMeshName("originalMesh.obj");
 	originalMesh += ("\\");
 	originalMesh += originalMeshName;
-	infoFile.addNode(XML_ORIGINAL_MESH_KEY, originalMeshName.GetBuffer());
+	infoFile.addElementToNode(mainNode, XML_ORIGINAL_MESH_KEY, originalMeshName.GetBuffer());
 	m_surfaceObj->writeObjMayaData(originalMesh.GetBuffer());
 
 	// Write the skeleton information
@@ -917,24 +920,41 @@ void myDocment::saveFile()
 	CStringA skeletonPathName("skeleton.xml");
 	skeletonPath += "\\";
 	skeletonPath += skeletonPathName;
-	infoFile.addNode(XML_SKELETON_MESH_KEY, skeletonPathName.GetBuffer());
+	infoFile.addElementToNode(mainNode, XML_SKELETON_MESH_KEY, skeletonPathName.GetBuffer());
 	m_skeleton->writeToFile(skeletonPath.GetBuffer());
 
 	// Write the cut mesh in global coord
 	std::vector<Polyhedron*> cutPieces = m_meshCutting->m_cutPieces;
+	arrayVec3i xyzCoord = {Vec3i(1,0,0), Vec3i(0,1,0), Vec3i(0,0,1)};
 	arrayVec3i coord = m_meshCutting->coords;
+	arrayVec3f coordOrign = m_meshCutting->getMeshCoordOrigin();
 	for (int i = 0; i < cutPieces.size(); i++)
 	{
 		CStringA meshPath(path);
 		CStringA meshPathName; meshPathName.Format("meshPath_%d.obj", i);
 		meshPath.AppendFormat("\\%s", meshPathName.GetBuffer());
 
-		myXMLNode * meshPartNode = infoFile.addNode(XML_MESH_PART);
+		myXMLNode * meshPartNode = infoFile.addNodeToNode(mainNode, XML_MESH_PART);
 		infoFile.addElementToNode(meshPartNode, XML_CUT_MESH_NAME, std::string(meshPathName));
 		infoFile.addElementToNode(meshPartNode, XML_BONE_NAME, std::string(CStringA(boneArray[i]->m_name)));
-		infoFile.addVectoriToNode(meshPartNode, XML_COORD_MAP, coord[i]);
+		myXMLNode* coordNode = infoFile.addNodeToNode(meshPartNode, XML_BONE_COORD_RESPECT_TO_WORLD);
+		infoFile.addVectorDatafToNode(coordNode, XML_ORIGIN, coordOrign[i]);
+		infoFile.addVectoriToNode(coordNode, XML_LOCAL_X_RESPECT_TO_WORLD, xyzCoord[coord[i][0]]);
+		infoFile.addVectoriToNode(coordNode, XML_LOCAL_Y_RESPECT_TO_WORLD, xyzCoord[coord[i][1]]);
+		infoFile.addVectoriToNode(coordNode, XML_LOCAL_Z_RESPECT_TO_WORLD, xyzCoord[coord[i][2]]);
 
 		convertPolyHedronToMayaObj(cutPieces[i], meshPath.GetBuffer());
+
+		// Write symmetric bone
+		if (m_meshCutting->boneArray[i]->m_type == SIDE_BONE)
+		{
+			CStringA meshPathSym(path);
+			CStringA meshPathNameN; meshPathNameN.Format("meshPath_%d_sym.obj", i);
+			meshPathSym.AppendFormat("\\%s", meshPathNameN.GetBuffer());
+			Polyhedron* symPiece = getSymmetric_by_X(cutPieces[i]);
+			convertPolyHedronToMayaObj(symPiece, meshPathSym.GetBuffer());
+			delete symPiece;
+		}
 	}
 
 	CStringA infoPath(path);
@@ -1146,94 +1166,10 @@ void myDocment::loadFile()
 	view1->setDisplayOptions({ 0, 1, 1, 1 });
 }
 
-void myDocment::loadTestVoxelBitSet()
-{
-	// Init
-	char* surfacePath = "../../Data/UShape.stl";
-	std::cout<<"Init test voxel\n";
-
-	// 1. Surface
-	std::cout << "Load surface object: " << surfacePath <<std::endl;
-	CTimeTick tm; tm.SetStart();
-
-	m_surfaceObj = new SurfaceObj;
-	m_surfaceObj->readObjDataSTL(surfacePath);
-	m_surfaceObj->centerlize();
-	m_surfaceObj->constructAABBTree();
-
-	tm.SetEnd();
-	cprintf("Load surface time: %f ms\n", tm.GetTick());
-
-	// 2. Voxel object, high res
-	std::cout << "Start construct voxel object\n";
-	tm.SetStart();
-
-	int highRes = 5;
-	m_highResVoxel = new voxelObject;
-	m_highResVoxel->init(m_surfaceObj, highRes); // TODO: The box should be symmetric !!!!
-
-	tm.SetEnd();
-	cprintf("Constuct voxel high res: %d; time: %f ms\n", highRes, tm.GetTick());
-
-	std::cout << breakLine;
-}
 
 void myDocment::drawTest(BOOL mode[])
 {
-	static arrayVec3f colors = Util_w::randColor(20);
-	if (!mode[1])
-	{
-		m_highResVoxel->drawVoxelBitDecomposed();
-		glColor3f(1, 0, 0);
-		m_highResVoxel->m_voxelBitSet.drawBoundingBox();
-	}
-	if (!mode[2])
-	{
-		glColor3f(0.7, 0.7, 0.7);
-		m_highResVoxel->m_octree.drawWireOctree();
-	}
-	if (!mode[3])
-	{
-		glColor3f(1, 0, 0);
-		m_highResVoxel->drawBitSetBoundingBox();
-	}
-	if (!mode[4])
-	{
-		glColor3f(0, 0, 0);
-		m_highResVoxel->drawVoxelLeaf();
-		glColor3f(0.7, 0.7, 0.7);
-		m_highResVoxel->drawVoxelLeaf(1);
-	}
 
-	if (mode[5])
-	{
-		voxelSplitObj * v = &m_highResVoxel->m_voxelBitSet;
-		std::vector<voxelSplitObj> a = v->cutByOthogonalFace(0, shift);
-
-		
-		for (int i = 0; i < a.size(); i++)
-		{
-			if (!mode[i])
-			{
-				continue;
-			}
-			glColor3fv(colors[i+1].data());
-			a[i].drawVoxelBoxWire();
-
-			glColor3fv(colors[i].data());
-			a[i].drawVoxelBox();
-
-			glColor3f(1, 0, 0);
-			a[i].drawBoundingBox();
-		}
-	}
-	if (mode[6])
-	{
-// 		voxelSplitObj * v = &m_highResVoxel->m_voxelBitSet;
-// 		Vec3i ruLower = v->rightUpi;
-// 		ruLower[0] = shift;
-// 		setLower.drawBoxSolid(&m_highResVoxel->m_hashTable);
-	}
 }
 
 void myDocment::drawTest()
@@ -1314,58 +1250,7 @@ std::vector<arrayInt> testCut(voxelObject* obj, arrayInt idxs, int xcoord)
 
 void myDocment::keyPressModeTest(char c)
 {
-	if (c == 'S')
-	{
-		shift++;
-	}
-	if (c=='A')
-	{
-		shift--;
-	}
 
-	if (c == 'T') // Test
-	{
-		std::vector<voxelBox> * boxes = &m_highResVoxel->m_boxes;
-		std::cout << "Voxel resolution: " << m_highResVoxel->m_boxes.size() << "\n";
-		arrayInt idxs;
-		for (int i = 0; i < boxes->size(); i++)
-		{
-			idxs.push_back(i);
-		}
-
-		for (int N = 1; N < 1000; N+=200)
-		{
-			CTimeTick time;
-			time.SetStart();
-
-			for (int i = 0; i < N; i++)
-			{
-				testCut(m_highResVoxel, idxs, 0);
-			}
-			time.SetEnd();
-			std::cout << "Breadth first search (" << N << " times): " << time.GetTick() << "\n";
-		}
-	}
-
-	if (c == 'Y')
-	{
-		voxelSplitObj * v = &m_highResVoxel->m_voxelBitSet;
-		std::cout << "Voxel resolution: " << m_highResVoxel->m_boxes.size() << "\n";
-
-		for (int N = 1; N < 1000; N += 200)
-		{
-
-			CTimeTick time;
-			time.SetStart();
-
-			for (int i = 0; i < N; i++)
-			{
-				std::vector<voxelSplitObj> a = v->cutByOthogonalFace(0, 5);
-			}
-			time.SetEnd();
-			std::cout << "Bit set (" << N << " times): " << time.GetTick() << "\n";
-		}
-	}
 }
 
 void myDocment::saveCurrentBoxCut()
@@ -1587,7 +1472,7 @@ void myDocment::convertPolyHedronToMayaObj(Polyhedron *cutPieces, const char* pa
 	// Write face
 	for (int i = 0; i < cutPieces->faces.size(); i++)
 	{
-		carve::poly::Face<3> &f = cutPieces->faces[i];
+		carve::poly::Face<3> f = cutPieces->faces[i];
 		myfile << "f ";
 		for (int j = 0; j < f.nVertices(); j++)
 		{
@@ -1627,4 +1512,37 @@ void myDocment::setDisplayOptions(std::initializer_list<int> opts)
 // 	CKEGIESView* p = (CKEGIESView*)view1;
 // 
 // 	p->setDisplayOptions(opts);
+}
+
+Polyhedron* myDocment::getSymmetric_by_X(Polyhedron* cutPieces)
+{
+	std::vector<cVertex> * vertices = &cutPieces->vertices;
+	std::vector<carve::poly::Face<3>> *faces = &cutPieces->faces;
+
+	std::map<cVertex*, int> hashIndex;
+	for (int i = 0; i < vertices->size(); i++)
+	{
+		hashIndex.insert(std::pair<cVertex*, int>(&vertices->at(i), i));
+	}
+
+	std::vector<int> fpoly;
+	int nbFace = faces->size();
+	for (auto f : *faces)
+	{
+		fpoly.push_back(f.nVertices());
+		// Reverse normal
+		for (int j = f.nVertices()-1; j >= 0; j--)
+		{
+			int idx = hashIndex.find((cVertex*)f.vertex(j))->second;
+			fpoly.push_back(idx);
+		}
+	}
+
+	std::vector<carve::geom3d::Vector> newVertices;
+	for (auto v : *vertices)
+	{
+		newVertices.push_back(carve::geom::VECTOR(-v.v[0], v.v[1], v.v[2]));
+	}
+
+	return new Polyhedron(newVertices, nbFace, fpoly);
 }

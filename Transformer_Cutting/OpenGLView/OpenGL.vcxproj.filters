@@ -162,18 +162,6 @@
     <ClCompile Include="voxelSplitObj.cpp">
       <Filter>Voxel Data</Filter>
     </ClCompile>
-    <ClCompile Include="energyDoc.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="energyMnager.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="bitSetObject.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="bitSetMangr.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="dynamicManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
