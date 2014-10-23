@@ -245,6 +245,16 @@ bool cutBoneGroupDlg::setselectIdxInPose(int nodeIdxInPose)
 
 void cutBoneGroupDlg::OnBnClickedOk()
 {
+	// Check coord first
+	for (auto i : idxChoosen)
+	{
+		if (i[0] == -1 || i[1] == -1)
+		{
+			AfxMessageBox(_T("Not all groups are split"));
+			return;
+		}
+	}
+
 	groupCutMngr->updateAndChangeMode(idxChoosen);
 	
 	CDialogEx::OnOK();

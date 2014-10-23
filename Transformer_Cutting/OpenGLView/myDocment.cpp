@@ -597,7 +597,11 @@ void myDocment::changeStateBack()
 
 void myDocment::changeToCoordAssignMode()
 {
-	ASSERT(m_groupCutMngr->m_idxChoosen.size() > 0);
+	if (m_groupCutMngr->m_idxChoosen.size() == 0)
+	{
+		AfxMessageBox(_T("Press 'Apply to mesh'"));
+		return;
+	}
 
 	// Check if user cut all the mesh
 	arrayVec2i idxC = m_groupCutMngr->m_idxChoosen;
@@ -698,13 +702,23 @@ void myDocment::getBoneArrayAndMeshBox(std::vector<bone*> &boneFullArray, std::v
 
 void myDocment::changeToSwapFinal()
 {
+	arrayVec3i boneMeshCoordMap = m_coordAssign->dlg->coords;
+	for (auto c : boneMeshCoordMap)
+	{
+		if (c[0] == -1 || c[1] == -1 || c[2] == -1)
+		{
+			AfxMessageBox(_T("Not all coords are set"));
+			return;
+		}
+	}
+
 	m_curMode = MODE_FIT_BONE;
 
 	writeMeshBoxStateFinalSwap();
 
 	loadStateForPostProcess();
 
-
+	m_coordAssign->dlg->EndDialog(0);
 
 	// Guide
 	cout << "---------------------------------" << endl
@@ -1422,7 +1436,7 @@ std::vector<arrayInt> myDocment::getVoxelIdxFullFromVoxelProcess()
 			{
 				int id = vidxs[ii];
 				int symIdx = hashTableFull->getSymmetricBox(id);
-				if (hashV[symIdx] == 0)
+				if (symIdx != -1 && hashV[symIdx] == 0)
 				{
 					vidxs.push_back(symIdx);
 					hashV[symIdx] = 1;
